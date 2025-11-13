@@ -1,6 +1,6 @@
 # Scheme administrator for EPR (PackUK)
 
-This is one of three prototypes used to test new designs and concepts for the Extended Producer Responsibility (EPR) scheme. Core users are PackUK administrative staff. It helps explore user interactions and gather feedback to inform future service design. 
+A prototype for testing new Extended Producer Responsibility (EPR) designs with PackUK admin staff. Used to explore interactions and gather feedback to guide future service development.
 
 https://www.gov.uk/government/organisations/packuk
 
