@@ -3,7 +3,7 @@
 https://www.gov.uk/government/organisations/packuk
 
 
-This prototype is one of 3 used for the user research of new designs and concepts under the Circular Economy EPR scheme:
+This is one of three prototypes used to test new designs and concepts for the Extended Producer Responsibility (EPR) scheme. It helps explore user interactions and gather feedback to inform future service design. 
 
 ## Connected prototypes
 
