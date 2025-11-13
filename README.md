@@ -4,13 +4,15 @@ A prototype for testing new Extended Producer Responsibility (EPR) designs with 
 
 https://www.gov.uk/government/organisations/packuk
 
-## Connected prototypes
+## User groups include:
+- Administration staff
+- Data analysts
+- Compliance officers
 
-EPR Regulator responsability: 
-https://github.com/defra-design/regulator-responsibility-prototype
+## Heroku prototype URL:
+https://admin-responsibility-prototype-2dad26118a14.herokuapp.com
 
-
-### Installation
-`npm install`
-
-`npm run dev`
+## Related prototypes:
+- Producers https://github.com/defra-design/producer-responsibility-prototype
+- Regulators https://github.com/defra-design/regulator-responsibility-prototype
+- Administration https://github.com/defra-design/admin-responsibility-prototype 
