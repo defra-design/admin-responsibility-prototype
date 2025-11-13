@@ -14,4 +14,4 @@ https://admin-responsibility-prototype-2dad26118a14.herokuapp.com
 ## Related prototypes:
 - Producers https://github.com/defra-design/producer-responsibility-prototype
 - Regulators https://github.com/defra-design/regulator-responsibility-prototype
-- Administration https://github.com/defra-design/admin-responsibility-prototype 
+- Administrators https://github.com/defra-design/admin-responsibility-prototype 
