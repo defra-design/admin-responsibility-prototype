@@ -9,7 +9,6 @@ https://www.gov.uk/government/organisations/packuk
 EPR Regulator responsability: 
 https://github.com/defra-design/regulator-responsibility-prototype
 
-## Deployed URL: tbc
 
 ### Installation
 `npm install`
