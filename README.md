@@ -1,4 +1,4 @@
-# Scheme administrator digital service for Packaging Extended Producer Responsibility (EPR)
+# Scheme administrator for EPR (PackUK)
 
 https://www.gov.uk/government/organisations/packuk
 
@@ -9,12 +9,3 @@ This prototype is one of 3 used for the user research of new designs and concept
 
 EPR Regulator responsability: https://github.com/defra-design/regulator-responsibility-prototype
 
-
-
-
-## How to get started
-Install the project.
-npm i
-
-Run.
-npm run dev
