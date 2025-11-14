@@ -1,35 +1,17 @@
-# Scheme administrator for EPR (PackUK)
-
-A prototype for testing new Extended Producer Responsibility (EPR) designs with PackUK admin staff. Used to explore interactions and gather feedback to guide future service development.
+# Scheme administrator responsibility prototype
+This repository builds on [defra-design/cpr-prototype](https://github.com/defra-design/cpr-prototype) to explore solutions that support the four UK regulator agencies in receiving, reviewing and assessing producer and compliance scheme registration and packaging data.
 
 https://www.gov.uk/government/organisations/packuk
 
-## Connected prototypes
+## User groups include:
+- PackUK administration staff
+- PackUK Data analysts
+- PackUK Compliance officers
 
-EPR Regulator responsability: 
-https://github.com/defra-design/regulator-responsibility-prototype
+## Heroku prototype URL:
+https://admin-responsibility-prototype-2dad26118a14.herokuapp.com
 
-
-### Installation
-`npm install`
-
-`npm run dev`
-
-
-
-+++++++++++++++++++++++
-
- _
-//\
-V  \
- \  \_
-  \,'.`-.
-   |\ `. `.       
-   ( \  `. `-.                        _,.-:\
-    \ \   `.  `-._             __..--' ,-';/
-     \ `.   `-.   `-..___..---'   _.--' ,'/
-      `. `.    `-._        __..--'    ,' /
-        `. `-_     ``--..''       _.-' ,'
-          `-_ `-.___        __,--'   ,'
-             `-.__  `----"""    __.-'
-                  `--..____..--'
+## Related prototypes:
+- Producers https://github.com/defra-design/producer-responsibility-prototype
+- Regulators https://github.com/defra-design/regulator-responsibility-prototype
+- Administrators https://github.com/defra-design/admin-responsibility-prototype 
