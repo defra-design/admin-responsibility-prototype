@@ -1,5 +1,5 @@
 {
-  "serviceName": "Service name goes here",
+  "serviceName": "pEPR: Scheme Administration Service",
   "plugins": {
     "govuk-frontend": {
       "rebrand": true
