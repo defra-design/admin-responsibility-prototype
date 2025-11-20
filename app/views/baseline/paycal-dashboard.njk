@@ -56,62 +56,44 @@
       <tbody class="govuk-table__body">
 
         {{ calculationRow({
-          title: "Test data check 2",
+          title: "Current test R16",
           href: "",
-          calculationId: "240010",
-          runDate: "28 June 2024 at 10:01",
+          calculationId: "251121",
+          runDate: "21 Nov 2025 at 17:00",
           runBy: "Jamie Roberts",
           tagColour: "green",
           tagText: "Running"
         }) }}
 
         {{ calculationRow({
-          title: "Normal run R16",
-          href: "./classify/scenario1-run-details.html",
+          title: "Unclassified run R16",
+          href: "./classify/run-details-unclassified.html",
           calculationId: "251120",
           runDate: "20 Nov 2025 at 16:17",
-          runBy: "Bertie Basset"
+          runBy: "Jamie Roberts"
         }) }}
 
         {{ calculationRow({
-          title: "Calculation run 99",
-          href: "./classify/scenario1-run-details.html",
-          calculationId: "240008",
-          runDate: "21 June 2024 at 12:09",
-          runBy: "Steve Jones",
-          tagColour: "blue",
-          tagText: "Ready for classification"
-        }) }}
-
-        {{ calculationRow({
-          title: "Data check 1",
-          href: "",
-          calculationId: "240009",
-          runDate: "21 June 2024 at 15:03",
+          title: "Initial classified run R16",
+          href: "./classify/run-details-initial.html",
+          calculationId: "251120",
+          runDate: "20 Nov 2025 at 16:17",
           runBy: "Jamie Roberts",
-          tagColour: "grey",
-          tagText: "Deleted"
+          tagColour: "purple",
+          tagText: "Initial run classified"
         }) }}
 
         {{ calculationRow({
-          title: "Fee adjustment check",
-          href: "/paycal/final-june/run-error",
-          calculationId: "240007",
-          runDate: "15 April 2024 at 10:45",
-          runBy: "Steve Jones",
-          tagColour: "red",
-          tagText: "Error"
-        }) }}
-
-        {{ calculationRow({
-          title: "First run",
-          href: "/paycal/final-june/scenarios/scenario1/classify/run-details-240006",
-          calculationId: "240006",
-          runDate: "1 April 2024 at 11.02",
+          title: "Test classified run R16",
+          href: "./classify/run-details-test.html",
+          calculationId: "251115",
+          runDate: "15 Nov 2025 at 12:17",
           runBy: "Jamie Roberts",
           tagColour: "yellow",
           tagText: "Test run"
         }) }}
+
+        
 
       </tbody>
     </table>
