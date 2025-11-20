@@ -94,7 +94,7 @@ router.get('/', function (req, res) {
       path: 'baseline',
       date: '11/25',
       description: 'This version documents the as-is process for PackUK scheme administrators. This will form a baseline to iterate on based on user/business needs.',
-      startPage: 'baseline/dashboard'
+      startPage: 'baseline/paycal-dashboard'
     }
   ];
   

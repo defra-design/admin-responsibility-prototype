@@ -2,36 +2,28 @@
 
 {% block beforeContent %}
   {% set showBackLink = false %}
+  {% set showAccountLink = true %}
   {% set serviceName = "Dashboard" %}
   {% include version ~ "/includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
-    {# Account info #}
-    <div class="govuk-grid-column-full">
-      <div class="govuk-body account-info">
-      <div>
-        <span class="your-name" id="bannerUserName">Jamie Roberts</span><a class="account-link" href="details" id="signout-link">Sign out</a>
-      </div>
-    </div>
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Calculate packaging payments</h1>
-    <div class="govuk-hint" style="margin-bottom: 30px">
+    <div class="govuk-hint govuk-!-margin-bottom-6">
       Set up and run packaging payment calculations, and view past runs by financial year.
     </div>
     {# Admin management tiles #}
     {% include version ~ "/includes/admin-tiles.njk" %}
-    </div>
-  </div>
+    
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-l" style="margin-top: 37px; margin-bottom: 0px;">Calculation runs</h2>
+      <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-0">Calculation runs</h2>
       <p class="govuk-body-s">View and select a calculation run. You can also filter by financial year to find
         previous runs.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <div class="govuk-form-group" style="float: right;">
-        <label class="govuk-label" for="sort" style="margin-top:17px">
+        <label class="govuk-label govuk-!-margin-top-6">
           Select a financial year
         </label>
         <select class="govuk-select" id="sort" name="sort">
@@ -39,7 +31,6 @@
           <option value="updated">2023-24</option>
           <option value="updated">2022-23</option>
           <option value="updated">2021-22</option>
-
         </select>
       </div>
     </div>
@@ -48,9 +39,9 @@
 
     <table class="govuk-table govuk-table--m ">
       <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Run details</th>
           <th scope="col" class="govuk-table__header"></th>
-          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Status</th>
+          <th scope="col" class="govuk-table__header"></th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric"></th>
         </tr>
 
       <tbody class="govuk-table__body">

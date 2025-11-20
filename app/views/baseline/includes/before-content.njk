@@ -11,12 +11,22 @@ text: 'This is used to test new ideas and get feedback from users.'
 <div class="govuk-grid-row">
     {# BACK LINK #}
     {% if showBackLink %}
-        <div class="govuk-grid-column-one-half">
+        <div class="govuk-grid-column-one-half govuk-!-padding-top-3">
             {{ govukBackLink({
                 text: "Back",
                 href: "javascript:history.back()",
                 classes: "govuk-!-display-inline-block"
             }) }} 
+        </div>
+        {% else %}
+            <div class="govuk-grid-column-one-half govuk-!-padding-top-3">
+            </div>
+        {% endif %}
+     {% if showAccountLink %}
+        <div class="govuk-grid-column-one-half govuk-!-padding-top-3">
+            <div class="govuk-body account-info">
+                <span class="your-name" id="bannerUserName">Jamie Roberts</span><a class="account-link" href="details" id="signout-link">Sign out</a>
+            </div>
         </div>
     {% endif %}
     {# LANGUAGE SELECTOR (not included in baseline)

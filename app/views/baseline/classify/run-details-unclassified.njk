@@ -2,22 +2,12 @@
 
 {% block beforeContent %}
   {% set showBackLink = false %}
+  {% set showAccountLink = true %}
   {% set serviceName = "Dashboard" %}
   {% include version ~ "/includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
-    {# Account info #}
-    <div class="govuk-grid-column-full">
-      <div class="govuk-body account-info">
-        <div>
-          <span class="your-name" id="bannerUserName">Jamie Roberts</span><a class="account-link" href="details" id="signout-link">Sign out</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
   <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     &nbsp; &nbsp; <br>
