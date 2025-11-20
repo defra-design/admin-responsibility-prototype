@@ -1,0 +1,11 @@
+{% extends "layouts/main.html" %}
+{% set bodyClasses = "baseline" %}
+
+{% block beforeContent %}
+    {% set showBackLink = true %}
+    {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block footer%}
+  {% include version ~ "/includes/footer.njk" %}
+{% endblock %}

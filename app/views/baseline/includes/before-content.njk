@@ -1,0 +1,33 @@
+{# PHASE BANNER #}
+{{ govukPhaseBanner({
+    tag: {
+    html: "Prototype: &nbsp" ~ version,
+    classes: 'govuk-tag--green' 
+},
+text: 'This is used to test new ideas and get feedback from users.'
+}) }}
+
+{# GRID #}
+<div class="govuk-grid-row">
+    {# BACK LINK #}
+    {% if showBackLink %}
+        <div class="govuk-grid-column-one-half">
+            {{ govukBackLink({
+                text: "Back",
+                href: "javascript:history.back()",
+                classes: "govuk-!-display-inline-block"
+            }) }} 
+        </div>
+    {% endif %}
+    {# LANGUAGE SELECTOR (not included in baseline)
+        {% if showBackLink %}
+        <div class="govuk-grid-column-one-half">
+            {% include version ~ "/includes/language-selector.njk" %}
+        </div>
+        {% else %}
+            <div class="govuk-grid-column-full">
+                {% include version ~ "/includes/language-selector.njk" %}
+            </div>
+        {% endif %}
+    #}
+</div>

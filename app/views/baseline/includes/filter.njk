@@ -1,0 +1,147 @@
+<form id="filter-form">
+  <p class="govuk-body-m">This list shows the current pending and latest actioned submissions. To view older submissions <a href="#" class="govuk-link govuk-link--no-visited-state"> log in to Power BI</a>. 
+  </p>
+
+  <!-- Filters -->
+  <div class="regulator-filter govuk-!-margin-bottom-8 ">
+    <h2 class="govuk-heading-m">Filter options</h2>
+    {# INPUT #}
+    {{ govukInput({
+      label: {
+        text: "Organisation name"
+      },
+      id: "organisation-name",
+      name: "organisationName"
+    }) }}
+
+    {# INPUT #}
+    {{ govukInput({
+      label: {
+        text: "Organisation ID or Reference number"
+      },
+      id: "organisation-id",
+      name: "organisationId"
+    }) }}
+
+    {# ORG TYPE #}
+    {{ govukCheckboxes({
+      name: "org-type",
+      classes:" display-flex",
+      fieldset: {
+        legend: {
+          text: "Organisation type",
+          classes: "govuk-fieldset__legend--s"
+        }
+      },
+      items: [
+        {
+          value: "orgtype-compliancescheme",
+          text: "Compliance scheme"
+        },
+        {
+          value: "orgtype-direct",
+          text: "Large producer"
+        },
+        {
+          value: "orgtype-direct",
+          text: "Small producer"
+        }
+      ]
+    }) }}
+
+    {# SUBMISSION STATUS #}
+    {{ govukCheckboxes({
+      name: "status",
+      classes:" display-flex",
+      fieldset: {
+        legend: {
+          text: "Submission status",
+          classes: "govuk-fieldset__legend--s"
+        }
+      },
+      items: [
+        {
+          value: "status-pending",
+          text: "Pending"
+        },
+        {
+          value: "status-granted",
+          text: "Granted"
+        },
+        {
+          value: "status-refused",
+          text: "Refused"
+        },
+        {
+          value: "status-queried",
+          text: "Queried"
+        },
+        {
+          value: "status-cancelled",
+          text: "Cancelled"
+        }
+      ]
+    }) }}
+
+    {# RESUBMISSION STATUS #}
+    {{ govukCheckboxes({
+      name: "status",
+      classes:" display-flex",
+      fieldset: {
+        legend: {
+          text: "Resubmission status",
+          classes: "govuk-fieldset__legend--s"
+        }
+      },
+      items: [
+        {
+          value: "resubmission-pending",
+          text: "Pending"
+        },
+        {
+          value: "resubmission-granted",
+          text: "Granted"
+        },
+        {
+          value: "resubmission-refused",
+          text: "Refused"
+        }
+      ]
+    }) }}
+
+
+    {# SUBMISSION YEAR #}
+    {{ govukCheckboxes({
+      name: "year",
+      classes:" display-flex",
+      fieldset: {
+        legend: {
+          text: "Relevant year",
+          classes: "govuk-fieldset__legend--s"
+        }
+      },
+      items: [
+        {
+          value: "2025",
+          text: "2025"
+        },
+        {
+          value: "2026",
+          text: "2026"
+        }
+      ]
+    }) }}
+
+    {# SUBMISSION YEAR #}
+    <div class="display-flex apply-filters">
+      {{ govukButton({
+        text: "Apply filters",
+        id: "apply-filters"
+      }) }}
+      <p class="govuk-body">
+        <a href="" class="govuk-link govuk-link--no-visited-state" id="clear-filters">Clear filters</a>
+      </p>
+    </div>
+    
+  </div>
+</form>

@@ -1,0 +1,36 @@
+{% macro calculationRow(params) %}
+<tr class="govuk-table__row">
+
+  <!-- Run details -->
+  <th scope="row" class="govuk-table__header govuk-body-s">
+    <h3 class="govuk-heading-m govuk-!-margin-bottom-2">
+      {% if params.href %}
+        <a href="{{ params.href }}" class="govuk-link govuk-link--no-visited-state">
+          {{ params.title }}
+        </a>
+      {% else %}
+        {{ params.title }}
+      {% endif %}
+    </h3>
+
+    <p class="govuk-body-s govuk-!-margin-bottom-0">
+      Calculation ID: {{ params.calculationId }}<br>
+      Run date and time: {{ params.runDate }}<br>
+      Run by: {{ params.runBy }}
+    </p>
+  </th>
+
+  <!-- Empty middle column -->
+  <td class="govuk-table__cell"></td>
+
+  <!-- Status column, right-aligned -->
+  <td class="govuk-table__cell">
+    <div class="govuk-!-display-flex govuk-!-justify-content-end govuk-!-text-align-right">
+      <strong class="govuk-tag govuk-tag--{{ params.tagColour }}">
+        {{ params.tagText }}
+      </strong>
+    </div>
+  </td>
+
+</tr>
+{% endmacro %}

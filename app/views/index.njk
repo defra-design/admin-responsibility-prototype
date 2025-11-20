@@ -1,0 +1,78 @@
+{% extends "layouts/main.html" %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+      tag: {
+      html: "Prototype",
+      classes: 'govuk-tag--green' 
+  },
+  text: 'This is used to test new ideas and get feedback from users.'
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">pEPR Scheme administrator service prototype</h1>
+ 
+      
+      <div class="index__container">
+        <h2 class="govuk-heading-m">
+          <a href="{{ currentVersion.startPage }}" class="govuk-link">
+            {{ currentVersion.name }}{% if currentVersion.date %} - {{ currentVersion.date }}{% endif %}
+          </a>
+        </h2>
+        
+        {% if currentVersion.description %}
+          <p class="govuk-body-s">{{ currentVersion.description }}</p>
+        {% endif %}
+        
+        <h3 class="govuk-heading-s govuk-!-margin-top-4">Pages in this version:</h3>
+        <ul class="govuk-list govuk-list--bullet">
+        
+        {# Root level pages #}
+        {% for page in currentVersion.pages.root %}
+          <li><a href="{{ page.url }}" class="govuk-link">{{ page.name }}</a></li>
+        {% endfor %}
+        
+        {# Section pages #}
+        {% for sectionName, sectionPages in currentVersion.pages.sections %}
+          <li>
+            {{ sectionName }}:
+            <ul class="govuk-list govuk-list--bullet">
+              {% for page in sectionPages %}
+                <li><a href="{{ page.url }}" class="govuk-link">{{ page.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+        
+      </ul>
+      </div>
+      
+      {# Previous versions in accordion (without heading) #}
+      {% if hasPreviousVersions %}
+        <div class="previous-versions-accordion">
+          {{ govukAccordion({
+            id: "previous-versions",
+            hideAllSectionsText: false,
+            items: accordionItems
+          }) }}
+        </div>
+      {% endif %}
+ 
+    </div>
+  </div>
+{% endblock %}
+
+{% block pageScripts %}
+<script>
+  // Hide the "Show all sections" controls on the accordion
+  document.addEventListener('DOMContentLoaded', function() {
+    var accordionControls = document.querySelector('.govuk-accordion__controls');
+    if (accordionControls) {
+      accordionControls.style.display = 'none';
+    }
+  });
+</script>
+{% endblock %}

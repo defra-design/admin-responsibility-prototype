@@ -1,8 +1,10 @@
 {
-  "serviceName": "pEPR: Scheme Administration Service",
+  "serviceName": "Run the fees and payments calculator",
+  "prototypeName": "pEPR scheme administrators prototype",
+  "pageName": "Index",
   "plugins": {
     "govuk-frontend": {
-      "rebrand": true
+      "rebrand": false
     }
   }
 }

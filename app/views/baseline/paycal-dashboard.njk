@@ -1,0 +1,112 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = false %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    {# Account info #}
+    <div class="govuk-grid-column-full">
+      <div class="govuk-body account-info">
+      <div>
+        <span class="your-name" id="bannerUserName">Jamie Roberts</span><a class="account-link" href="details" id="signout-link">Sign out</a>
+      </div>
+    </div>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Calculate packaging payments</h1>
+    <div class="govuk-hint" style="margin-bottom: 30px">
+      Set up and run packaging payment calculations, and view past runs by financial year.
+    </div>
+    {# Admin management tiles #}
+    {% include version ~ "/includes/admin-tiles.njk" %}
+    </div>
+  </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-heading-l" style="margin-top: 37px; margin-bottom: 0px;">Calculation runs</h2>
+      <p class="govuk-body-s">View and select a calculation run. You can also filter by financial year to find
+        previous runs.</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <div class="govuk-form-group" style="float: right;">
+        <label class="govuk-label" for="sort" style="margin-top:17px">
+          Select a financial year
+        </label>
+        <select class="govuk-select" id="sort" name="sort">
+          <option value="published" selected="">2024-25</option>
+          <option value="updated">2023-24</option>
+          <option value="updated">2022-23</option>
+          <option value="updated">2021-22</option>
+
+        </select>
+      </div>
+    </div>
+  </div>
+  {% from "components/_calculation-row.njk" import calculationRow %}
+
+    <table class="govuk-table govuk-table--m ">
+      <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Run details</th>
+          <th scope="col" class="govuk-table__header"></th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Status</th>
+        </tr>
+
+      <tbody class="govuk-table__body">
+
+        {{ calculationRow({
+          title: "Test data check 2",
+          href: "",
+          calculationId: "240010",
+          runDate: "28 June 2024 at 10:01",
+          runBy: "Jamie Roberts",
+          tagColour: "green",
+          tagText: "Running"
+        }) }}
+
+        {{ calculationRow({
+          title: "Calculation run 99",
+          href: "./classify/scenario1-run-details.html",
+          calculationId: "240008",
+          runDate: "21 June 2024 at 12:09",
+          runBy: "Steve Jones",
+          tagColour: "blue",
+          tagText: "Ready for classification"
+        }) }}
+
+        {{ calculationRow({
+          title: "Data check 1",
+          href: "",
+          calculationId: "240009",
+          runDate: "21 June 2024 at 15:03",
+          runBy: "Jamie Roberts",
+          tagColour: "grey",
+          tagText: "Deleted"
+        }) }}
+
+        {{ calculationRow({
+          title: "Fee adjustment check",
+          href: "/paycal/final-june/run-error",
+          calculationId: "240007",
+          runDate: "15 April 2024 at 10:45",
+          runBy: "Steve Jones",
+          tagColour: "red",
+          tagText: "Error"
+        }) }}
+
+        {{ calculationRow({
+          title: "First run",
+          href: "/paycal/final-june/scenarios/scenario1/classify/run-details-240006",
+          calculationId: "240006",
+          runDate: "1 April 2024 at 11.02",
+          runBy: "Jamie Roberts",
+          tagColour: "yellow",
+          tagText: "Test run"
+        }) }}
+
+      </tbody>
+    </table>
+
+
+{% endblock %}
