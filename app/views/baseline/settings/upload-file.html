@@ -1,0 +1,47 @@
+
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+     <h1 class="govuk-heading-l">
+      {% if data.userIntent == "manage-la-disposal-costs" %}
+        Upload new local authority costs
+      {% elseif data.userIntent == "manage-default-parameters" %}
+        Upload new default calculator parameters
+      {% else %}
+        Upload new parameters
+      {% endif %}
+    </h1>
+
+      <form method="POST" action="upload-success" enctype="multipart/form-data">
+    
+        <!-- FILE UPLOAD -->
+        <div class="govuk-form-group">
+          <h2 class="govuk-heading-m">
+            <label class="govuk-label govuk-label--m" for="org-details" aria-describedby="organisation-file-hint">
+              Upload a file
+            </label>
+          </h2>
+
+          <p class="govuk-body">The file must be:</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>smaller than 50KB</li>
+            <li>in CSV format</li>
+          </ul>
+          <p class="govuk-body">It may take a few minutes for your file to upload - do not close the window while the file is uploading.</p>
+
+          <input class="govuk-file-upload" id="org-details" name="organisation-details-file" type="file">
+        </div>
+
+        <!-- Hidden field to pass user intent -->
+        <input type="hidden" name="userIntent" value="{{ data.userIntent }}">
+
+        {{ govukButton({ text: "Upload file" }) }}
+      </form>
+{% endblock %}
