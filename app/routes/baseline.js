@@ -7,39 +7,68 @@ router.get("/baseline", function (request, response) {
   response.send("baseline");
 });
 
+
 // response.redirect('/' + version + '/my-page')
 // response.render(version + '/my-page')
 
+// ----------------------------------
+// Dashboard clear intent
+//-----------------------------------
+
+router.get("/paycal-dashboard", function (req, res) {
+
+
+  // Render the dashboard
+  res.render(version + "/paycal-dashboard");
+});
 
 // ----------------------------------
 // Routing user intent
 //-----------------------------------
 
-router.get("/settings/manage-default-parameters", function (req, res) {
-  // Get the intent from query string or fallback to default
-  const userIntent = req.query['user-intent'] || "manage-default-parameters";
-  req.session.data.userIntent = userIntent;
-  res.render('/' + version + "/settings/manage-default-parameters");
+// Manage Default Parameters
+router.get("/settings/manage-default-parameters", (req, res) => {
+  req.session.data.intent = "manage-default-parameters";
+  res.render(version + "/settings/manage-default-parameters");
 });
 
-router.get("/settings/manage-la-disposal-costs", function (req, res) {
-  // Get the intent from query string or fallback to default
-  const userIntent = req.query['user-intent'] || "manage-la-disposal-costs";
-  req.session.data.userIntent = userIntent;
-  res.render('/' + version + "/settings/manage-la-disposal-costs");
+// Manage LA Disposal Costs
+router.get("/settings/manage-la-disposal-costs", (req, res) => {
+  req.session.data.intent = "manage-la-disposal-costs";
+  res.render(version + "/settings/manage-la-disposal-costs");
+});
+
+// ---------------------------------------------------------------
+// File upload success handling (fake & always successful for now)
+//----------------------------------------------------------------
+
+router.post("/settings/upload-success", (req, res) => {
+  // Store the intent from the form (whatever value was submitted)
+  const intent = req.body.intent || "manage-default-parameters"; // fallback default
+  req.session.data.intent = intent;
+
+  // Mark as uploaded
+  req.session.data.uploaded = "true";
+
+  // Render the success page
+  res.render(version + "/settings/upload-success", { data: req.session.data });
 });
 
 
-// Logging session data  
-  
-  router.use((req, res, next) => {    
-      const log = {  
-        method: req.method,  
-        url: req.originalUrl,  
-        data: req.session.data  
-      }  
-      console.log(JSON.stringify(log, null, 2))  
-     
-    next()  
-  })  
 module.exports = router
+
+router.use((req, res, next) => {
+  const log = {
+    method: req.method,
+    url: req.originalUrl,
+    data: req.session.data || {}
+  };
+
+  // log to console as before
+  console.log(JSON.stringify(log, null, 2));
+
+  // expose session data to templates
+  res.locals.sessionData = req.session.data || {};
+
+  next();
+});

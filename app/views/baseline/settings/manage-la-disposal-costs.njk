@@ -9,7 +9,7 @@
 <!-- Default parameters (User has successfully uploaded parameters-->
 
 {% block content %}
- {% if data.laDisposalCostsUploaded == "true" %}
+ {% if data.intent == "manage-la-disposal-costs" and data.uploaded == "true" %}
  <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <span class="govuk-caption-l govuk-!-margin-bottom-3">Last updated by Jamie Roberts at <strong>10:01</strong> on 28 June 2025</span>
@@ -499,8 +499,8 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group govuk-!-margin-top-6">
-          <a href="upload-file?userIntent=manage-la-disposal-costs" class="govuk-button">
-            {% if data.laDisposalCostsUploaded == "true" %}
+          <a href="upload-file?intent=manage-la-disposal-costs" class="govuk-button">
+            {% if data.uploaded == "true" %}
               Upload disposal costs
             {% else %}
               Upload local authority disposal costs

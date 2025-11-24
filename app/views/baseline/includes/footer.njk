@@ -31,6 +31,11 @@
                 Accessibility statement
               </a>
             </li>
+            <li class="govuk-footer__inline-list-item">
+              <a class="govuk-footer__link" href="/manage-prototype/clear-data">
+                Clear Data
+              </a>
+            </li>
             
           </ul>
           <svg
@@ -59,5 +64,20 @@
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
         </div>
       </div>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              Show session data
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <pre style="white-space: pre-wrap; font-size: 14px;">
+          {% for key, value in data %}
+          {{ key }}={{ value | dump }}
+          {% endfor %}
+            </pre>
+          </div>
+        </details>
     </div>
   </footer>

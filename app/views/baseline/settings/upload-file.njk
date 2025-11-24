@@ -10,9 +10,9 @@
 {% block content %}
 
      <h1 class="govuk-heading-l">
-      {% if data.userIntent == "manage-la-disposal-costs" %}
+      {% if data.intent == "manage-la-disposal-costs" %}
         Upload new local authority costs
-      {% elseif data.userIntent == "manage-default-parameters" %}
+      {% elseif data.intent == "manage-default-parameters" %}
         Upload new default calculator parameters
       {% else %}
         Upload new parameters
@@ -40,7 +40,7 @@
         </div>
 
         <!-- Hidden field to pass user intent -->
-        <input type="hidden" name="userIntent" value="{{ data.userIntent }}">
+        <input type="hidden" name="intent" value="{{ data.intent }}">
 
         {{ govukButton({ text: "Upload file" }) }}
       </form>

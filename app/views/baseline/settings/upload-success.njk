@@ -15,9 +15,9 @@
               You have successfully updated
             </h1>
             <div class="govuk-panel__body">
-              {% if data.userIntent == "manage-la-disposal-costs" %}
+              {% if data.intent == "manage-la-disposal-costs" %}
                The local authority disposal costs
-              {% elseif data.userIntent == "manage-default-parameters" %}
+              {% elseif data.intent == "manage-default-parameters" %}
                The default parameters
               {% endif %}
             </div>
@@ -25,26 +25,27 @@
 
           <h2 class="govuk-heading-m">What happens next</h2>
           <p class="govuk-body">
-          {% if data.userIntent == "manage-la-disposal-costs" %}
+          {% if data.intent == "manage-la-disposal-costs" %}
             All calculations will automatically use the latest local authority disposal costs.
-          {% elseif data.userIntent == "manage-default-parameters" %}
+          {% elseif data.intent == "manage-default-parameters" %}
             All calculations will automatically use the new parameters, unless they are manually changed.
           {% endif %}
           </p>
           
 
-          <div class="govuk-button-group">
-            {% if data.userIntent == "manage-default-parameters" %}
-            <a href="manage-default-parameters?defaultParametersUploaded=true" class="govuk-button ">
+         <div class="govuk-button-group">
+          {% if data.intent == "manage-default-parameters" %}
+            <a href="manage-default-parameters?defaultParametersUploaded=true" class="govuk-button">
               View new default parameters
             </a>
-            {% elseif data.userIntent == "manage-la-disposal-costs" %}
+          {% elseif data.intent == "manage-la-disposal-costs" %}
             <a href="manage-la-disposal-costs?laDisposalCostsUploaded=true" class="govuk-button">
               View local authority disposal costs
             </a>
           {% endif %}
-            <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
-          </div>
+
+          <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
+        </div>
 
           <p class="govuk-body">
           
