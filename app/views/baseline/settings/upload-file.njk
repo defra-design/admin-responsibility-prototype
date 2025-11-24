@@ -36,12 +36,15 @@
           </ul>
           <p class="govuk-body">It may take a few minutes for your file to upload - do not close the window while the file is uploading.</p>
 
-          <input class="govuk-file-upload" id="org-details" name="organisation-details-file" type="file">
+          <input class="govuk-file-upload" id="settings-file" name="settings-file" type="file">
         </div>
 
         <!-- Hidden field to pass user intent -->
-        <input type="hidden" name="intent" value="{{ data.intent }}">
-
+       
+        {% if data.intent == "manage-default-parameters" %}<input type="hidden" name="intent" value="manage-default-parameters">
+        {% elseif data.intent == "manage-la-disposal-costs" %}<input type="hidden" name="intent" value="manage-la-disposal-costs">
+        {% endif %}
+        
         {{ govukButton({ text: "Upload file" }) }}
       </form>
 {% endblock %}

@@ -25,21 +25,21 @@
 
           <h2 class="govuk-heading-m">What happens next</h2>
           <p class="govuk-body">
-          {% if data.intent == "manage-la-disposal-costs" %}
-            All calculations will automatically use the latest local authority disposal costs.
-          {% elseif data.intent == "manage-default-parameters" %}
+          {% if data.intent == "manage-default-parameters" %}
             All calculations will automatically use the new parameters, unless they are manually changed.
+            {% elseif data.intent == "manage-la-disposal-costs" %}
+            All calculations will automatically use the latest local authority disposal costs.
           {% endif %}
           </p>
           
 
          <div class="govuk-button-group">
           {% if data.intent == "manage-default-parameters" %}
-            <a href="manage-default-parameters?defaultParametersUploaded=true" class="govuk-button">
+            <a href="manage-default-parameters?uploaded=true" class="govuk-button">
               View new default parameters
             </a>
           {% elseif data.intent == "manage-la-disposal-costs" %}
-            <a href="manage-la-disposal-costs?laDisposalCostsUploaded=true" class="govuk-button">
+            <a href="manage-la-disposal-costs?uploaded=true" class="govuk-button">
               View local authority disposal costs
             </a>
           {% endif %}

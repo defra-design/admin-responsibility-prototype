@@ -42,16 +42,12 @@ router.get("/settings/manage-la-disposal-costs", (req, res) => {
 // File upload success handling (fake & always successful for now)
 //----------------------------------------------------------------
 
-router.post("/settings/upload-success", (req, res) => {
-  // Store the intent from the form (whatever value was submitted)
-  const intent = req.body.intent || "manage-default-parameters"; // fallback default
+router.get("/settings/upload-file", (req, res) => {
+  // Grab from query string if present, otherwise use session or default
+  const intent = req.query.intent || req.session.data.intent || "manage-default-parameters";
   req.session.data.intent = intent;
 
-  // Mark as uploaded
-  req.session.data.uploaded = "true";
-
-  // Render the success page
-  res.render(version + "/settings/upload-success", { data: req.session.data });
+  res.render(version + "/settings/upload-file", { data: req.session.data });
 });
 
 
