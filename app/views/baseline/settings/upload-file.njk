@@ -10,9 +10,9 @@
 {% block content %}
 
      <h1 class="govuk-heading-l">
-      {% if data.intent == "manage-la-disposal-costs" %}
+      {% if data.intent == "manageLaDisposalCosts" %}
         Upload new local authority costs
-      {% elseif data.intent == "manage-default-parameters" %}
+      {% elseif data.intent == "manageDefaultParameters" %}
         Upload new default calculator parameters
       {% else %}
         Upload new parameters
@@ -41,8 +41,8 @@
 
         <!-- Hidden field to pass user intent -->
        
-        {% if data.intent == "manage-default-parameters" %}<input type="hidden" name="intent" value="manage-default-parameters">
-        {% elseif data.intent == "manage-la-disposal-costs" %}<input type="hidden" name="intent" value="manage-la-disposal-costs">
+        {% if data.intent == "manageDefaultParameters" %}<input type="hidden" name="intent" value="manageDefaultParameters">
+        {% elseif data.intent == "manageLaDisposalCosts" %}<input type="hidden" name="intent" value="manageLaDisposalCosts">
         {% endif %}
         
         {{ govukButton({ text: "Upload file" }) }}

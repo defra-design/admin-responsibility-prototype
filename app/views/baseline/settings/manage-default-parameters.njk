@@ -9,7 +9,7 @@
 <!-- Default parameters (User has successfully uploaded parameters-->
 
 {% block content %}
- {% if data.intent=="manage-default-parameters" and data.uploaded == "true" %}
+ {% if data.defaultParams == "true" %}
  <span class="govuk-caption-l govuk-!-margin-bottom-3">Last updated by Jamie Roberts at <strong>10:01</strong> on 28 June 2025</span>
   <h1 class="govuk-heading-xl">Default parameters</h1>
   <div class="govuk-grid-row">
@@ -660,7 +660,7 @@
 {% endif%}
 <!-- Upload new parameters -->
 <div class="govuk-button-group">
-    <a href="upload-file?intent=manage-default-parameters" class="govuk-button">
+    <a href="upload-file?intent=manageDefaultParameters" class="govuk-button">
       Upload new default parameters
     </a>
     <a class="govuk-link" href="../paycal-dashboard">

@@ -14,12 +14,13 @@ router.get("/baseline", function (request, response) {
 // ----------------------------------
 // Dashboard clear intent
 //-----------------------------------
-
-router.get("/paycal-dashboard", function (req, res) {
-
+router.get("/paycal-dashboard", (req, res) => {
+  if (req.session.data) {
+    req.session.data.intent = undefined; // or null
+  }
 
   // Render the dashboard
-  res.render(version + "/paycal-dashboard");
+  res.render('/' + version + "/paycal-dashboard");
 });
 
 // ----------------------------------
@@ -27,15 +28,15 @@ router.get("/paycal-dashboard", function (req, res) {
 //-----------------------------------
 
 // Manage Default Parameters
-router.get("/settings/manage-default-parameters", (req, res) => {
-  req.session.data.intent = "manage-default-parameters";
-  res.render(version + "/settings/manage-default-parameters");
+router.get("/settings/manageDefaultParameters", (req, res) => {
+  req.session.data.intent = "manageDefaultParameters";
+  res.render('/' + version + "/settings/manageDefaultParameters");
 });
 
 // Manage LA Disposal Costs
-router.get("/settings/manage-la-disposal-costs", (req, res) => {
-  req.session.data.intent = "manage-la-disposal-costs";
-  res.render(version + "/settings/manage-la-disposal-costs");
+router.get("/settings/manageLaDisposalCosts", (req, res) => {
+  req.session.data.intent = "manageLaDisposalCosts";
+  res.render('/' + version + "/settings/manageLaDisposalCosts");
 });
 
 // ---------------------------------------------------------------
@@ -44,12 +45,38 @@ router.get("/settings/manage-la-disposal-costs", (req, res) => {
 
 router.get("/settings/upload-file", (req, res) => {
   // Grab from query string if present, otherwise use session or default
-  const intent = req.query.intent || req.session.data.intent || "manage-default-parameters";
+  const intent = req.query.intent || req.session.data.intent || "manageDefaultParameters";
   req.session.data.intent = intent;
 
-  res.render(version + "/settings/upload-file", { data: req.session.data });
+  res.render('/' + version + "/settings/upload-file", { data: req.session.data });
 });
 
+
+// ---------------------------------------------------------------
+// Run calculator handling
+//----------------------------------------------------------------
+
+
+
+// POST route for starting the run
+router.post('/run-calculator/run-start', function (req, res) {
+  const runName = req.body.runName?.trim();
+  const laCosts = req.session.data.laCosts === "true";
+  const defaultParams = req.session.data.defaultParams === "true";
+  const hasName = runName && runName.length > 0;
+
+  const startedOk = laCosts && defaultParams && hasName;
+
+  if (!startedOk) {
+    return res.redirect('run-start-error');
+  }
+
+  return res.redirect('run-start-success');
+});
+
+
+
+// ---------------------------------------------------------------
 
 module.exports = router
 

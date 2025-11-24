@@ -1,0 +1,38 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-form-group">
+    <h1 class="govuk-heading-xl">Run the calculator</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p>Parameter data and local authority disposal cost data must be uploaded before you can run the calculator.</p>            
+            <p>Give the calculation a name, so you can easily find it.</p>
+            <form method="post" action="run-start">
+                <div class="govuk-form-group">
+                    <input 
+                        class="govuk-input govuk-input--width-20 govuk-!-margin-bottom-5" 
+                        id="run-name" 
+                        name="runName" 
+                        type="text" 
+                        aria-describedby="run-name-hint" 
+                        autocomplete="off"
+                    >
+                </div>
+
+                <button type="submit" class="govuk-button show-continue" data-module="govuk-button">
+                    Run the calculator
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

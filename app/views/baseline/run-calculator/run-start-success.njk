@@ -1,0 +1,46 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {% set mainClasses = "govuk-main-wrapper--l" %}
+
+          <div class="govuk-panel govuk-panel--confirmation">
+            <h1 class="govuk-panel__title">
+              You have started a calculation
+            </h1>
+            <div class="govuk-panel__body">
+              {% if data.runName !=="" %}
+               {{ data.runName }}
+              {% else %}
+                Current test R16
+              {% endif %}
+            </div>
+          </div>
+
+          <p class="govuk-body">
+            It will take up to 15 minutes for the calculation to finish. 
+            You will be able to view it in the list of calculations on the dashboard.
+          </p>
+          
+
+         <div class="govuk-button-group">
+           
+          <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
+        </div>
+
+          <p class="govuk-body">
+          
+        </p>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+{% endblock %}

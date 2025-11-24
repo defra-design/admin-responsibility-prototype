@@ -15,9 +15,9 @@
               You have successfully updated
             </h1>
             <div class="govuk-panel__body">
-              {% if data.intent == "manage-la-disposal-costs" %}
+              {% if data.intent == "manageLaDisposalCosts" %}
                The local authority disposal costs
-              {% elseif data.intent == "manage-default-parameters" %}
+              {% elseif data.intent == "manageDefaultParameters" %}
                The default parameters
               {% endif %}
             </div>
@@ -25,21 +25,21 @@
 
           <h2 class="govuk-heading-m">What happens next</h2>
           <p class="govuk-body">
-          {% if data.intent == "manage-default-parameters" %}
+          {% if data.intent == "manageDefaultParameters" %}
             All calculations will automatically use the new parameters, unless they are manually changed.
-            {% elseif data.intent == "manage-la-disposal-costs" %}
+            {% elseif data.intent == "manageLaDisposalCosts" %}
             All calculations will automatically use the latest local authority disposal costs.
           {% endif %}
           </p>
           
 
          <div class="govuk-button-group">
-          {% if data.intent == "manage-default-parameters" %}
-            <a href="manage-default-parameters?uploaded=true" class="govuk-button">
+          {% if data.intent == "manageDefaultParameters" %}
+            <a href="manage-default-parameters?defaultParams=true" class="govuk-button">
               View new default parameters
             </a>
-          {% elseif data.intent == "manage-la-disposal-costs" %}
-            <a href="manage-la-disposal-costs?uploaded=true" class="govuk-button">
+          {% elseif data.intent == "manageLaDisposalCosts" %}
+            <a href="manage-la-disposal-costs?laCosts=true" class="govuk-button">
               View local authority disposal costs
             </a>
           {% endif %}
