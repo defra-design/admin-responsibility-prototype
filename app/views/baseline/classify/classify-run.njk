@@ -1,0 +1,171 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form id="classification-form">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="approval-code-hint">
+          <span class="govuk-caption-l">Unclassified run R16</span>
+          <h1 class="govuk-heading-l">Classify calculation run</h1>
+
+          <table class="govuk-table">
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Financial year</th>
+                <td class="govuk-table__cell">2024-25</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Calculation ID</th>
+                <td class="govuk-table__cell">251120</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Run date and time</th>
+                <td class="govuk-table__cell">21 June 2024 at 12:09</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--invisible">
+
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="initialRun" name="calcRun" type="radio" value="initialRun">
+              <label class="govuk-label govuk-radios__label" for="initialRun">
+                <strong>Initial run</strong>
+              </label>
+              <p class="govuk-body-s" style="margin-left: 30px;">
+                The first official mandatory run of the financial year, used as the baseline for all future recalculations. This run generates initial billing file for invoicing.
+              </p>
+            </div>
+
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="testRun" name="calcRun" type="radio" value="testRun">
+              <label class="govuk-label govuk-radios__label" for="testRun">
+                <strong>Test run</strong>
+              </label>
+              <p class="govuk-body-s" style="margin-left: 30px;">
+                An unofficial run to view the calculation results without generating a billing file for invoicing.
+              </p>
+            </div>
+
+          {# --- Radio options always available (or filtered by other logic)  - todo: implement filtering logic later ---
+          
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="interimRun" name="calcRun" type="radio" value="interimRun">
+            <label class="govuk-label govuk-radios__label" for="interimRun">
+              <strong>Interim recalculation run</strong>
+            </label>
+            <p class="govuk-body-s" style="margin-left: 30px;">
+              Optional run, only available after the initial run.
+            </p>
+          </div>
+
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="finalRecalcRun" name="calcRun" type="radio" value="finalRecalcRun">
+            <label class="govuk-label govuk-radios__label" for="finalRecalcRun">
+              <strong>Final recalculation run</strong>
+            </label>
+            <p class="govuk-body-s" style="margin-left: 30px;">
+              Optional run, only available if no other final recalculation or later run has been classified this year.
+            </p>
+          </div>
+
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="finalRun" name="calcRun" type="radio" value="finalRun">
+            <label class="govuk-label govuk-radios__label" for="finalRun">
+              <strong>Final run</strong>
+            </label>
+            <p class="govuk-body-s" style="margin-left: 30px;">
+              Mandatory run, only available if no other final run or later run has been classified this year.
+            </p>
+          </div>
+          --- #}
+        </fieldset>
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+              <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                  Important
+                </h2>
+              </div>
+              <div class="govuk-notification-banner__content">
+                <p class="govuk-body-s">
+                  <strong>Interim recalculation run</strong><br>
+                  An optional run, only available after the initial run
+                </p>
+                <p class="govuk-body-s">
+                  <strong>Final recalculation run</strong><br>
+                  An optional run, only available if no other final recalculation or later run has been classified this year.
+                </p>
+                <p class="govuk-body-s">
+                  <strong>Final run</strong><br>
+                  A mandatory run, only available if no other final run or later run has been classified this year.
+                </p>
+                <!-- <p class="govuk-body-s">
+                  <strong>Initial run</strong><br>
+                  A mandatory run, only available if no other final run or later run has been classified this year.
+                </p>-->
+              </div>
+            </div>
+      </div>
+      
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-visually-hidden">Warning</span>
+          You cannot remove a run's classification after the billing file has been issued.
+        </strong>
+      </div>
+
+      <div class="govuk-button-group">
+        <button class="govuk-button" type="submit">Confirm classification</button>
+        <a class="govuk-link" href="../calculate-packaging-payments.html">Return to dashboard</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("classification-form").addEventListener("submit", function (event) {
+    event.preventDefault(); // Stop form submission
+
+    const selectedOption = document.querySelector("input[name='calcRun']:checked");
+
+    if (!selectedOption) {
+      alert("Please select a classification type.");
+      return;
+    }
+
+    const value = selectedOption.value;
+
+    // Redirects based on selected classification
+    switch (value) {
+      case "initialRun":
+        window.location.href = "run-details?calcRun=initialRun";
+        break;
+      case "testRun":
+        window.location.href = "run-details?calcRun=testRun";
+        break;
+      case "interimRun":
+        window.location.href = "run-details?calcRun=interimRun";
+        break;
+      case "finalRecalcRun":
+        window.location.href = "run-details?calcRun=finalRecalcRun";
+        break;
+      case "finalRun":
+        window.location.href = "run-details?calcRun=finalRun";
+        break;
+      default:
+        alert("Unexpected selection. Please try again.");
+    }
+  });
+</script>
+{% endblock %}

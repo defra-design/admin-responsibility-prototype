@@ -39,12 +39,13 @@
           </div>
           
         </div>
-        <div class="govuk-form-group">
+        
+          {% if data.runName is not defined or data.runName == "" %}
+          <div class="govuk-form-group">
           <h2 class="govuk-heading-xl">Run the calculator</h2>
           <p>Parameter data and local authority disposal cost data must be uploaded before you can run the calculator.</p>            
           <p>Give the calculation a name, so you can easily find it.</p>  
         </div>
-          {% if data.runName is not defined or data.runName == "" %}
                 <div class="govuk-form-group govuk-form-group--error">
                   <p id="event-name-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span> Enter a valid run name
