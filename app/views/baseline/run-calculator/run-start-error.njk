@@ -8,6 +8,7 @@
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
+        
         <div class="govuk-error-summary" data-module="govuk-error-summary">
           <div role="alert">
             <h2 class="govuk-error-summary__title">
@@ -15,16 +16,81 @@
             </h2>
             <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
+              {% if data.runName is not defined or data.runName == "" %}
                 <li>
-                  List of error messages
+                  <a href="run-start">Enter a valid run name.</a>
                 </li>
-              </ul>
+              {% endif %}
+
+              {% if data.defaultParams is not defined or data.defaultParams === "false" %}
+                <li>
+                  <a href="../settings/manage-default-parameters">Upload a valid default parameters file.</a>
+                </li>
+              {% endif %}
+
+              {% if data.laCosts is not defined or data.laCosts === "false" %}
+                <li>
+                  <a href="../settings/manage-la-disposal-costs">Upload a local authorities disposal costs file.</a>
+                </li>
+              {% endif %}
+            </ul>
             </div>
             
           </div>
-          <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
+          
         </div>
+        <div class="govuk-form-group">
+          <h2 class="govuk-heading-xl">Run the calculator</h2>
+          <p>Parameter data and local authority disposal cost data must be uploaded before you can run the calculator.</p>            
+          <p>Give the calculation a name, so you can easily find it.</p>  
+        </div>
+          {% if data.runName is not defined or data.runName == "" %}
+                <div class="govuk-form-group govuk-form-group--error">
+                  <p id="event-name-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> Enter a valid run name
+                  </p>
+                  <form method="post" action="run-start">
+                      <div class="govuk-form-group">
+                          <input 
+                              class="govuk-input govuk-input--width-20 govuk-!-margin-bottom-5 govuk-input govuk-input--error" 
+                              id="run-name" 
+                              name="runName" 
+                              type="text" 
+                              aria-describedby="event-name-hint event-name-error" 
+                              autocomplete="off"
+                          >
+                      </div>
+
+                      <button type="submit" class="govuk-button show-continue" data-module="govuk-button">
+                          Run the calculator
+                      </button>
+                  </form>
+              </div>
+          {% else %}
+            <form method="post" action="run-start">
+              <div class="govuk-form-group">
+                <input 
+                  class="govuk-input govuk-input--width-20 govuk-!-margin-bottom-5" 
+                  id="run-name" 
+                  name="runName"
+                  type="text" 
+                  value="{{ data.runName | default('') }}"
+                  aria-describedby="run-name-hint" 
+                  autocomplete="off"
+                >
+              </div>
+
+              <button type="submit" class="govuk-button show-continue" data-module="govuk-button">
+                Run the calculator
+              </button>
+            </form>
+          {% endif %}
         
+          
+        
+        <p class="govuk-body">
+          <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
+        </p>
     </div>
   </div>
 
