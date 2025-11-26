@@ -1,7 +1,7 @@
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
-  {% set showBackLink = false %}
+  {% set showBackLink = true %}
   {% set showAccountLink = true %}
   {% set serviceName = "Dashboard" %}
   {% include version ~ "/includes/before-content.njk" %}
@@ -12,7 +12,7 @@
   <div class="govuk-grid-column-two-thirds">
 
     <form id="actionForm" method="GET" action="run-details">
-      <div class="govuk-form-group">
+      <div class="govuk-form-group" style="margin-bottom: 0;">
         <fieldset class="govuk-fieldset" aria-describedby="approval-code-hint">
 
           {# Show different headers for different run classifications #}
@@ -23,8 +23,10 @@
             {% else %}Error incomplete run R16{% endif %}
           </span>
           <h1 class="govuk-heading-l">Calculation run details</h1>
+          {% if data.calcRun == "unclassified" %}
           <p class="govuk-body">Download the results file to review the calculation run offline. When you are ready,
             return to classify or delete it.</p>
+          {% endif %}
 
           <table class="govuk-table">
             <tbody class="govuk-table__body">
@@ -79,7 +81,7 @@
               <h2 class="govuk-heading-m">Remove this run's classification</h2>
               <p class="govuk-body">Mark this run as a test or delete it to remove its classification.</p>
               <div class="govuk-button-group">
-                <a href="#" class="govuk-button govuk-button--secondary" style="display: inline;">Remove classification</a>
+                <a href="classify-run-remove" class="govuk-button govuk-button--secondary" style="display: inline;">Remove classification</a>
               </div>
               <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
@@ -95,8 +97,22 @@
 
               <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
             </div>
+          {% endif %}
+
+          <!-- if test run show delete run section -->
+          {% if data.calcRun == "testRun" %}
+
+            <h2 class="govuk-heading-m">Delete this run</h2>
+            <p class="govuk-body">Remove this calculation if you no longer need it.</p>
+            <div class="govuk-button-group"><a href="delete-run" class="govuk-button govuk-button--secondary" style="display: inline;">
+                Delete run
+              </a>
+
+              <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
+            </div>
+          {% endif %}
               
-          {% else %}
+          {% if data.calcRun in ["unclassified","interimRun","finalRecalcRun","finalRun"] %}
             <h2 class="govuk-heading-m">What do you want to do next?</h2>
             <p class="govuk-body">If you are unsure about how to classify this run, speak to your finance team or a
                 senior team member before continuing.</p>
@@ -114,7 +130,7 @@
                 <input class="govuk-radios__input" id="deleteRun" name="runAction" type="radio" value="delete">
                 <label class="govuk-label govuk-radios__label" style="padding:0px 15px 11px 10px" for="deleteRun">
                   <strong>Delete</strong><br>
-                  <p class="govuk-body-s" style="margin-bottom: 0;">Remove this calculation run if it’s no longer
+                  <p class="govuk-body-s" style="margin-bottom: 30;">Remove this calculation run if it’s no longer
                     needed.</p>
                 </label>
               </div>

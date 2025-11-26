@@ -1,0 +1,100 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <form id="runForm" method="get" action="run-details?calcRun=testRun">
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="approval-code-hint">
+          <span class="govuk-caption-l">Initial classified run R16</span>
+          <h1 class="govuk-heading-l">Remove initial run classification</h1>
+
+          <hr class="govuk-section-break govuk-section-break--s govuk-section-break--invisible">
+          <table class="govuk-table">
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Financial year</th>
+                <td class="govuk-table__cell">2024-25</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Classification</th>
+                <td class="govuk-table__cell">Initial run</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Calculation ID</th>
+                <td class="govuk-table__cell">251120</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header">Run date and time</th>
+                <td class="govuk-table__cell">21 June 2024 at 12:09</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="testRun" name="calcRun" type="radio" value="testRun">
+              <label class="govuk-label govuk-radios__label" for="testRun" style="padding:0px 15px 11px 10px">
+                <strong>Test run</strong><br>
+                <p class="govuk-body-s" style="margin-bottom: 0;">View the calculation results without generating a billing file for invoicing.</p>
+              </label>
+            </div>
+          
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="deleteRun" name="calcRun" type="radio" value="initialRun">
+              <label class="govuk-label govuk-radios__label" for="deleteRun">
+                <strong>Delete run</strong><br>
+                <p class="govuk-body-s" style="margin-bottom: 0;">
+                  Remove this calculation run if you no longer need it.
+                </p>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="govuk-warning-text">
+          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning </span>
+            You cannot remove a run's classification after the billing file has been issued. Once classified, any previous unclassified runs can no longer be classified.
+          </strong>
+        </div>
+      </div>
+
+      <div class="govuk-button-group">
+        <button type="submit" id="continueButton" class="govuk-button" data-module="govuk-button">
+          Continue
+        </button>
+        <button type="button" class="govuk-button govuk-button--secondary" onclick="window.location.href='calculate-packaging-payments'">
+          Cancel
+        </button>
+        <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('runForm');
+  const radios = document.querySelectorAll('input[name="calcRun"]');
+
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'testRun') {
+        form.action = 'run-details?calcRun=testRun';
+      } else if (radio.value === 'initialRun') {
+        form.action = 'delete-run?calcRun=initialRun';
+      }
+    });
+  });
+</script>
+
+{% endblock %}
