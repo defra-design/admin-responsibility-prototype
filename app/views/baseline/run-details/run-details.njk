@@ -1,6 +1,8 @@
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
+{% if data.calcRun=="testRun" %}
+  {% set showBackLink = true %}
   {% set showBackLink = true %}
   {% set showAccountLink = true %}
   {% set serviceName = "Dashboard" %}
