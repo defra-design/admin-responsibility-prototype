@@ -56,8 +56,6 @@ router.get("/settings/upload-file", (req, res) => {
 // Run calculator handling
 //----------------------------------------------------------------
 
-
-
 // POST route for starting the run
 router.post('/run-calculator/run-start', function (req, res) {
   const runName = req.body.runName?.trim();
@@ -70,7 +68,6 @@ router.post('/run-calculator/run-start', function (req, res) {
   if (!startedOk) {
     return res.redirect('run-start-error');
   }
-
   return res.redirect('run-start-success');
 });
 
