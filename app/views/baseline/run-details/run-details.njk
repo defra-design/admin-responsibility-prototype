@@ -10,17 +10,17 @@
 {% block content %}
   <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    &nbsp; &nbsp; <br>
 
-    <form id="actionForm" method="GET" action="../../calculate-packaging-payments.html">
+    <form id="actionForm" method="GET" action="run-details">
       <div class="govuk-form-group">
         <fieldset class="govuk-fieldset" aria-describedby="approval-code-hint">
 
           {# Show different headers for different run classifications #}
           <span class="govuk-caption-l">
-            {% if data.calcRun == "unclassified" %}Unclassified run R16{% endif %}
-            {% if data.calcRun == "initialRun" %}Initial classified run R16{% endif %}
-            {% if data.calcRun == "testRun" %}Test classified run R16{% endif %}
+            {% if data.calcRun == "unclassified" %}Unclassified run R16
+            {% elif data.calcRun == "initialRun" %}Initial classified run R16
+            {% elif data.calcRun == "testRun" %}Test classified run R16
+            {% else %}Error incomplete run R16{% endif %}
           </span>
           <h1 class="govuk-heading-l">Calculation run details</h1>
           <p class="govuk-body">Download the results file to review the calculation run offline. When you are ready,
@@ -34,7 +34,7 @@
             </tr>
 
             {# Only show Classification row if calcRun is a known type #}
-            {% if data.calcRun in ["initialRun","testRun","interimRun","finalRecalcRun","finalRun"] %}
+          {% if data.calcRun in ["initialRun","testRun","interimRun","finalRecalcRun","finalRun"] %}
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header">Classification</th>
               <td class="govuk-table__cell">
@@ -45,7 +45,7 @@
                 {% if data.calcRun == "finalRun" %}Final run{% endif %}
               </td>
             </tr>
-            {% endif %}
+          {% endif %}
 
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header">Calculation ID</th>
@@ -90,48 +90,44 @@
             <h2 class="govuk-heading-m">Next step</h2>
             <p class="govuk-body">Review and confirm the billing instructions from the results file.</p>
             <div class="govuk-button-group"><a href="/paycal/final-june/confirm-billing-instructions" class="govuk-button show-continue" style="display: inline;">
-                  Continue
-                </a>
+                Continue
+              </a>
 
-                <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
-              </div>
+              <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
+            </div>
               
           {% else %}
-
-          <div class="govuk-radios" data-module="govuk-radios">
             <h2 class="govuk-heading-m">What do you want to do next?</h2>
             <p class="govuk-body">If you are unsure about how to classify this run, speak to your finance team or a
-              senior team member before continuing.</p>
+                senior team member before continuing.</p>
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="classifyRun" name="runAction" type="radio" value="classify">
+                <label class="govuk-label govuk-radios__label" style="padding:0px 15px 11px 10px" for="classifyRun">
+                  <strong>Classify</strong><br>
+                  <p class="govuk-body-s" style="margin-bottom: 0;">Choose a classification to process this
+                    calculation run.</p>
+                </label>
+              </div>
 
-            <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="classifyRun" name="calcRun" type="radio" value="classify">
-              <label class="govuk-label govuk-radios__label" style="padding:0px 15px 11px 10px" for="classifyRun">
-                <strong>Classify</strong><br>
-                <p class="govuk-body-s" style="margin-bottom: 0;">Choose a classification to process this
-                  calculation run.</p>
-              </label>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="deleteRun" name="runAction" type="radio" value="delete">
+                <label class="govuk-label govuk-radios__label" style="padding:0px 15px 11px 10px" for="deleteRun">
+                  <strong>Delete</strong><br>
+                  <p class="govuk-body-s" style="margin-bottom: 0;">Remove this calculation run if it’s no longer
+                    needed.</p>
+                </label>
+              </div>
             </div>
-
-            <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="deleteRun" name="calcRun" type="radio" value="delete">
-              <label class="govuk-label govuk-radios__label" style="padding:0px 15px 11px 10px" for="deleteRun">
-                <strong>Delete</strong><br>
-                <p class="govuk-body-s" style="margin-bottom: 0;">Remove this calculation run if it’s no longer
-                  needed.</p>
-              </label>
+            <div class="govuk-button-group">
+              <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+              </button>
+              <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
             </div>
-          </div>
-        </fieldset>
+          {% endif %}
+      </fieldset>
       </div>
-
-
-      <div class="govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-          Continue
-        </button>
-        <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
-      </div>
-      {% endif %}
     </form>
   </div>
 </div>
@@ -144,7 +140,7 @@
     if (classify) {
       this.action = "classify-run";
     } else if (deleteRun) {
-      this.action = "../../../delete-run.html";
+      this.action = "delete-run";
     } else {
       e.preventDefault();
       alert("Please select an option before continuing.");

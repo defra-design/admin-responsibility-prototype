@@ -1,0 +1,35 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <span class="govuk-caption-l">
+      {% if data.calcRun == "unclassified" %}Unclassified run R16
+      {% elif data.calcRun == "initialRun" %}Initial classified run R16
+      {% elif data.calcRun == "testRun" %}Test classified run R16
+      {% else %}Error incomplete run R16{% endif %}
+    </span>
+      
+    <h1 class="govuk-heading-xl">Are you sure you want to delete this calculation run?</h1>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--invisible">
+    <p class="govuk-body">Only delete this calculation run if you no longer need it or have completed another successful run.</p>
+       
+        <form action="/form-handler" method="post" novalidate>
+          <div class="govuk-button-group">
+            <a href="delete-run-success" class="govuk-button govuk-button--warning" type="submit">Delete run</a>
+            <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+{% endblock %}
+
