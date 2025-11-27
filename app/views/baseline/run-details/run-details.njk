@@ -1,7 +1,6 @@
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
-{% if data.calcRun=="testRun" %}
   {% set showBackLink = true %}
   {% set showBackLink = true %}
   {% set showAccountLink = true %}
@@ -10,9 +9,8 @@
 {% endblock %}
 
 {% block content %}
-  <div class="govuk-grid-row">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
     <form id="actionForm" method="GET" action="run-details">
       <div class="govuk-form-group" style="margin-bottom: 0;">
         <fieldset class="govuk-fieldset" aria-describedby="approval-code-hint">
@@ -20,13 +18,15 @@
           {# Show different headers for different run classifications #}
           <span class="govuk-caption-l">
             {% if data.calcRun == "unclassified" %}Unclassified run R16
-            {% elif data.calcRun == "initialRun" %}Initial classified run R16
-            {% elif data.calcRun == "testRun" %}Test classified run R16
-            {% else %}Error incomplete run R16{% endif %}
+              {% elif data.calcRun == "initialRun" %}Initial classified run R16
+              {% elif data.calcRun == "testRun" %}Test classified run R16
+              {% elif data.calcRun == "runError" %}Error incomplete run R16
+              {% else %}Unclassified run R16
+            {% endif %}
           </span>
           <h1 class="govuk-heading-l">Calculation run details</h1>
           {% if data.calcRun == "unclassified" %}
-          <p class="govuk-body">Download the results file to review the calculation run offline. When you are ready,
+            <p class="govuk-body">Download the results file to review the calculation run offline. When you are ready,
             return to classify or delete it.</p>
           {% endif %}
 
@@ -112,9 +112,9 @@
 
               <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
             </div>
-          {% endif %}
+            {% else%}
               
-          {% if data.calcRun in ["unclassified","interimRun","finalRecalcRun","finalRun"] %}
+            {#{% if data.calcRun in ["unclassified","interimRun","finalRecalcRun","finalRun"] %}#}
             <h2 class="govuk-heading-m">What do you want to do next?</h2>
             <p class="govuk-body">If you are unsure about how to classify this run, speak to your finance team or a
                 senior team member before continuing.</p>
@@ -144,7 +144,7 @@
               <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
             </div>
           {% endif %}
-      </fieldset>
+        </fieldset>
       </div>
     </form>
   </div>
@@ -165,8 +165,6 @@
     }
   });
 </script>
-
-
 
 <script>
   document.getElementById('download-button').addEventListener('click', function (event) {
