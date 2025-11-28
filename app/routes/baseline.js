@@ -72,21 +72,6 @@ router.post('/run-calculator/run-start', function (req, res) {
 });
 
 // ---------------------------------------------------------------
-// Classification handling
-//----------------------------------------------------------------
-
-router.get('/classify/run-details', function (req, res) {
-  // Prefer session value, then query param, then default
-  const calcRun = req.session.data?.calcRun || req.query.calcRun || "unclassified";
-
-  res.render(version + '/classify/run-details', {
-    data: {
-      calcRun: calcRun
-    }
-  });
-});
-
-// ---------------------------------------------------------------
 
 module.exports = router
 

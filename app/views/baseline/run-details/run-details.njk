@@ -21,7 +21,7 @@
               {% elif data.calcRun == "initialRun" %}Initial classified run R16
               {% elif data.calcRun == "testRun" %}Test classified run R16
               {% elif data.calcRun == "runError" %}Error incomplete run R16
-              {% else %}Unclassified run R16
+              {% else %}Regular run R16
             {% endif %}
           </span>
           <h1 class="govuk-heading-l">Calculation run details</h1>
@@ -112,7 +112,7 @@
 
               <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
             </div>
-            {% else%}
+            {% elif data.calcRun !== "initialRun" %}
               
             {#{% if data.calcRun in ["unclassified","interimRun","finalRecalcRun","finalRun"] %}#}
             <h2 class="govuk-heading-m">What do you want to do next?</h2>
