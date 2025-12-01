@@ -1,147 +1,71 @@
-<form id="filter-form">
-  <p class="govuk-body-m">This list shows the current pending and latest actioned submissions. To view older submissions <a href="#" class="govuk-link govuk-link--no-visited-state"> log in to Power BI</a>. 
-  </p>
+<div class="filter">
+  <div class="filter__content">
 
-  <!-- Filters -->
-  <div class="regulator-filter govuk-!-margin-bottom-8 ">
-    <h2 class="govuk-heading-m">Filter options</h2>
-    {# INPUT #}
-    {{ govukInput({
-      label: {
-        text: "Organisation name"
-      },
-      id: "organisation-name",
-      name: "organisationName"
-    }) }}
-
-    {# INPUT #}
-    {{ govukInput({
-      label: {
-        text: "Organisation ID or Reference number"
-      },
-      id: "organisation-id",
-      name: "organisationId"
-    }) }}
-
-    {# ORG TYPE #}
-    {{ govukCheckboxes({
-      name: "org-type",
-      classes:" display-flex",
-      fieldset: {
-        legend: {
-          text: "Organisation type",
-          classes: "govuk-fieldset__legend--s"
-        }
-      },
-      items: [
-        {
-          value: "orgtype-compliancescheme",
-          text: "Compliance scheme"
-        },
-        {
-          value: "orgtype-direct",
-          text: "Large producer"
-        },
-        {
-          value: "orgtype-direct",
-          text: "Small producer"
-        }
-      ]
-    }) }}
-
-    {# SUBMISSION STATUS #}
-    {{ govukCheckboxes({
-      name: "status",
-      classes:" display-flex",
-      fieldset: {
-        legend: {
-          text: "Submission status",
-          classes: "govuk-fieldset__legend--s"
-        }
-      },
-      items: [
-        {
-          value: "status-pending",
-          text: "Pending"
-        },
-        {
-          value: "status-granted",
-          text: "Granted"
-        },
-        {
-          value: "status-refused",
-          text: "Refused"
-        },
-        {
-          value: "status-queried",
-          text: "Queried"
-        },
-        {
-          value: "status-cancelled",
-          text: "Cancelled"
-        }
-      ]
-    }) }}
-
-    {# RESUBMISSION STATUS #}
-    {{ govukCheckboxes({
-      name: "status",
-      classes:" display-flex",
-      fieldset: {
-        legend: {
-          text: "Resubmission status",
-          classes: "govuk-fieldset__legend--s"
-        }
-      },
-      items: [
-        {
-          value: "resubmission-pending",
-          text: "Pending"
-        },
-        {
-          value: "resubmission-granted",
-          text: "Granted"
-        },
-        {
-          value: "resubmission-refused",
-          text: "Refused"
-        }
-      ]
-    }) }}
-
-
-    {# SUBMISSION YEAR #}
-    {{ govukCheckboxes({
-      name: "year",
-      classes:" display-flex",
-      fieldset: {
-        legend: {
-          text: "Relevant year",
-          classes: "govuk-fieldset__legend--s"
-        }
-      },
-      items: [
-        {
-          value: "2025",
-          text: "2025"
-        },
-        {
-          value: "2026",
-          text: "2026"
-        }
-      ]
-    }) }}
-
-    {# SUBMISSION YEAR #}
-    <div class="display-flex apply-filters">
-      {{ govukButton({
-        text: "Apply filters",
-        id: "apply-filters"
-      }) }}
-      <p class="govuk-body">
-        <a href="" class="govuk-link govuk-link--no-visited-state" id="clear-filters">Clear filters</a>
-      </p>
-    </div>
-    
+    <form method="get" action="" class="filter__search govuk-form-group">
+      <label class="govuk-label govuk-!-font-weight-bold" for="search">
+        <h2>Search for an organisation</h2>
+      </label>
+      <div id="search-hint" class="govuk-hint">
+        Enter an organisation ID to find a billing instruction.
+      </div>
+      <div class="govuk-row">
+        <div class="govuk-column-full">
+          <div class="filter__search-row">
+            <input class="govuk-input filter__search-input" id="search" name="search" type="search" aria-describedby="search-hint">
+            <button class="govuk-button" data-module="govuk-button">Search</button>
+          </div>
+        </div>
+      </div>
+      <h2 class="govuk-heading-m">Filter by billing instruction</h2>
+      <table class="govuk-table" id="submission-table">
+        <thead class="govuk-table__head">
+          <tr>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="">All (7000)</a>
+            </td>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="no action">No action (50)</a>
+            </td>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="initial">Initial (1000)</a>
+            </td>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="delta">Delta (2000)</a>
+            </td>
+          </tr>
+        </thead>
+        <tr>
+          <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+          </td>
+          <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+            <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="rebill">Rebill (0)</a>
+          </td>
+          <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+            <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="cancel">Cancell Bill (0)</a>
+          </td>
+          
+        </tr>
+      </table>
+      <h2 class="govuk-heading-m">Filter by status</h2>
+      <table class="govuk-table" id="filter-table">
+        <thead class="govuk-table__head">
+          <tr>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="">All (7000)</a>
+            </td>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="no action">Accepted (50)</a>
+            </td>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="initial">Rejected (0)</a>
+            </td>
+            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
+              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="delta">Pending (50)</a>
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </form>
+    <button type="button" class="govuk-button filter__clear" onclick="resetFilters()">Clear filters</button>
   </div>
-</form>
+</div>

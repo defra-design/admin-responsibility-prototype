@@ -17588,3 +17588,66 @@ nav.secondary-nav {
       text-decoration: none;
       overflow-wrap: break-word;
   }
+
+ 
+/* -----------------------------------------------------------
+   Filter component  - Billing instructions
+   ----------------------------------------------------------- */
+
+.filter {
+  margin: 30px 0;
+
+  &__content {
+    padding: 0px 20px 10px 20px;
+    background: #f3f2f1;
+    border: 1px solid #b1b4b6;
+    border-radius: 5px;
+  }
+
+  /* Search block */
+  &__search {
+    margin-bottom: 0px;
+    
+   .filter__search-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* space between input and button */
+   }
+
+    .filter__search-input {
+      flex: 1 1;   /* input takes all remaining space */
+      min-width: 200px; /* prevents collapsing too much */
+    }
+
+    button {
+      flex: 0 0 auto;   /* button keeps its natural width */
+      align-self: flex-start;
+    }
+    a.filter-link {
+    font-weight: bold;
+}
+  }
+
+  /* List of filter options */
+  &__list {
+    margin-top: 10px;
+    margin-bottom: 40px;
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .filter-link {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  
+}
+
+
+
