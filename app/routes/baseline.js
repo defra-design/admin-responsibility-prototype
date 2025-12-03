@@ -1,7 +1,9 @@
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter("/baseline");
-
+const fs = require("fs");
 const version = "baseline";
+const path = require("path");
+
 
 router.get("/baseline", function (request, response) {
   response.send("baseline");
@@ -70,6 +72,62 @@ router.post('/run-calculator/run-start', function (req, res) {
   }
   return res.redirect('run-start-success');
 });
+
+
+// ---------------------------------------------------------------
+// Process billing instructions
+//----------------------------------------------------------------
+
+// --- Status and Billing instruction colours ---
+const statusColours = {
+  // Status
+  "accepted": "govuk-tag--green",
+  "pending": "govuk-tag--yellow",
+  "rejected": "govuk-tag--red",
+
+  // Billing instructions
+  "initial": "govuk-tag--blue",
+  "delta": "govuk-tag--blue",
+  "rebill": "govuk-tag--blue",
+  "cancel bill": "govuk-tag--blue",
+  "no action": "govuk-tag--grey"
+};
+
+// --- Confirm Billing Instructions page ---
+router.get('/billing-instructions/confirm-billing-instructions', (req, res) => {
+  console.log('✅ Route hit: /baseline/billing-instructions/confirm-billing-instructions');
+
+  const dataPath = path.join(__dirname, '../data/baseline_billing.json');
+  console.log('Looking for data file at:', dataPath);
+  console.log('Exists?', fs.existsSync(dataPath));
+
+  let billingData = [];
+  try {
+    const rawData = fs.readFileSync(dataPath, 'utf8');
+    billingData = JSON.parse(rawData);
+    console.log('Loaded billing data:', billingData);
+
+    // Add tag colours for macro
+    billingData = billingData.map(item => ({
+      ...item,
+      billingColour: statusColours[item.billingInstruction.toLowerCase()] || 'govuk-tag--blue',
+      statusColour: statusColours[item.status.toLowerCase()] || 'govuk-tag--grey'
+    }));
+
+  } catch (err) {
+    console.error('Error reading billing JSON:', err);
+  }
+
+  // Show only the first 10 records
+  const first10Records = billingData.slice(0, 10);
+
+    // Show only the first 10 records
+    res.render('/' + version + "/billing-instructions/confirm-billing-instructions.njk", {
+    billingData: first10Records,  // <-- pass only these 10
+    statusColours
+  });
+});
+
 
 // ---------------------------------------------------------------
 

@@ -1,0 +1,65 @@
+{% macro billingRow(entry) %}
+
+  {# --- Status colour mapping --- #}
+  {% set statusColours = {
+      "Accepted": "green",
+      "Pending": "yellow",
+      "Rejected": "red"
+  } %}
+
+  {# --- Billing instruction colour mapping --- #}
+  {% set instructionColours = {
+      "Initial": "blue",
+      "Delta": "blue",
+      "Rebill": "blue",
+      "Cancel bill": "blue",
+      "No action": "grey"
+  } %}
+
+  {# --- Resolve colours safely --- #}
+  {% set statusColour = statusColours[entry.status] or "grey" %}
+  {% set instructionColour = instructionColours[entry.billingInstruction] or "grey" %}
+
+  <tr class="govuk-table__row">
+
+    <td class="govuk-table__cell checkbox-select-record">
+      <div class="govuk-checkboxes__item">
+        <input 
+          class="govuk-checkboxes__input"
+          id="select-{{ entry.organisationId }}" 
+          name="select-row" 
+          type="checkbox" 
+          value="{{ entry.organisationId }}">
+        <label class="govuk-label govuk-checkboxes__label" for="select-{{ entry.organisationId }}"></label>
+      </div>
+    </td>
+
+    <td class="govuk-table__cell">
+      <a href="#" class="govuk-link">{{ entry.organisation }}</a>
+    </td>
+
+    <td class="govuk-table__cell">
+      {{ entry.organisationId }}
+    </td>
+
+    <td class="govuk-table__cell">
+      <strong class="govuk-tag govuk-tag--{{ instructionColour }}">
+        {{ entry.billingInstruction }}
+      </strong>
+    </td>
+
+    <td class="govuk-table__cell">
+      £{{ entry.amount }}
+    </td>
+
+    <td class="govuk-table__cell">
+      {% if entry.status %}
+        <strong class="govuk-tag govuk-tag--{{ statusColour }}">
+          {{ entry.status }}
+        </strong>
+      {% endif %}
+    </td>
+
+  </tr>
+
+{% endmacro %}
