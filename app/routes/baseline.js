@@ -30,27 +30,27 @@ router.get("/paycal-dashboard", (req, res) => {
 //-----------------------------------
 
 // Manage Default Parameters
-router.get("/settings/manageDefaultParameters", (req, res) => {
+router.get("/costs/manageDefaultParameters", (req, res) => {
   req.session.data.intent = "manageDefaultParameters";
-  res.render('/' + version + "/settings/manageDefaultParameters");
+  res.render('/' + version + "/costs/manageDefaultParameters");
 });
 
 // Manage LA Disposal Costs
-router.get("/settings/manageLaDisposalCosts", (req, res) => {
+router.get("/costs/manageLaDisposalCosts", (req, res) => {
   req.session.data.intent = "manageLaDisposalCosts";
-  res.render('/' + version + "/settings/manageLaDisposalCosts");
+  res.render('/' + version + "/costs/manageLaDisposalCosts");
 });
 
 // ---------------------------------------------------------------
 // File upload success handling (fake & always successful for now)
 //----------------------------------------------------------------
 
-router.get("/settings/upload-file", (req, res) => {
+router.get("/costs/upload-file", (req, res) => {
   // Grab from query string if present, otherwise use session or default
   const intent = req.query.intent || req.session.data.intent || "manageDefaultParameters";
   req.session.data.intent = intent;
 
-  res.render('/' + version + "/settings/upload-file", { data: req.session.data });
+  res.render('/' + version + "/costs/upload-file", { data: req.session.data });
 });
 
 
@@ -59,7 +59,7 @@ router.get("/settings/upload-file", (req, res) => {
 //----------------------------------------------------------------
 
 // POST route for starting the run
-router.post('/run-calculator/run-start', function (req, res) {
+router.post('/calculation/run-start', function (req, res) {
   const runName = req.body.runName?.trim();
   const laCosts = req.session.data.laCosts === "true";
   const defaultParams = req.session.data.defaultParams === "true";
@@ -94,8 +94,8 @@ const statusColours = {
 };
 
 // --- Confirm Billing Instructions page ---
-router.get('/billing-instructions/confirm-billing-instructions', (req, res) => {
-  console.log('✅ Route hit: /baseline/billing-instructions/confirm-billing-instructions');
+router.get('/billing/confirm-billing-instructions', (req, res) => {
+  console.log('✅ Route hit: /baseline/billing/confirm-billing-instructions');
 
   const dataPath = path.join(__dirname, '../data/baseline_billing.json');
   console.log('Looking for data file at:', dataPath);
@@ -122,7 +122,7 @@ router.get('/billing-instructions/confirm-billing-instructions', (req, res) => {
   const first10Records = billingData.slice(0, 10);
 
     // Show only the first 10 records
-    res.render('/' + version + "/billing-instructions/confirm-billing-instructions.njk", {
+    res.render('/' + version + "/billing/confirm-billing-instructions.njk", {
     billingData: first10Records,  // <-- pass only these 10
     statusColours
   });

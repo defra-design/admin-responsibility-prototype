@@ -1,7 +1,7 @@
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
-  {% include version ~ "/includes/before-content.njk" %}
+  {% include version ~ "/_includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
@@ -24,13 +24,13 @@
 
               {% if data.defaultParams is not defined or data.defaultParams === "false" %}
                 <li>
-                  <a href="../settings/manage-default-parameters">Upload a valid default parameters file.</a>
+                  <a href="../costs/manage-default-parameters">Upload a valid default parameters file.</a>
                 </li>
               {% endif %}
 
               {% if data.laCosts is not defined or data.laCosts === "false" %}
                 <li>
-                  <a href="../settings/manage-la-disposal-costs">Upload a local authorities disposal costs file.</a>
+                  <a href="../costs/manage-la-disposal-costs">Upload a local authorities disposal costs file.</a>
                 </li>
               {% endif %}
             </ul>

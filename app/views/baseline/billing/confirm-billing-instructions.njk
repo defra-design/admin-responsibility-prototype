@@ -4,7 +4,7 @@
   {% set showBackLink = true %}
   {% set showAccountLink = true %}
   {% set serviceName = "Dashboard" %}
-  {% include version ~ "/includes/before-content.njk" %}
+  {% include version ~ "/_includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
@@ -19,10 +19,10 @@
       Once all instructions have been accepted or rejected, you'll be able to generate a draft billing file. 
       If you reject any instructions, you'll need to give a reason on the next screen.</p>
     
-    {% include version ~ "/includes/billing-instruction-filter.njk" %}
+    {% include version ~ "/_includes/billing-instruction-filter.njk" %}
     
     <!-- Filters box with links -->
-    {% import "/components/_billing-row.njk" as billing %}
+    {% import "../_components/_billing-row.njk" as billing %}
 
     <!-- Selection checkboxes -->
     <div class="govuk-form-group billing-instructions-select">

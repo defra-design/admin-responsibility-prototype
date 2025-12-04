@@ -3,7 +3,7 @@
 {% block beforeContent %}
   {% set showBackLink = false %}
   {% set showAccountLink = true %}
-  {% include version ~ "/includes/before-content.njk" %}
+  {% include version ~ "/_includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
       Set up and run packaging payment calculations, and view past runs by financial year.
     </div>
     {# Admin management tiles #}
-    {% include version ~ "/includes/admin-tiles.njk" %}
+    {% include version ~ "/_includes/admin-tiles.njk" %}
     
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -34,7 +34,7 @@
       </div>
     </div>
   </div>
-  {% from "components/_calculation-row.njk" import calculationRow %}
+  {% from "../" + version + "/_components/_calculation-row.njk" import calculationRow %}
 
     <table class="govuk-table govuk-table--m ">
       <tr class="govuk-table__row">
@@ -57,7 +57,7 @@
 
         {{ calculationRow({
           title: "Unclassified run R16",
-          href: "./run-details/run-details?calcRun=unclassified",
+          href: "./runs/run-details?calcRun=unclassified",
           calculationId: "251120",
           runDate: "20 Nov 2025 at 16:17",
           runBy: "Jamie Roberts"
@@ -65,7 +65,7 @@
 
         {{ calculationRow({
           title: "Initial classified run R16",
-          href: "./run-details/run-details?calcRun=initialRun",
+          href: "./runs/run-details?calcRun=initialRun",
           calculationId: "251120",
           runDate: "20 Nov 2025 at 16:17",
           runBy: "Jamie Roberts",
@@ -75,7 +75,7 @@
 
          {{ calculationRow({
           title: "Error incomplete run R16",
-          href: "./run-details/run-error?calcRun=runError",
+          href: "./runs/run-error?calcRun=runError",
           calculationId: "251120",
           runDate: "20 Nov 2025 at 16:17",
           runBy: "Jamie Roberts",
@@ -85,7 +85,7 @@
 
         {{ calculationRow({
           title: "Test classified run R16",
-          href: "./run-details/run-details?calcRun=testRun",
+          href: "./runs/run-details?calcRun=testRun",
           calculationId: "251115",
           runDate: "15 Nov 2025 at 12:17",
           runBy: "Jamie Roberts",

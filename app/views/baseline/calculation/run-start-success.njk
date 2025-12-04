@@ -1,7 +1,7 @@
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
-  {% include version ~ "/includes/before-content.njk" %}
+  {% include version ~ "/_includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
@@ -12,12 +12,7 @@
 
           <div class="govuk-panel govuk-panel--confirmation">
             <h1 class="govuk-panel__title">
-              You have deleted calculation run
-              {% if data.calcRun == "unclassified" %}Unclassified run R16
-              {% elif data.calcRun == "initialRun" %}Initial classified run R16
-              {% elif data.calcRun == "testRun" %}Test classified run R16
-              {% else %}Error incomplete run R16{% endif %}
-
+              You have started a calculation
             </h1>
             <div class="govuk-panel__body">
               {% if data.runName !=="" %}
@@ -27,6 +22,12 @@
               {% endif %}
             </div>
           </div>
+
+          <p class="govuk-body">
+            It will take up to 15 minutes for the calculation to finish. 
+            You will be able to view it in the list of calculations on the dashboard.
+          </p>
+          
 
          <div class="govuk-button-group">
            

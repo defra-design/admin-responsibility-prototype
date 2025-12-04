@@ -15,7 +15,6 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">pEPR Scheme administrator service prototype</h1>
  
-      
       <div class="index__container">
         <h2 class="govuk-heading-m">
           <a href="{{ currentVersion.startPage }}" class="govuk-link">
@@ -30,27 +29,38 @@
         <h3 class="govuk-heading-s govuk-!-margin-top-4">Pages in this version:</h3>
         <ul class="govuk-list govuk-list--bullet">
         
-        {# Root level pages #}
+        {# ------------------------- #}
+        {# Root-level pages (skip _) #}
+        {# ------------------------- #}
         {% for page in currentVersion.pages.root %}
-          <li><a href="{{ page.url }}" class="govuk-link">{{ page.name }}</a></li>
+          {% if not page.name.startsWith('_') %}
+            <li><a href="{{ page.url }}" class="govuk-link">{{ page.name }}</a></li>
+          {% endif %}
         {% endfor %}
         
-        {# Section pages #}
+        {# ------------------------- #}
+        {# Section-level pages       #}
+        {# Skip entire sections that start with _ #}
+        {# Skip individual pages that start with _ #}
+        {# ------------------------- #}
         {% for sectionName, sectionPages in currentVersion.pages.sections %}
-          <li>
-            {{ sectionName }}:
-            <ul class="govuk-list govuk-list--bullet">
-              {% for page in sectionPages %}
-                <li><a href="{{ page.url }}" class="govuk-link">{{ page.name }}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
+          {% if not sectionName.startsWith('_') %}
+            <li>
+              {{ sectionName }}:
+              <ul class="govuk-list govuk-list--bullet">
+                {% for page in sectionPages %}
+                  {% if not page.name.startsWith('_') %}
+                    <li><a href="{{ page.url }}" class="govuk-link">{{ page.name }}</a></li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </li>
+          {% endif %}
         {% endfor %}
         
       </ul>
       </div>
       
-      {# Previous versions in accordion (without heading) #}
       {% if hasPreviousVersions %}
         <div class="previous-versions-accordion">
           {{ govukAccordion({

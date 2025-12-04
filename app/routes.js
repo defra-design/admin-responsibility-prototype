@@ -90,10 +90,10 @@ router.get('/', function (req, res) {
   // Define your versions with descriptions (most recent first)
   const versions = [
     {
-      name: '[Baseline] Pre-prod',
+      name: '[Baseline] R16 release',
       path: 'baseline',
-      date: '11/25',
-      description: 'This version documents the as-is process for PackUK scheme administrators. This will form a baseline to iterate on based on user/business needs.',
+      date: '12/25',
+      description: 'This version documents visually the as-is process for PackUK scheme administrators. It does NOT copy the underlying data architecture of the prototype or front-end live service. This will form a baseline to iterate on based on user/business needs.',
       startPage: 'baseline/paycal-dashboard'
     }
   ];
