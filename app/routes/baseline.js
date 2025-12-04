@@ -59,7 +59,7 @@ router.get("/costs/upload-file", (req, res) => {
 //----------------------------------------------------------------
 
 // POST route for starting the run
-router.post('/calculation/run-start', function (req, res) {
+router.post('/run-calculator/run-start', function (req, res) {
   const runName = req.body.runName?.trim();
   const laCosts = req.session.data.laCosts === "true";
   const defaultParams = req.session.data.defaultParams === "true";
