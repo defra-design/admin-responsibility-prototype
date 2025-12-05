@@ -1,13 +1,13 @@
-{% macro billingRow(entry) %}
+{% macro billingRow(row) %}
 
-  {# --- Status colour mapping --- #}
+  {# Status colours #}
   {% set statusColours = {
       "Accepted": "green",
       "Pending": "yellow",
       "Rejected": "red"
   } %}
 
-  {# --- Billing instruction colour mapping --- #}
+  {# Instruction colours #}
   {% set instructionColours = {
       "Initial": "blue",
       "Delta": "blue",
@@ -16,46 +16,49 @@
       "No action": "grey"
   } %}
 
-  {# --- Resolve colours safely --- #}
-  {% set statusColour = statusColours[entry.status] or "grey" %}
-  {% set instructionColour = instructionColours[entry.billingInstruction] or "grey" %}
+  {% set statusColour = statusColours[row.status] or "grey" %}
+  {% set instructionColour = instructionColours[row.billingInstruction] or "grey" %}
 
-  <tr class="govuk-table__row">
+  <tr class="govuk-table__row billing-row"
+      data-organisation="{{ row.organisation }}"
+      data-org-id="{{ row.organisationId }}"
+      data-status="{{ row.status }}"
+      data-instruction="{{ row.billingInstruction }}">
 
     <td class="govuk-table__cell checkbox-select-record">
       <div class="govuk-checkboxes__item">
         <input 
-          class="govuk-checkboxes__input"
-          id="select-{{ entry.organisationId }}" 
-          name="select-row" 
+          class="govuk-checkboxes__input js-row-select"
+          id="select-{{ row.organisationId }}" 
+          name="selected[]" 
           type="checkbox" 
-          value="{{ entry.organisationId }}">
-        <label class="govuk-label govuk-checkboxes__label" for="select-{{ entry.organisationId }}"></label>
+          value="{{ row.organisationId }}">
+        <label class="govuk-label govuk-checkboxes__label" for="select-{{ row.organisationId }}"></label>
       </div>
     </td>
 
     <td class="govuk-table__cell">
-      <a href="#" class="govuk-link">{{ entry.organisation }}</a>
+      <a href="#" class="govuk-link">{{ row.organisation }}</a>
     </td>
 
     <td class="govuk-table__cell">
-      {{ entry.organisationId }}
+      {{ row.organisationId }}
     </td>
 
     <td class="govuk-table__cell">
       <strong class="govuk-tag govuk-tag--{{ instructionColour }}">
-        {{ entry.billingInstruction }}
+        {{ row.billingInstruction }}
       </strong>
     </td>
 
     <td class="govuk-table__cell">
-      £{{ entry.amount }}
+      £{{ row.amount }}
     </td>
 
     <td class="govuk-table__cell">
-      {% if entry.status %}
+      {% if row.status %}
         <strong class="govuk-tag govuk-tag--{{ statusColour }}">
-          {{ entry.status }}
+          {{ row.status }}
         </strong>
       {% endif %}
     </td>

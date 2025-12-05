@@ -17625,7 +17625,13 @@ nav.secondary-nav {
     }
     a.filter-link {
     font-weight: bold;
-}
+    font-size:1.185em;
+    }
+
+    a.billing-filter-button{
+      background-color:black;
+      margin-bottom:0;
+    }
   }
 
   /* List of filter options */

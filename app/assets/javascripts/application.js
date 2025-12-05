@@ -3,6 +3,10 @@
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
 //
 
-window.GOVUKPrototypeKit.documentReady(() => {
-  // Add JavaScript here
-})
+// app/assets/javascripts/application.js
+
+import { initBillingFilters } from './baseline-billing-instructions.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  initBillingFilters();
+});

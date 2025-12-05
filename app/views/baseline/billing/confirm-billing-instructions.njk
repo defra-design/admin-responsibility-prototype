@@ -12,162 +12,92 @@
   <div class="govuk-grid-column-full"><br>
     <span class="govuk-caption-l">Initial classified run R16</span>
     <h1 class="govuk-heading-l">Confirm billing instructions</h1>
-    <p class="govuk-body-m">These billing instructions match those in the results file. 
-      Use this screen to confirm which instructions you want to accept or reject.</p>
-    <p class="govuk-body-m">Your changes are saved automatically, 
-      so you can return to this screen at any time. 
-      Once all instructions have been accepted or rejected, you'll be able to generate a draft billing file. 
-      If you reject any instructions, you'll need to give a reason on the next screen.</p>
-    
+    <p class="govuk-body-m">
+      These billing instructions match those in the results file. Use this screen to confirm which instructions you want to accept or reject.
+    </p>
+    <p class="govuk-body-m">
+      Your changes are saved automatically, so you can return to this screen at any time. Once all instructions have been accepted or rejected, you'll be able to generate a draft billing file. If you reject any instructions, you'll need to give a reason on the next screen.
+    </p>
+
     {% include version ~ "/_includes/billing-instruction-filter.njk" %}
-    
-    <!-- Filters box with links -->
     {% import "../_components/_billing-row.njk" as billing %}
 
-    <!-- Selection checkboxes -->
-    <div class="govuk-form-group billing-instructions-select">
-      <fieldset class="govuk-fieldset" aria-describedby="status-hint">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-          
-        </legend>
+    <!-- POST form for Accept selected -->
+    <form method="post" action="/{{ version }}/billing/accept-start">
+    <input type="hidden" name="action" id="bulk-action-type" value="Accepted">
+
+      <!-- Selection checkboxes -->
+      <fieldset class="govuk-fieldset billing-filters-select govuk-!-margin-top-6 govuk-!-margin-bottom-6">
         <div class="govuk-checkboxes govuk-checkboxes--small horizontal-checkboxes">
+
+          <!-- Select all on this page -->
           <div class="govuk-checkboxes__item">
             <input class="govuk-checkboxes__input"
-              id="status-selectall"
-              name="status"
-              type="checkbox"
-              value="selectall">
+                  id="status-selectall"
+                  type="checkbox"
+                  data-action="select-page">
             <label class="govuk-label govuk-checkboxes__label"
-              for="status-selectall">
+                  for="status-selectall">
               Select all records on this page
             </label>
           </div>
 
+          <!-- Select all matching results -->
           <div class="govuk-checkboxes__item">
             <input class="govuk-checkboxes__input"
-              id="status-select7000"
-              name="status"
-              type="checkbox"
-              value="select36">
+                  id="status-selectallresults"
+                  type="checkbox"
+                  data-action="select-all-results">
             <label class="govuk-label govuk-checkboxes__label"
-              for="status-select36">
-              Select all 36 records
+                  for="status-selectallresults">
+              Select all {{ totalFiltered }} records
             </label>
           </div>
-        </div> <!-- /.govuk-checkboxes -->
-      </fieldset>
-    </div> <!-- /.govuk-form-group -->
 
-    <!-- Show selections header -->
-    <table class="govuk-table govuk-table--m" id="submission-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row" >
-          <th class="govuk-table__header" style="font-weight:normal; border-bottom:0"  scope="col">
-            0 records selected
-          </th>
-          <th class="govuk-table__header govuk-table__header:last-child" style="text-align:right; border-bottom:0" scope="col">
-            <strong>10-20 of 36</strong>
-          </th>
-        </tr>
-      </thead>
-    </table>
-
-<!-- TODO
- - make selection values update dynamically when selecting from results table - rather than hardcoding -->
-    <h2 class="govuk-heading-m">Billing instructions</h2>
-    <table class="govuk-table govuk-table--m billing-table">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header billing-table__header header-select"></th>
-          <th scope="col" class="govuk-table__header billing-table__header--organisation">Organisation name</th>
-          <th scope="col" class="govuk-table__header billing-table__header--org-id">Organisation ID</th>
-          <th scope="col" class="govuk-table__header billing-table__header--instruction">Billing instruction</th>
-          <th scope="col" class="govuk-table__header billing-table__header--amount">Invoice Amount</th>
-          <th scope="col" class="govuk-table__header billing-table__header--status">Status</th>
-        </tr>
-      </thead>
-
-      <tbody class="govuk-table__body">
-        {% for row in billingData %}
-          {{ billing.billingRow(row) }}
-        {% endfor %}
-      </tbody>
-    </table>
-
-<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
-      <!-- Left side: pagination numbers + next -->
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <ul class="govuk-pagination__list">
-          <li class="govuk-pagination__item govuk-pagination__item--current">
-            <a class="govuk-link govuk-pagination__link govuk-link--no-visited-state" href="#" aria-label="Page 1" aria-current="page">
-              1
-            </a>
-          </li>
-          <li class="govuk-pagination__item">
-            <a class="govuk-link govuk-pagination__link govuk-link--no-visited-state" href="#" aria-label="Page 6">
-              2
-            </a>
-          </li>
-          <li class="govuk-pagination__item">
-            <a class="govuk-link govuk-pagination__link govuk-link--no-visited-state" href="#" aria-label="Page 7">
-              3
-            </a>
-          </li>
-          <li class="govuk-pagination__item govuk-pagination__item--ellipses">⋯</li>
-          <li class="govuk-pagination__item">
-            <a class="govuk-link govuk-pagination__link govuk-link--no-visited-state" href="#" aria-label="Page 42">
-              700
-            </a>
-          </li>
-        </ul>
-        <div class="govuk-pagination__next" style="margin-left: 20px;">
-          <a class="govuk-link govuk-pagination__link link govuk-link--no-visited-state" href="#" rel="next">
-            <span class="govuk-pagination__link-title">Next</span>
-            <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
-              <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z">
-              </path>
-            </svg>
-          </a>
         </div>
+      </fieldset>
+
+  <!-- Billing table -->
+      <h2 class="govuk-heading-m">Billing instructions</h2>
+      <table class="govuk-table govuk-table--m billing-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header billing-table__header header-select"> </th>
+            <th scope="col" class="govuk-table__header billing-table__header--organisation">Organisation name</th>
+            <th scope="col" class="govuk-table__header billing-table__header--org-id">Organisation ID</th>
+            <th scope="col" class="govuk-table__header billing-table__header--instruction">Billing instruction</th>
+            <th scope="col" class="govuk-table__header billing-table__header--amount">Invoice Amount</th>
+            <th scope="col" class="govuk-table__header billing-table__header--status">Status</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for row in billingData %}
+            {{ billing.billingRow(row) }}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Action buttons -->
+      <div style="margin-top: 60px;">
+        <h2 class="govuk-heading-m">Update billing instructions</h2>
+          <button type="submit" class="govuk-button govuk-button--primary">
+          Accept selected
+        </button>
+        <button type="submit" class="govuk-button govuk-button--secondary"
+                style="background-color: #ffffff; border: 1px solid #d4351c; color: #d4351c; margin-left:30px; box-shadow: 0 2px 0 rgb(212, 53, 28);"
+                onclick="document.getElementById('bulk-action-type').value='reject'">
+          Reject selected
+        </button>
+
+        <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin-left: 30px;" id="clear-selection-btn">
+          Clear selection
+        </button>
+
+        <a style="float: right; padding-right:230px; padding-top: 10px; font-size: 18px;" href="../paycal-dashboard" class="govuk-link">Return to dashboard</a>
       </div>
 
-      <!-- Right side: items per page -->
-      <div>
-        <ul class="govuk-pagination__list">
-          <li class="govuk-pagination__item">
-            Items per page 10
-          </li>
-          <li class="govuk-pagination__item">
-            <a class="govuk-link govuk-pagination__link govuk-link--no-visited-state" href="#" aria-label="Page 6">
-              50
-            </a>
-          </li>
-          <li class="govuk-pagination__item">
-            <a class="govuk-link govuk-pagination__link govuk-link--no-visited-state" href="#" aria-label="Page 7">
-              100
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    </form>
 
-    <!-- Action buttons (todo - remove styling and hook up with router and data -->
-
-    <div style="margin-top: 60px;">
-      <h2 class="govuk-heading-m">Update billing instructions</h2>
-      <a href="6-confirmation" role="button" draggable="false" class="govuk-button" data-module="govuk-button" style="background-color: #ffffff; border: 1px solid #00703c; color: #00703c; margin-left: 10px;
-            margin-left: 0px; box-shadow: 0 2px 0 rgb(0, 112, 60);">
-        Accept selected
-      </a>
-      <a href="13-reject-reason" role="button" draggable="false" class="govuk-button" data-module="govuk-button" style="background-color: #ffffff; border: 1px solid #d4351c; color: #d4351c; margin-left: 10px;
-            margin-left: 30px; box-shadow: 0 2px 0 rgb(212, 53, 28);">
-        Reject selected
-      </a>
-      <button class="govuk-button govuk-button--secondary" data-module="govuk-button" style="margin-left: 30px;" id="clear-selection-btn">
-        Clear selection
-      </button>
-      <a style="float: right; padding-right:230px; padding-top: 10px; font-size: 18px;" href="../paycal-dashboard" class="govuk-link">Return to dashboard</a>
-    </div>
   </div>
 </div>
 {% endblock %}

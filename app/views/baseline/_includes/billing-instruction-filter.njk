@@ -1,4 +1,4 @@
-<div class="filter">
+<div class="billing-filters">
   <div class="filter__content">
 
     <form method="get" action="" class="filter__search govuk-form-group">
@@ -12,60 +12,79 @@
         <div class="govuk-column-full">
           <div class="filter__search-row">
             <input class="govuk-input filter__search-input" id="search" name="search" type="search" aria-describedby="search-hint">
-            <button class="govuk-button" data-module="govuk-button">Search</button>
+            <button class="govuk-button govuk-!-margin-top-0 govuk-!-margin-bottom-2" data-module="govuk-button">Search</button>
           </div>
         </div>
       </div>
-      <h2 class="govuk-heading-m">Filter by billing instruction</h2>
-      <table class="govuk-table" id="submission-table">
-        <thead class="govuk-table__head">
-          <tr>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="">All (36)</a>
-            </td>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="no action">No action (2)</a>
-            </td>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="initial">Initial (16)</a>
-            </td>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="delta">Delta (8)</a>
-            </td>
-          </tr>
-        </thead>
-        <tr>
-          <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-          </td>
-          <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-            <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="rebill">Rebill (7)</a>
-          </td>
-          <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-            <a href="#" class="filter-link" data-filter-type="instruction" data-filter-value="cancel">Cancel Bill (3)</a>
-          </td>
+      <div class="filter">
+
+      <!-- Billing instruction filter -->
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-top-0 govuk-!-margin-bottom-6">Filter by billing instruction</legend>
+        <div class="govuk-grid-row govuk-!-padding-bottom-6">
+          <div class="govuk-grid-column-one-quarter">
+            <a href="#" class="govuk-link filter-link" data-filter-type="instruction" data-filter-value="">
+              All ({{ totalRecords }})
+            </a>
+          </div>
+          {% for instruction in ['No action', 'Initial', 'Delta'] %}
+            <div class="govuk-grid-column-one-quarter">
+              <a href="#" class="govuk-link filter-link" 
+                data-filter-type="instruction" 
+                data-filter-value="{{ instruction | lower }}">
+                {{ instruction }} ({{ instructionCounts[instruction] or 0 }})
+              </a>
+            </div>
+          {% endfor %}
           
-        </tr>
-      </table>
-      <h2 class="govuk-heading-m">Filter by status</h2>
-      <table class="govuk-table" id="filter-table">
-        <thead class="govuk-table__head">
-          <tr>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="">All (36)</a>
-            </td>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="no action">Accepted (12)</a>
-            </td>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="initial">Rejected (1)</a>
-            </td>
-            <td class="govuk-table__cell" style="width: 60px; text-align: left; padding: 10px 20px 10px 0; vertical-align: top; border-bottom:0;">
-              <a href="#" class="filter-link" data-filter-type="status" data-filter-value="delta">Pending (23)</a>
-            </td>
-          </tr>
-        </thead>
-      </table>
-    </form>
-    <button type="button" class="govuk-button filter__clear" style="background-color: black; margin-top:20px;" onclick="resetFilters()">Clear filters</button>
-  </div>
+          
+        </div>
+         <div class="govuk-grid-row govuk-!-padding-bottom-6">
+          <div class="govuk-grid-column-one-quarter">
+            &nbsp;
+          </div>
+          
+          {% for instruction in ['Rebill', 'Cancel bill'] %}
+            <div class="govuk-grid-column-one-quarter">
+              <a href="#" class="govuk-link filter-link" 
+                data-filter-type="instruction" 
+                data-filter-value="{{ instruction | lower }}">
+                {{ instruction }} ({{ instructionCounts[instruction] or 0 }})
+              </a>
+            </div>
+          {% endfor %}
+          
+          
+        </div>
+      </fieldset>
+
+      <!-- Status filter -->
+      <fieldset class="govuk-fieldset govuk-!-margin-top-0">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m govuk-!-margin-top-0 govuk-!-margin-bottom-6">Filter by status</legend>
+        <div class="govuk-grid-row govuk-!-padding-bottom-6">
+          <div class="govuk-grid-column-one-quarter">
+            <a href="#" class="govuk-link filter-link" data-filter-type="instruction" data-filter-value="">
+              All ({{ totalRecords }})
+            </a>
+          </div>
+          {% for status in ['Accepted', 'Rejected', 'Pending'] %}
+            <div class="govuk-grid-column-one-quarter">
+              <a href="#" class="govuk-link filter-link" 
+                data-filter-type="status" 
+                data-filter-value="{{ status | lower }}">
+                {{ status }} ({{ statusCounts[status] or 0 }})
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+
+  <a href="/{{ version }}/billing/confirm-billing-instructions" class="billing-filter-button govuk-button govuk-button--submit filter__clear govuk-!-margin-top-5">
+  Clear filters
+</a>
 </div>
+
+    
+</div>
+

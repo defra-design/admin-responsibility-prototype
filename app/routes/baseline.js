@@ -93,40 +93,94 @@ const statusColours = {
   "no action": "govuk-tag--grey"
 };
 
-// --- Confirm Billing Instructions page ---
+/// Confirm Billing Instructions page
 router.get('/billing/confirm-billing-instructions', (req, res) => {
-  console.log('✅ Route hit: /baseline/billing/confirm-billing-instructions');
+  console.log('🔎 Route hit: confirm-billing-instructions');
 
+  const { instruction, status, search } = req.query;
+
+  // Load data
   const dataPath = path.join(__dirname, '../data/baseline_billing.json');
-  console.log('Looking for data file at:', dataPath);
-  console.log('Exists?', fs.existsSync(dataPath));
+  let billingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
-  let billingData = [];
-  try {
-    const rawData = fs.readFileSync(dataPath, 'utf8');
-    billingData = JSON.parse(rawData);
-    console.log('Loaded billing data:', billingData);
+  // Normalize
+  billingData = billingData.map(item => ({
+    ...item,
+    billingInstruction: item.billingInstruction || "Initial",
+    status: item.status || "Pending"
+  }));
 
-    // Add tag colours for macro
-    billingData = billingData.map(item => ({
-      ...item,
-      billingColour: statusColours[item.billingInstruction.toLowerCase()] || 'govuk-tag--blue',
-      statusColour: statusColours[item.status.toLowerCase()] || 'govuk-tag--grey'
-    }));
+  // Add colours
+  billingData = billingData.map(item => ({
+    ...item,
+    billingColour: statusColours[item.billingInstruction.toLowerCase()] || 'govuk-tag--blue',
+    statusColour: statusColours[item.status.toLowerCase()] || 'govuk-tag--grey'
+  }));
 
-  } catch (err) {
-    console.error('Error reading billing JSON:', err);
+  // Apply filters
+  let filtered = billingData;
+
+  if (instruction) {
+    filtered = filtered.filter(row =>
+      row.billingInstruction.toLowerCase() === instruction.toLowerCase()
+    );
   }
 
-  // Show only the first 10 records
-  const first10Records = billingData.slice(0, 10);
+  if (status) {
+    filtered = filtered.filter(row =>
+      row.status.toLowerCase() === status.toLowerCase()
+    );
+  }
 
-    // Show only the first 10 records
-    res.render('/' + version + "/billing/confirm-billing-instructions.njk", {
-    billingData: first10Records,  // <-- pass only these 10
+  if (search) {
+    filtered = filtered.filter(row =>
+      row.organisationId.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  // Counts
+  const instructionCounts = {};
+  const statusCounts = {};
+
+  billingData.forEach(row => {
+    instructionCounts[row.billingInstruction] = (instructionCounts[row.billingInstruction] || 0) + 1;
+    statusCounts[row.status] = (statusCounts[row.status] || 0) + 1;
+  });
+
+  res.render(version + "/billing/confirm-billing-instructions", {
+    query: req.query,
+    billingData: filtered,
+    totalRecords: filtered.length,
+    instructionCounts,
+    statusCounts,
     statusColours
   });
 });
+
+// Force accept-start route
+router.post('/billing/accept-start', (req, res) => {
+  console.log('🔥 accept-start route hit');
+  console.log('req.body:', req.body);
+
+  // Grab selected checkboxes (if any)
+  const rawSelected = req.body.selected || [];
+  const selected = rawSelected.filter(v => v && v !== '_unchecked');
+
+  console.log('Selected received:', selected);
+
+  // Save to session (optional)
+  req.session.selectedRecords = selected;
+
+  // Render a confirmation page or the same page for testing
+  return res.render(version + "/billing/accept-start", {
+    selectedCount: selected.length,
+    selected
+  });
+});
+
+
+
+
 
 
 // ---------------------------------------------------------------
