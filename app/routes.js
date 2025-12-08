@@ -160,6 +160,8 @@ router.get('/', function (req, res) {
   });
 });
 
+
+
 // Middleware to automatically detect version from URL path
 router.use(function (req, res, next) {
   // Extract version from the URL path (e.g., /baseline/page or /v1/page)
@@ -179,4 +181,10 @@ router.use(function (req, res, next) {
   next();
 });
 
-require("./routes/baseline.js");
+// --------- MOUNT baseline router so its routes are active ---------
+// baseline.js should export a router (module.exports = router;)
+const baselineRouter = require('./routes/baseline.js');
+router.use('/', baselineRouter);
+
+// Export the main router
+module.exports = router;

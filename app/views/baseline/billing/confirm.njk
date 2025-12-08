@@ -1,0 +1,47 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-l">Initial classified run R16</span>
+    <h1 class="govuk-heading-l govuk-!-margin-bottom-0">Are you sure you want to accept all selected billing instructions?</h1>
+    <form action="/confirm-billing-update" method="post">
+
+        {{ govukRadios({
+          name: "confirmBillingInstructions",
+          fieldset: {
+            legend: {
+              text: " ",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--m govuk"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes"
+            },
+            {
+              value: "no",
+              text: "No"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </form>
+  </div>
+</div>
+
+{% endblock %}

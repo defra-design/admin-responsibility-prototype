@@ -1,20 +1,8 @@
 {% macro billingRow(row) %}
 
   {# Status colours #}
-  {% set statusColours = {
-      "Accepted": "green",
-      "Pending": "yellow",
-      "Rejected": "red"
-  } %}
-
-  {# Instruction colours #}
-  {% set instructionColours = {
-      "Initial": "blue",
-      "Delta": "blue",
-      "Rebill": "blue",
-      "Cancel bill": "blue",
-      "No action": "grey"
-  } %}
+  {% set statusColours = { "Accepted": "green", "Pending": "yellow", "Rejected": "red" } %}
+  {% set instructionColours = { "Initial": "blue", "Delta": "blue", "Rebill": "blue", "Cancel bill": "blue", "No action": "grey" } %}
 
   {% set statusColour = statusColours[row.status] or "grey" %}
   {% set instructionColour = instructionColours[row.billingInstruction] or "grey" %}
@@ -22,47 +10,46 @@
   <tr class="govuk-table__row billing-row"
       data-organisation="{{ row.organisation }}"
       data-org-id="{{ row.organisationId }}"
-      data-status="{{ row.status }}"
-      data-instruction="{{ row.billingInstruction }}">
+      data-status="{{ row.status }}">
 
     <td class="govuk-table__cell checkbox-select-record">
       <div class="govuk-checkboxes__item">
+        {# Note: Changed name to 'selected' for easier Express handling #}
         <input 
-          class="govuk-checkboxes__input js-row-select"
-          id="select-{{ row.organisationId }}" 
-          name="selected[]" 
           type="checkbox" 
-          value="{{ row.organisationId }}">
-        <label class="govuk-label govuk-checkboxes__label" for="select-{{ row.organisationId }}"></label>
+          class="govuk-checkboxes__input"   
+          name="selected" 
+          value="{{ row.organisationId }}" 
+          id="select-{{ row.organisationId }}"
+          {% if row.status == 'Accepted' %} disabled {% endif %}> 
+          
+        <label class="govuk-label govuk-checkboxes__label" for="select-{{ row.organisationId }}">
+          <span class="govuk-visually-hidden">Select {{ row.organisation }}</span>
+        </label>
       </div>
     </td>
 
+    <td class="govuk-table__cell">{{ row.organisation }}</td>
+    <td class="govuk-table__cell">{{ row.organisationId }}</td>
+    
     <td class="govuk-table__cell">
-      <a href="#" class="govuk-link">{{ row.organisation }}</a>
+      <strong class="govuk-tag govuk-tag--{{ instructionColour }}">{{ row.billingInstruction }}</strong>
     </td>
 
     <td class="govuk-table__cell">
-      {{ row.organisationId }}
-    </td>
-
-    <td class="govuk-table__cell">
-      <strong class="govuk-tag govuk-tag--{{ instructionColour }}">
-        {{ row.billingInstruction }}
-      </strong>
-    </td>
-
-    <td class="govuk-table__cell">
-      £{{ row.amount }}
+      {# We check if displayAmount exists (for flexibility), otherwise we calculate it from row.amount #}
+      {% if row.displayAmount %}
+        £{{ row.displayAmount }}
+      {% else %}
+        {# Assuming input is pence (e.g. 2100000) -> divide by 100 #}
+        £{{ (row.amount / 100).toLocaleString('en-GB', {minimumFractionDigits: 2}) }}
+      {% endif %}
     </td>
 
     <td class="govuk-table__cell">
       {% if row.status %}
-        <strong class="govuk-tag govuk-tag--{{ statusColour }}">
-          {{ row.status }}
-        </strong>
+        <strong class="govuk-tag govuk-tag--{{ statusColour }}">{{ row.status }}</strong>
       {% endif %}
     </td>
-
   </tr>
-
 {% endmacro %}

@@ -1,6 +1,5 @@
 <div class="billing-filters">
   <div class="filter__content">
-
     <form method="get" action="" class="filter__search govuk-form-group">
       <label class="govuk-label govuk-!-font-weight-bold" for="search">
         <h2>Search for an organisation</h2>
@@ -78,13 +77,10 @@
           {% endfor %}
         </div>
       </fieldset>
-
-
-  <a href="/{{ version }}/billing/confirm-billing-instructions" class="billing-filter-button govuk-button govuk-button--submit filter__clear govuk-!-margin-top-5">
-  Clear filters
-</a>
-</div>
-
-    
+      <a href="/{{ version }}/billing/billing-instructions" class="billing-filter-button govuk-button govuk-button--submit filter__clear govuk-!-margin-top-5">
+      Clear filters
+      </a>
+    </form>
+  </div>
 </div>
 

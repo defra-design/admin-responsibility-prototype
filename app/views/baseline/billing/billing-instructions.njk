@@ -1,0 +1,112 @@
+{% from "baseline/_components/_billing-row.njk" import billingRow %}
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-l">Initial classified run R16</span>
+    <h1 class="govuk-heading-l">Confirm billing instructions</h1>
+    <p class="govuk-body-m">
+      These billing instructions match those in the results file. 
+      Use this screen to confirm
+      which instructions you want to accept or reject.</p>
+
+    <p class="govuk-body-m">
+      Your changes are saved automatically, 
+      so you can return to this screen at any time. 
+      Once all instructions have been accepted or rejected, 
+      you'll be able to generate a draft billing file. 
+      If you reject any instructions, you'll need to give a reason on the next screen.
+    </p>
+          
+    {% include "../_includes/billing-instructions-filter.njk" %}
+
+    {# --- ROW 1: Selection Checkboxes --- #}
+<div class="govuk-form-group govuk-!-margin-top-6">
+  <fieldset class="govuk-fieldset">
+    <div class="govuk-grid-row">
+      
+      {# Column 1: Select Page #}
+      <div class="govuk-grid-column-one-half">
+        <div class="govuk-checkboxes govuk-checkboxes--small horizontal-checkboxes">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="status-selectall" name="select-scope" type="checkbox" value="page">
+            <label class="govuk-label govuk-checkboxes__label" for="status-selectall">
+              Select all records on this page
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {# Column 2: Select All Dataset #}
+      <div class="govuk-grid-column-one-half">
+        <div class="govuk-checkboxes govuk-checkboxes--small horizontal-checkboxes">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="status-selectallresults" name="select-scope" type="checkbox" value="dataset">
+            <label class="govuk-label govuk-checkboxes__label" for="status-selectallresults">
+              Select all {{ totalRecords | default(0) }} records
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </fieldset>
+</div>
+
+{# --- ROW 2: Counts & Pagination Info --- #}
+<div class="govuk-grid-row govuk-!-margin-bottom-4">
+  
+  {# Column 1: Selected Count #}
+  <div class="govuk-grid-column-one-half">
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      <span id="selected-count">0</span> records selected
+    </p>
+  </div>
+
+  {# Column 2: Pagination Range #}
+  <div class="govuk-grid-column-one-half govuk-!-text-align-right">
+    <p class="govuk-body govuk-!-margin-bottom-0">
+      <strong>1–{{ totalRecords | default(0) }} of {{ totalRecords | default(0) }}</strong>
+    </p>
+  </div>
+
+</div>
+    
+    <form action="/{{version}}/billing/confirm" method="post">
+      <table class="govuk-table billing-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header">&nbsp;</th>
+            <th class="govuk-table__header billing-table__header--organisation">Organisation name</th>
+            <th class="govuk-table__header">Organisation ID</th>
+            <th class="govuk-table__header">Billing instruction</th>
+            <th class="govuk-table__header">Invoice amount</th>
+            <th class="govuk-table__header">Status</th>
+          </tr>
+        </thead>
+       <tbody class="govuk-table__body">
+        {% for bill in data['baseline_billing'] %}
+          
+          {# Just pass the raw data to the macro. The macro will handle the math. #}
+          {{ billingRow(bill) }}
+
+        {% endfor %}
+      </tbody>
+      </table>
+
+      <button class="govuk-button">Accept selection</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

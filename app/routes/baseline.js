@@ -1,204 +1,183 @@
+// app/routes/baseline.js
 const govukPrototypeKit = require("govuk-prototype-kit");
 const router = govukPrototypeKit.requests.setupRouter("/baseline");
 const fs = require("fs");
-const version = "baseline";
 const path = require("path");
 
-
-router.get("/baseline", function (request, response) {
-  response.send("baseline");
-});
-
-
-// response.redirect('/' + version + '/my-page')
-// response.render(version + '/my-page')
-
-// ----------------------------------
-// Dashboard clear intent
-//-----------------------------------
-router.get("/paycal-dashboard", (req, res) => {
-  if (req.session.data) {
-    req.session.data.intent = undefined; // or null
-  }
-
-  // Render the dashboard
-  res.render('/' + version + "/paycal-dashboard");
-});
-
-// ----------------------------------
-// Routing user intent
-//-----------------------------------
-
-// Manage Default Parameters
-router.get("/costs/manageDefaultParameters", (req, res) => {
-  req.session.data.intent = "manageDefaultParameters";
-  res.render('/' + version + "/costs/manageDefaultParameters");
-});
-
-// Manage LA Disposal Costs
-router.get("/costs/manageLaDisposalCosts", (req, res) => {
-  req.session.data.intent = "manageLaDisposalCosts";
-  res.render('/' + version + "/costs/manageLaDisposalCosts");
-});
+const version = "baseline";
 
 // ---------------------------------------------------------------
-// File upload success handling (fake & always successful for now)
-//----------------------------------------------------------------
-
-router.get("/costs/upload-file", (req, res) => {
-  // Grab from query string if present, otherwise use session or default
-  const intent = req.query.intent || req.session.data.intent || "manageDefaultParameters";
-  req.session.data.intent = intent;
-
-  res.render('/' + version + "/costs/upload-file", { data: req.session.data });
-});
-
-
+// 1. Middleware (Logging & Session)
 // ---------------------------------------------------------------
-// Run calculator handling
-//----------------------------------------------------------------
-
-// POST route for starting the run
-router.post('/run-calculator/run-start', function (req, res) {
-  const runName = req.body.runName?.trim();
-  const laCosts = req.session.data.laCosts === "true";
-  const defaultParams = req.session.data.defaultParams === "true";
-  const hasName = runName && runName.length > 0;
-
-  const startedOk = laCosts && defaultParams && hasName;
-
-  if (!startedOk) {
-    return res.redirect('run-start-error');
-  }
-  return res.redirect('run-start-success');
-});
-
-
-// ---------------------------------------------------------------
-// Process billing instructions
-//----------------------------------------------------------------
-
-// --- Status and Billing instruction colours ---
-const statusColours = {
-  // Status
-  "accepted": "govuk-tag--green",
-  "pending": "govuk-tag--yellow",
-  "rejected": "govuk-tag--red",
-
-  // Billing instructions
-  "initial": "govuk-tag--blue",
-  "delta": "govuk-tag--blue",
-  "rebill": "govuk-tag--blue",
-  "cancel bill": "govuk-tag--blue",
-  "no action": "govuk-tag--grey"
-};
-
-/// Confirm Billing Instructions page
-router.get('/billing/confirm-billing-instructions', (req, res) => {
-  console.log('🔎 Route hit: confirm-billing-instructions');
-
-  const { instruction, status, search } = req.query;
-
-  // Load data
-  const dataPath = path.join(__dirname, '../data/baseline_billing.json');
-  let billingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-
-  // Normalize
-  billingData = billingData.map(item => ({
-    ...item,
-    billingInstruction: item.billingInstruction || "Initial",
-    status: item.status || "Pending"
-  }));
-
-  // Add colours
-  billingData = billingData.map(item => ({
-    ...item,
-    billingColour: statusColours[item.billingInstruction.toLowerCase()] || 'govuk-tag--blue',
-    statusColour: statusColours[item.status.toLowerCase()] || 'govuk-tag--grey'
-  }));
-
-  // Apply filters
-  let filtered = billingData;
-
-  if (instruction) {
-    filtered = filtered.filter(row =>
-      row.billingInstruction.toLowerCase() === instruction.toLowerCase()
-    );
-  }
-
-  if (status) {
-    filtered = filtered.filter(row =>
-      row.status.toLowerCase() === status.toLowerCase()
-    );
-  }
-
-  if (search) {
-    filtered = filtered.filter(row =>
-      row.organisationId.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-
-  // Counts
-  const instructionCounts = {};
-  const statusCounts = {};
-
-  billingData.forEach(row => {
-    instructionCounts[row.billingInstruction] = (instructionCounts[row.billingInstruction] || 0) + 1;
-    statusCounts[row.status] = (statusCounts[row.status] || 0) + 1;
-  });
-
-  res.render(version + "/billing/confirm-billing-instructions", {
-    query: req.query,
-    billingData: filtered,
-    totalRecords: filtered.length,
-    instructionCounts,
-    statusCounts,
-    statusColours
-  });
-});
-
-// Force accept-start route
-router.post('/billing/accept-start', (req, res) => {
-  console.log('🔥 accept-start route hit');
-  console.log('req.body:', req.body);
-
-  // Grab selected checkboxes (if any)
-  const rawSelected = req.body.selected || [];
-  const selected = rawSelected.filter(v => v && v !== '_unchecked');
-
-  console.log('Selected received:', selected);
-
-  // Save to session (optional)
-  req.session.selectedRecords = selected;
-
-  // Render a confirmation page or the same page for testing
-  return res.render(version + "/billing/accept-start", {
-    selectedCount: selected.length,
-    selected
-  });
-});
-
-
-
-
-
-
-// ---------------------------------------------------------------
-
-module.exports = router
-
 router.use((req, res, next) => {
   const log = {
     method: req.method,
     url: req.originalUrl,
     data: req.session.data || {}
   };
-
-  // log to console as before
-  console.log(JSON.stringify(log, null, 2));
-
-  // expose session data to templates
+  // console.log(JSON.stringify(log, null, 2)); // Uncomment to see full logs
   res.locals.sessionData = req.session.data || {};
-
   next();
 });
+
+// ---------------------------------------------------------------
+// 2. Dashboard & Calculator Routes
+// ---------------------------------------------------------------
+
+router.get("/baseline", (req, res) => {
+  res.send("baseline");
+});
+
+router.get("/paycal-dashboard", (req, res) => {
+  if (req.session.data) {
+    req.session.data.intent = undefined; 
+  }
+  res.render(version + "/paycal-dashboard");
+});
+
+router.get("/costs/manageDefaultParameters", (req, res) => {
+  req.session.data.intent = "manageDefaultParameters";
+  res.render(version + "/costs/manageDefaultParameters");
+});
+
+router.get("/costs/manageLaDisposalCosts", (req, res) => {
+  req.session.data.intent = "manageLaDisposalCosts";
+  res.render(version + "/costs/manageLaDisposalCosts");
+});
+
+router.get("/costs/upload-file", (req, res) => {
+  const intent = req.query.intent || req.session.data.intent || "manageDefaultParameters";
+  req.session.data.intent = intent;
+  res.render(version + "/costs/upload-file");
+});
+
+router.post('/run-calculator/run-start', (req, res) => {
+  const runName = req.body.runName?.trim();
+  const laCosts = req.session.data.laCosts === "true";
+  const defaultParams = req.session.data.defaultParams === "true";
+  const hasName = runName && runName.length > 0;
+
+  if (laCosts && defaultParams && hasName) {
+    return res.redirect('run-start-success');
+  }
+  return res.redirect('run-start-error');
+});
+
+// ---------------------------------------------------------------
+// 3. Billing Instructions Routes (The New Logic)
+// ---------------------------------------------------------------
+
+// GET: Billing Table (With Dynamic Filter Counts)
+router.get('/billing/billing-instructions', (req, res) => {
+  
+  // A. Self-healing: Load data if missing
+  if (!req.session.data['baseline_billing']) {
+    const dataPath = path.join(__dirname, '../data/baseline_billing.json');
+    try {
+      req.session.data['baseline_billing'] = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+      console.log('✅ Loaded baseline billing data from file.');
+    } catch (error) {
+      console.error('❌ Error loading data:', error);
+      req.session.data['baseline_billing'] = []; // Fallback to empty array
+    }
+  }
+
+  const billingData = req.session.data['baseline_billing'];
+
+  // B. Calculate Counts for Filters
+  // Initialize with 0 for all expected keys
+  const statusCounts = {
+    "Accepted": 0, "Pending": 0, "Rejected": 0
+  };
+  const instructionCounts = {
+    "Initial": 0, "Delta": 0, "Rebill": 0, "Cancel bill": 0, "No action": 0
+  };
+
+  // Loop and count
+  billingData.forEach(row => {
+    // Count Status (safely)
+    if (row.status && statusCounts[row.status] !== undefined) {
+      statusCounts[row.status]++;
+    }
+    // Count Instruction (safely)
+    if (row.billingInstruction && instructionCounts[row.billingInstruction] !== undefined) {
+      instructionCounts[row.billingInstruction]++;
+    }
+  });
+
+  // C. Render page with data AND counts
+  res.render(version + '/billing/billing-instructions', {
+    totalRecords: billingData.length,
+    statusCounts: statusCounts,
+    instructionCounts: instructionCounts
+  });
+});
+
+// POST: Handle "Accept Selection" -> Go to Confirm Page
+router.post('/billing/confirm', (req, res) => {
+  let selected = req.session.data['selected'];
+
+  // Validation: If nothing selected, bounce back
+  if (!selected) {
+    return res.redirect(version + '/billing/billing-instructions');
+  }
+
+  // Normalization: Ensure array
+  if (typeof selected === 'string') {
+    req.session.data['selected'] = [selected];
+  }
+
+  // Render confirm page directly
+  res.render(version + '/billing/confirm');
+});
+
+// POST: Final "Confirm and Update"
+router.post('/confirm-billing-update', (req, res) => {
+  
+  // 1. Get the answer from your Nunjucks Radios
+  // The name attribute in your macro is "confirmBillingInstructions"
+  const answer = req.session.data['confirmBillingInstructions'];
+  
+  // 2. LOGIC: If 'No', cancel everything and go back
+  if (answer === 'no') {
+    // Clear the selection so the checkboxes are empty when they return
+    req.session.data['selected'] = null;
+    req.session.data['confirmBillingInstructions'] = null; // Clean up the decision
+    
+    return res.redirect(version + '/billing/billing-instructions');
+  }
+
+  // 3. LOGIC: If 'Yes', proceed with the update
+  const selectedIds = req.session.data['selected'];
+  let bills = req.session.data['baseline_billing'];
+
+  if (bills && selectedIds) {
+    req.session.data['baseline_billing'] = bills.map(bill => {
+      // If the bill ID is in the selected list, change status to 'Accepted'
+      if (selectedIds.includes(bill.organisationId)) {
+        return { ...bill, status: 'Accepted' };
+      }
+      return bill;
+    });
+  }
+
+  // 4. Cleanup
+  req.session.data['selected'] = null;
+  req.session.data['confirmBillingInstructions'] = null;
+
+  // 5. Success! Return to the table
+  res.redirect(version + '/billing/billing-instructions');
+});
+
+
+// GET: Helper to Reset Data (optional)
+router.get('/billing/reset-data', (req, res) => {
+  delete req.session.data['baseline_billing'];
+  delete req.session.data['selected'];
+  res.redirect(version + '/billing/billing-instructions');
+});
+
+// ---------------------------------------------------------------
+// 4. Export
+// ---------------------------------------------------------------
+module.exports = router;
