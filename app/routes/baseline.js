@@ -137,7 +137,7 @@ router.post('/billing/confirm-billing-instructions', (req, res) => {
   }
 
   // Render confirm page
-  res.render(version + '/billing/confirm-update-billing-instructions');
+  res.render(version + '/billing/confirm-update');
 });
 
 
