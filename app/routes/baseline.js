@@ -68,7 +68,7 @@ router.post('/run-calculator/run-start', (req, res) => {
 // ---------------------------------------------------------------
 
 // GET: Billing Table (With Dynamic Filter Counts)
-router.get('/billing/billing-instructions', (req, res) => {
+router.get('/billing/confirm-billing-instructions', (req, res) => {
   
   // A. Self-healing: Load data if missing
   if (!req.session.data['baseline_billing']) {
@@ -106,75 +106,84 @@ router.get('/billing/billing-instructions', (req, res) => {
   });
 
   // C. Render page with data AND counts
-  res.render(version + '/billing/billing-instructions', {
+  res.render(version + '/billing/confirm-billing-instructions', {
     totalRecords: billingData.length,
     statusCounts: statusCounts,
     instructionCounts: instructionCounts
   });
 });
 
-// POST: Handle "Accept Selection" -> Go to Confirm Page
-router.post('/billing/confirm', (req, res) => {
+// ---------------------------------------------------------------
+// POST: Step 1 - Handle "Accept/Reject/Clear" Selection -> Go to Confirm Page
+// ---------------------------------------------------------------
+router.post('/billing/confirm-billing-instructions', (req, res) => {
   let selected = req.session.data['selected'];
+  
+  // 1. Capture which button was clicked (accept, reject, or clear)
+  // This comes from the name="update_action" value="..." we added to the HTML
+  let action = req.body.update_action;
 
   // Validation: If nothing selected, bounce back
   if (!selected) {
-    return res.redirect(version + '/billing/billing-instructions');
+    return res.redirect(version + '/billing/confirm-billing-instructions');
   }
 
-  // Normalization: Ensure array
+  // 2. Save the action to the session so we remember it for the next step
+  req.session.data['current_action'] = action;
+
+  // Normalization: Ensure selected is an array
   if (typeof selected === 'string') {
     req.session.data['selected'] = [selected];
   }
 
-  // Render confirm page directly
-  res.render(version + '/billing/confirm');
+  // Render confirm page
+  res.render(version + '/billing/confirm-update-billing-instructions');
 });
 
-// POST: Final "Confirm and Update"
-router.post('/confirm-billing-update', (req, res) => {
+
+// ---------------------------------------------------------------
+// POST: Step 2 - Final "Confirm and Update"
+// ---------------------------------------------------------------
+
+router.post('/confirm-update-billing-instructions', (req, res) => {
   
-  // 1. Get the answer from your Nunjucks Radios
-  // The name attribute in your macro is "confirmBillingInstructions"
   const answer = req.session.data['confirmBillingInstructions'];
+  const action = req.session.data['current_action']; // 'accept' or 'reject'
   
-  // 2. LOGIC: If 'No', cancel everything and go back
+  // LOGIC: If 'No', cancel everything and go back
   if (answer === 'no') {
-    // Clear the selection so the checkboxes are empty when they return
     req.session.data['selected'] = null;
-    req.session.data['confirmBillingInstructions'] = null; // Clean up the decision
-    
-    return res.redirect(version + '/billing/billing-instructions');
+    req.session.data['confirmBillingInstructions'] = null;
+    req.session.data['current_action'] = null;
+    return res.redirect(version + '/billing/confirm-billing-instructions');
   }
 
-  // 3. LOGIC: If 'Yes', proceed with the update
+  // LOGIC: If 'Yes', proceed with the update based on 'action'
   const selectedIds = req.session.data['selected'];
   let bills = req.session.data['baseline_billing'];
 
   if (bills && selectedIds) {
     req.session.data['baseline_billing'] = bills.map(bill => {
-      // If the bill ID is in the selected list, change status to 'Accepted'
       if (selectedIds.includes(bill.organisationId)) {
-        return { ...bill, status: 'Accepted' };
+        
+        // Only handle Accept or Reject now
+        if (action === 'accept') {
+          return { ...bill, status: 'Accepted' };
+        } else if (action === 'reject') {
+          return { ...bill, status: 'Rejected' };
+        }
       }
       return bill;
     });
   }
 
-  // 4. Cleanup
+  // Cleanup session variables
   req.session.data['selected'] = null;
   req.session.data['confirmBillingInstructions'] = null;
+  req.session.data['current_action'] = null;
 
-  // 5. Success! Return to the table
-  res.redirect(version + '/billing/billing-instructions');
-});
-
-
-// GET: Helper to Reset Data (optional)
-router.get('/billing/reset-data', (req, res) => {
-  delete req.session.data['baseline_billing'];
-  delete req.session.data['selected'];
-  res.redirect(version + '/billing/billing-instructions');
+  // Success! Return to the table
+  res.redirect(version + '/billing/confirm-billing-instructions');
 });
 
 // ---------------------------------------------------------------

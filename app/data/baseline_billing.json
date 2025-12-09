@@ -37,7 +37,7 @@
   {
     "organisationId": "10006",
     "organisation": "EcoPet Bottling",
-    "billingInstruction": "Initial",
+    "billingInstruction": "Delta",
     "amount": 5800000,
     "status": "Pending"
   },
@@ -51,7 +51,7 @@
   {
     "organisationId": "10008",
     "organisation": "AutumnCrate Wood Packaging",
-    "billingInstruction": "Initial",
+    "billingInstruction": "No action",
     "amount": 6100000,
     "status": "Pending"
   },
@@ -65,8 +65,288 @@
   {
     "organisationId": "10010",
     "organisation": "PolyWorld Films",
-    "billingInstruction": "Initial",
+    "billingInstruction": "Rebill",
     "amount": 470000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10011",
+    "organisation": "Sustainable Fibres UK",
+    "billingInstruction": "Initial",
+    "amount": 320000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10012",
+    "organisation": "Circular Logic Ltd",
+    "billingInstruction": "Initial",
+    "amount": 1450000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10013",
+    "organisation": "Reclaim & Reuse Partners",
+    "billingInstruction": "Cancel bill",
+    "amount": 890000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10014",
+    "organisation": "PureWater Bottling Co",
+    "billingInstruction": "Initial",
+    "amount": 2200000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10015",
+    "organisation": "ZeroWaste Packaging",
+    "billingInstruction": "No action",
+    "amount": 0,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10016",
+    "organisation": "Urban Mining Corp",
+    "billingInstruction": "Delta",
+    "amount": 670000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10017",
+    "organisation": "BioDegrade Soltuions",
+    "billingInstruction": "Initial",
+    "amount": 1100000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10018",
+    "organisation": "PaperStream Industries",
+    "billingInstruction": "Initial",
+    "amount": 3400000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10019",
+    "organisation": "FutureGlass Manufacturing",
+    "billingInstruction": "Rebill",
+    "amount": 1250000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10020",
+    "organisation": "AgriPack Logistics",
+    "billingInstruction": "Initial",
+    "amount": 900000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10021",
+    "organisation": "ClearView Plastics",
+    "billingInstruction": "Initial",
+    "amount": 1750000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10022",
+    "organisation": "RiverSide Recovery",
+    "billingInstruction": "No action",
+    "amount": 0,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10023",
+    "organisation": "OceanClean Processors",
+    "billingInstruction": "Initial",
+    "amount": 2900000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10024",
+    "organisation": "MetalWorks Recycling",
+    "billingInstruction": "Delta",
+    "amount": 540000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10025",
+    "organisation": "Compostable Cups Ltd",
+    "billingInstruction": "Initial",
+    "amount": 310000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10026",
+    "organisation": "SmartBox Cartons",
+    "billingInstruction": "Initial",
+    "amount": 1950000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10027",
+    "organisation": "EcoTech Materials",
+    "billingInstruction": "Cancel bill",
+    "amount": 1200000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10028",
+    "organisation": "PlanetFirst Supply Chain",
+    "billingInstruction": "Initial",
+    "amount": 4200000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10029",
+    "organisation": "Aluminium Cycle Co",
+    "billingInstruction": "Initial",
+    "amount": 2600000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10030",
+    "organisation": "GreenWrap Technologies",
+    "billingInstruction": "Rebill",
+    "amount": 850000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10031",
+    "organisation": "Forest Friendly Paper",
+    "billingInstruction": "Initial",
+    "amount": 1300000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10032",
+    "organisation": "Loop Packaging",
+    "billingInstruction": "Initial",
+    "amount": 760000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10033",
+    "organisation": "Regenerative Plastics",
+    "billingInstruction": "No action",
+    "amount": 0,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10034",
+    "organisation": "SteelCan Partners",
+    "billingInstruction": "Initial",
+    "amount": 3300000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10035",
+    "organisation": "BioPolymers UK",
+    "billingInstruction": "Delta",
+    "amount": 450000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10036",
+    "organisation": "CleanEarth Disposal",
+    "billingInstruction": "Initial",
+    "amount": 1800000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10037",
+    "organisation": "Renewable Wraps",
+    "billingInstruction": "Initial",
+    "amount": 990000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10038",
+    "organisation": "EnviroBox Shipping",
+    "billingInstruction": "Rebill",
+    "amount": 2100000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10039",
+    "organisation": "NaturePack Foods",
+    "billingInstruction": "Initial",
+    "amount": 650000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10040",
+    "organisation": "CycleGlass Ltd",
+    "billingInstruction": "Initial",
+    "amount": 1400000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10041",
+    "organisation": "BlueSky Manufacturing",
+    "billingInstruction": "Cancel bill",
+    "amount": 1100000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10042",
+    "organisation": "RapidRecycle",
+    "billingInstruction": "Initial",
+    "amount": 250000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10043",
+    "organisation": "CarbonNeutral Containers",
+    "billingInstruction": "Initial",
+    "amount": 3700000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10044",
+    "organisation": "PolyCycle Solutions",
+    "billingInstruction": "No action",
+    "amount": 0,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10045",
+    "organisation": "FibreForm Packaging",
+    "billingInstruction": "Initial",
+    "amount": 1550000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10046",
+    "organisation": "GreenBottle Co",
+    "billingInstruction": "Delta",
+    "amount": 880000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10047",
+    "organisation": "ResinRecovery Group",
+    "billingInstruction": "Initial",
+    "amount": 2300000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10048",
+    "organisation": "Sustainable Shipments",
+    "billingInstruction": "Rebill",
+    "amount": 1150000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10049",
+    "organisation": "EcoCrates Ltd",
+    "billingInstruction": "Initial",
+    "amount": 720000,
+    "status": "Pending"
+  },
+  {
+    "organisationId": "10050",
+    "organisation": "FinalPhase Recycling",
+    "billingInstruction": "Initial",
+    "amount": 1980000,
     "status": "Pending"
   }
 ]

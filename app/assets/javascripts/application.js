@@ -169,6 +169,38 @@
     }
   });
 
+  // 1. Get the button
+    const clearBtn = document.getElementById('clear-selection-btn');
+    
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function(event) {
+        event.preventDefault(); // Good practice, though type="button" handles it
+        
+        // 2. Find all checkboxes with the name "selected"
+        // (Assuming your macro uses name="selected" for the checkboxes)
+        const checkboxes = document.querySelectorAll('input[name="selected"]');
+        
+        // 3. Loop through and uncheck them
+        checkboxes.forEach(function(box) {
+          box.checked = false;
+        });
+        // 4. Also uncheck the "Select All" checkboxes if they exist
+        const selectAll1 = document.getElementById('status-selectall');
+        const selectAll2 = document.getElementById('status-selectallresults');
+
+        // If the first one exists, uncheck it
+        if (selectAll1) {
+           selectAll1.checked = false;
+        }
+
+        // If the second one exists, uncheck it
+        if (selectAll2) {
+           selectAll2.checked = false;
+        }
+
+      });
+    }
+
   // --- 5. INITIALIZATION ---
   // Run once on load to highlight "All" by default
   updateActiveLinks();

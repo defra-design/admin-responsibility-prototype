@@ -1,0 +1,71 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <span class="govuk-caption-l">Initial classified run R16</span>
+    <form action="/confirm-update-billing-instructions" method="post">
+
+    {# ACCEPT selection - if user has clicked 'accept selection' button  #}
+    {% if data['update_action'] == 'accept' %}
+        {{ govukRadios({
+          name: "confirmBillingInstructions",
+          fieldset: {
+            legend: {
+              text: "Are you sure you want to accept all selected billing instructions?",
+              
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l govuk"
+            }
+          },
+
+          items: [
+            {
+              value: "yes",
+              text: "Yes"
+            },
+            {
+              value: "no",
+              text: "No"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+    {# REJECT selection - if user has clicked 'reject selection' button  #}
+    {% elif data['update_action'] == 'reject' %}
+      {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+        {{ govukTextarea({
+          name: "moreDetail",
+          id: "more-detail",
+          label: {
+            text: "Give a reason for rejecting billing instructions",
+            classes: "govuk-label--l",
+            isPageHeading: true
+          },
+          hint: {
+            text: "Provide a reason that applies to all the billing instructions you selected for rejection."
+          }
+        }) }}
+        {{ govukButton({
+          text: "Continue",
+          classes: "govuk-button--secondary"
+        }) }}
+    {% endif %}
+    </form>
+  </div>
+</div>
+
+{% endblock %}

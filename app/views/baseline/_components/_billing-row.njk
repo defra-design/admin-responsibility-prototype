@@ -2,29 +2,30 @@
 
   {# Status colours #}
   {% set statusColours = { "Accepted": "green", "Pending": "yellow", "Rejected": "red" } %}
-  {% set instructionColours = { "Initial": "blue", "Delta": "blue", "Rebill": "blue", "Cancel bill": "blue", "No action": "grey" } %}
+  {% set instructionColours = { "Initial": "blue", "Delta": "blue", "Rebill": "blue", "Cancel bill": "blue", "No action": "blue" } %}
 
   {% set statusColour = statusColours[row.status] or "grey" %}
   {% set instructionColour = instructionColours[row.billingInstruction] or "grey" %}
 
+  {# ADDED: data-instruction attribute so the filter can find it #}
   <tr class="govuk-table__row billing-row"
       data-organisation="{{ row.organisation }}"
       data-org-id="{{ row.organisationId }}"
-      data-status="{{ row.status }}">
+      data-status="{{ row.status }}"
+      data-instruction="{{ row.billingInstruction }}">
 
     <td class="govuk-table__cell checkbox-select-record">
       <div class="govuk-checkboxes__item">
-        {# Note: Changed name to 'selected' for easier Express handling #}
+        {# Note: The comma is gone and classes are merged correctly now #}
         <input 
-          type="checkbox" 
-          class="govuk-checkboxes__input"   
-          name="selected" 
-          value="{{ row.organisationId }}" 
+          class="govuk-checkboxes__input {% if row.billingInstruction == 'No action' %}checkbox--disabled{% endif %}"
           id="select-{{ row.organisationId }}"
-          {% if row.status == 'Accepted' %} disabled {% endif %}> 
-          
+          name="selected"
+          type="checkbox"
+          value="{{ row.organisationId }}"
+        >
         <label class="govuk-label govuk-checkboxes__label" for="select-{{ row.organisationId }}">
-          <span class="govuk-visually-hidden">Select {{ row.organisation }}</span>
+          <span class="govuk-visually-hidden">Select {{ row.organisationName }}</span>
         </label>
       </div>
     </td>
@@ -37,11 +38,10 @@
     </td>
 
     <td class="govuk-table__cell">
-      {# We check if displayAmount exists (for flexibility), otherwise we calculate it from row.amount #}
+      {# We check if displayAmount exists, otherwise calculate #}
       {% if row.displayAmount %}
         £{{ row.displayAmount }}
       {% else %}
-        {# Assuming input is pence (e.g. 2100000) -> divide by 100 #}
         £{{ (row.amount / 100).toLocaleString('en-GB', {minimumFractionDigits: 2}) }}
       {% endif %}
     </td>
