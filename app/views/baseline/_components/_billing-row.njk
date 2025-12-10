@@ -16,13 +16,14 @@
 
     <td class="govuk-table__cell checkbox-select-record">
       <div class="govuk-checkboxes__item">
-        {# Note: The comma is gone and classes are merged correctly now #}
+        {# Note: I added the 'disabled' attribute here too, not just the class #}
         <input 
-          class="govuk-checkboxes__input {% if row.billingInstruction == 'No action' %}checkbox--disabled{% endif %}"
+          class="govuk-checkboxes__input"
           id="select-{{ row.organisationId }}"
           name="selected"
           type="checkbox"
           value="{{ row.organisationId }}"
+          {% if row.billingInstruction == 'No action' %}disabled{% endif %}
         >
         <label class="govuk-label govuk-checkboxes__label" for="select-{{ row.organisationId }}">
           <span class="govuk-visually-hidden">Select {{ row.organisationName }}</span>
@@ -34,11 +35,11 @@
     <td class="govuk-table__cell">{{ row.organisationId }}</td>
     
     <td class="govuk-table__cell">
+      {# This controls the colour of the Instruction column #}
       <strong class="govuk-tag govuk-tag--{{ instructionColour }}">{{ row.billingInstruction }}</strong>
     </td>
 
     <td class="govuk-table__cell">
-      {# We check if displayAmount exists, otherwise calculate #}
       {% if row.displayAmount %}
         £{{ row.displayAmount }}
       {% else %}
@@ -47,7 +48,16 @@
     </td>
 
     <td class="govuk-table__cell">
-      {% if row.status %}
+      {# LOGIC FIX: Check instruction first. #}
+      {# If instruction is "No action", show nothing. Else, check if status exists. #}
+      
+      {% if row.billingInstruction != 'No action' and row.status %}
+        
+        {# Optional: Ensure colour is set for the status tag #}
+        {% set statusColour = "grey" %}
+        {% if row.status == "Accepted" %}{% set statusColour = "green" %}
+        {% elif row.status == "Rejected" %}{% set statusColour = "red" %}{% endif %}
+
         <strong class="govuk-tag govuk-tag--{{ statusColour }}">{{ row.status }}</strong>
       {% endif %}
     </td>
