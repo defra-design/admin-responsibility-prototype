@@ -183,17 +183,20 @@ router.post('/billing/confirm-billing-instructions', (req, res) => {
 // POST: Step 2 - Final "Confirm and Update"
 // ---------------------------------------------------------------
 
-router.post('/confirm-update-billing-instructions', (req, res) => {
+// UPDATED: Path matches the form action '/confirm-update'
+router.post('/confirm-update', (req, res) => {
   
   const answer = req.session.data['confirmBillingInstructions'];
-  const action = req.session.data['current_action']; // 'accept' or 'reject'
+  const action = req.session.data['update_action']; // Ensure this matches the variable set in previous page
   
   // LOGIC: If 'No', cancel everything and go back
   if (answer === 'no') {
     req.session.data['selected'] = null;
     req.session.data['confirmBillingInstructions'] = null;
-    req.session.data['current_action'] = null;
-    return res.redirect(version + '/billing/confirm-billing-instructions');
+    req.session.data['update_action'] = null;
+    
+    // Redirect back to the main list
+    return res.redirect('/' + version + '/billing/confirm-billing-instructions');
   }
 
   // LOGIC: If 'Yes', proceed with the update based on 'action'
@@ -202,9 +205,9 @@ router.post('/confirm-update-billing-instructions', (req, res) => {
 
   if (bills && selectedIds) {
     req.session.data['baseline_billing'] = bills.map(bill => {
-      if (selectedIds.includes(bill.organisationId)) {
+      // Ensure we compare strings to avoid string/int mismatches
+      if (selectedIds.map(String).includes(String(bill.organisationId))) {
         
-        // Only handle Accept or Reject now
         if (action === 'accept') {
           return { ...bill, status: 'Accepted' };
         } else if (action === 'reject') {
@@ -218,10 +221,10 @@ router.post('/confirm-update-billing-instructions', (req, res) => {
   // Cleanup session variables
   req.session.data['selected'] = null;
   req.session.data['confirmBillingInstructions'] = null;
-  req.session.data['current_action'] = null;
+  req.session.data['update_action'] = null;
 
   // Success! Return to the table
-  res.redirect(version + '/billing/confirm-billing-instructions');
+  res.redirect('/' + version + '/billing/confirm-billing-instructions');
 });
 
 // ---------------------------------------------------------------

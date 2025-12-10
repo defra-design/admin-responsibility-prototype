@@ -13,7 +13,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <span class="govuk-caption-l">Initial classified run R16</span>
-    <form action="/confirm-update-billing-instructions" method="post">
+    <form action="/confirm-update"method="post">
 
     {# ACCEPT selection - if user has clicked 'accept selection' button  #}
     {% if data['update_action'] == 'accept' %}
@@ -45,7 +45,38 @@
         }) }}
 
     {# REJECT selection - if user has clicked 'reject selection' button  #}
+
     {% elif data['update_action'] == 'reject' %}
+        {{ govukRadios({
+          name: "confirmBillingInstructions",
+          fieldset: {
+            legend: {
+              text: "Are you sure you want to reject all selected billing instructions?",
+              
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l govuk"
+            }
+          },
+
+          items: [
+            {
+              value: "yes",
+              text: "Yes"
+            },
+            {
+              value: "no",
+              text: "No"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+        {% endif %}
+
+    {# REJECT selection - if user has clicked 'reject selection' button - version with text box (from ATOS prototype)  #}
+    {#{% elif data['update_action'] == 'reject' %}
       {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
         {{ govukTextarea({
           name: "moreDetail",
@@ -64,6 +95,7 @@
           classes: "govuk-button--secondary"
         }) }}
     {% endif %}
+    #}
     </form>
   </div>
 </div>
