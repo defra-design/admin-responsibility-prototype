@@ -67,10 +67,12 @@ router.post('/run-calculator/run-start', (req, res) => {
 // 3. Billing Instructions Routes (The New Logic)
 // ---------------------------------------------------------------
 
-// GET: Billing Table (With Dynamic Filter Counts)
+// GET: Billing Table (With Dynamic Filter Counts + Pagination)
 router.get('/billing/confirm-billing-instructions', (req, res) => {
   
+  // -------------------------------------------------------------------------
   // A. Self-healing: Load data if missing
+  // -------------------------------------------------------------------------
   if (!req.session.data['baseline_billing']) {
     const dataPath = path.join(__dirname, '../data/baseline_billing.json');
     try {
@@ -78,38 +80,74 @@ router.get('/billing/confirm-billing-instructions', (req, res) => {
       console.log('✅ Loaded baseline billing data from file.');
     } catch (error) {
       console.error('❌ Error loading data:', error);
-      req.session.data['baseline_billing'] = []; // Fallback to empty array
+      req.session.data['baseline_billing'] = []; 
     }
   }
 
-  const billingData = req.session.data['baseline_billing'];
+  const allData = req.session.data['baseline_billing'];
 
-  // B. Calculate Counts for Filters
-  // Initialize with 0 for all expected keys
-  const statusCounts = {
-    "Accepted": 0, "Pending": 0, "Rejected": 0
-  };
-  const instructionCounts = {
-    "Initial": 0, "Delta": 0, "Rebill": 0, "Cancel bill": 0, "No action": 0
-  };
+  // -------------------------------------------------------------------------
+  // B. Calculate Counts for Filters (Your existing logic)
+  // -------------------------------------------------------------------------
+  const statusCounts = { "Accepted": 0, "Pending": 0, "Rejected": 0 };
+  const instructionCounts = { "Initial": 0, "Delta": 0, "Rebill": 0, "Cancel bill": 0, "No action": 0 };
 
-  // Loop and count
-  billingData.forEach(row => {
-    // Count Status (safely)
-    if (row.status && statusCounts[row.status] !== undefined) {
-      statusCounts[row.status]++;
-    }
-    // Count Instruction (safely)
-    if (row.billingInstruction && instructionCounts[row.billingInstruction] !== undefined) {
-      instructionCounts[row.billingInstruction]++;
-    }
+  allData.forEach(row => {
+    if (row.status && statusCounts[row.status] !== undefined) statusCounts[row.status]++;
+    if (row.billingInstruction && instructionCounts[row.billingInstruction] !== undefined) instructionCounts[row.billingInstruction]++;
   });
 
-  // C. Render page with data AND counts
+  // -------------------------------------------------------------------------
+  // C. Handle Pagination
+  // -------------------------------------------------------------------------
+  const totalRecords = allData.length;
+  
+  // 1. Get Params: Default to Page 1 and Limit 10 if not specified
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  // 2. Slice the Data
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+  const currentData = allData.slice(startIndex, endIndex);
+
+  // 3. Build GDS Pagination Object
+  const totalPages = Math.ceil(totalRecords / limit);
+  let paginationItems = [];
+
+  // Simple loop for page numbers
+  for (let i = 1; i <= totalPages; i++) {
+    paginationItems.push({
+      number: i,
+      current: (i === page),
+      href: `?page=${i}&limit=${limit}` // Keep the limit in the URL when changing pages
+    });
+  }
+
+  const pagination = {
+    items: paginationItems,
+    previous: (page > 1) ? { href: `?page=${page - 1}&limit=${limit}` } : null,
+    next: (page < totalPages) ? { href: `?page=${page + 1}&limit=${limit}` } : null
+  };
+
+  // -------------------------------------------------------------------------
+  // D. Render
+  // -------------------------------------------------------------------------
   res.render(version + '/billing/confirm-billing-instructions', {
-    totalRecords: billingData.length,
+    // Data vars
+    currentData: currentData, // Only the rows for this page
+    totalRecords: totalRecords,
+    
+    // Filter vars
     statusCounts: statusCounts,
-    instructionCounts: instructionCounts
+    instructionCounts: instructionCounts,
+
+    // Pagination vars
+    pagination: pagination,
+    page: page,
+    limit: limit,
+    displayStart: startIndex + 1,
+    displayEnd: Math.min(endIndex, totalRecords)
   });
 });
 

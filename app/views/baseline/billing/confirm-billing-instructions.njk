@@ -69,7 +69,7 @@
   
   {# Column 1: Selected Count #}
   <div class="govuk-grid-column-one-half">
-    <p class="govuk-body govuk-!-margin-bottom-0">
+    <p class="govuk-body govuk-!-margin-bottom-4">
       <span id="selected-count">0</span> records selected
     </p>
   </div>
@@ -77,49 +77,73 @@
   {# Column 2: Pagination Range #}
   <div class="govuk-grid-column-one-half govuk-!-text-align-right">
     <p class="govuk-body govuk-!-margin-bottom-0">
-      <strong>1–{{ totalRecords | default(0) }} of {{ totalRecords | default(0) }}</strong>
+      <strong>{{ displayStart }}-{{ displayEnd }} of {{ totalRecords }}</strong>
     </p>
   </div>
 
 </div>
     
-    <form action="/{{version}}/billing/confirm-update" method="post">
+   <form action="/{{version}}/billing/confirm-update" method="post">
+   <h2 class="govuk-heading-m">Billing instructions</h2>
       <table class="govuk-table billing-table">
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th class="govuk-table__header">&nbsp;</th>
             <th class="govuk-table__header billing-table__header--organisation">Organisation name</th>
-            <th class="govuk-table__header">Organisation ID</th>
+            <th class="govuk-table__header billing-table__header--org-id">Organisation ID</th>
             <th class="govuk-table__header">Billing instruction</th>
             <th class="govuk-table__header">Invoice amount</th>
             <th class="govuk-table__header">Status</th>
           </tr>
         </thead>
        <tbody class="govuk-table__body">
-        {% for bill in data['baseline_billing'] %}
-          
-          {# Just pass the raw data to the macro. The macro will handle the math. #}
+        
+        {# CHANGE 1: Loop through the sliced 'currentData' passed from the route #}
+        {% for bill in currentData %}
           {{ billingRow(bill) }}
-
         {% endfor %}
+
       </tbody>
       </table>
+
+      {# CHANGE 2: Pagination & Items Per Page Wrapper #}
+      <div class="pagination-container govuk-!-margin-top-6" style="display: flex; justify-content: space-between; align-items: center;">
+        
+        {# A. Standard GDS Pagination #}
+        <div class="pagination-left">
+          {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+          {{ govukPagination(pagination) }}
+        </div>
+
+        {# B. Custom "Items per page" Selector #}
+        <div class="items-per-page govuk-body" style="text-align: right;">
+          <span class="govuk-!-margin-right-2">Items per page:</span>
+          
+          {# Helper macro to create the links #}
+          {% macro limitLink(num) %}
+            {% if limit == num %}
+              <span class="govuk-!-font-weight-bold">{{ num }}</span>
+            {% else %}
+              {# Reset to page 1 when changing limit to avoid empty screens #}
+              <a href="?page=1&limit={{ num }}" class="govuk-link govuk-link--no-visited-state">{{ num }}</a>
+            {% endif %}
+          {% endmacro %}
+
+          {{ limitLink(10) }} 
+          <span class="govuk-!-margin-left-1 govuk-!-margin-right-1">|</span>
+          {{ limitLink(25) }}
+          <span class="govuk-!-margin-left-1 govuk-!-margin-right-1">|</span>
+          {{ limitLink(50) }}
+        </div>
+      </div>
+
+      {# Update the "Showing X-Y" text at the top as well #}
       <div style="margin-top: 60px;">
         <h2 class="govuk-heading-m">Update billing instructions</h2>
         <div class="govuk-button-group">
-          
-          <button type="submit" class="govuk-button govuk-button--outline" data-module="govuk-button" name="update_action" value="accept">
-            Accept selection
-          </button>
-
-          <button type="submit" class="govuk-button govuk-button--warning govuk-button--outline" data-module="govuk-button" name="update_action" value="reject">
-            Reject selection
-          </button>
-
-          <button type="button" class="govuk-button govuk-button--secondary" id="clear-selection-btn">
-            Clear selection
-          </button>
-
+          <button type="submit" class="govuk-button govuk-button--outline" data-module="govuk-button" name="update_action" value="accept">Accept selection</button>
+          <button type="submit" class="govuk-button govuk-button--warning govuk-button--outline" data-module="govuk-button" name="update_action" value="reject">Reject selection</button>
+          <button type="button" class="govuk-button govuk-button--secondary" id="clear-selection-btn">Clear selection</button>
           <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
         </div>
       </div>

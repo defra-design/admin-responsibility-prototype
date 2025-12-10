@@ -4,14 +4,14 @@
     "organisation": "Green Holdings",
     "billingInstruction": "Initial",
     "amount": 2100000,
-    "status": "Pending"
+    "status": "Accepted"
   },
   {
     "organisationId": "10002",
     "organisation": "Eco ltd",
     "billingInstruction": "Initial",
     "amount": 1600000,
-    "status": "Pending"
+    "status": "Rejected"
   },
   {
     "organisationId": "10003",
@@ -249,14 +249,14 @@
     "organisation": "CleanEarth Disposal",
     "billingInstruction": "Initial",
     "amount": 1800000,
-    "status": "Pending"
+    "status": "Accepted"
   },
   {
     "organisationId": "10037",
     "organisation": "Renewable Wraps",
     "billingInstruction": "Initial",
     "amount": 990000,
-    "status": "Pending"
+    "status": "Rejected"
   },
   {
     "organisationId": "10038",
