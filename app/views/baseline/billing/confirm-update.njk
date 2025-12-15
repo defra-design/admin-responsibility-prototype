@@ -1,4 +1,6 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
@@ -12,68 +14,53 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
-    <span class="govuk-caption-l">Initial classified run R16</span>
+    
     <form action="/confirm-update"method="post">
 
     {# ACCEPT selection - if user has clicked 'accept selection' button  #}
-    {% if data['update_action'] == 'accept' %}
-        {{ govukRadios({
-          name: "confirmBillingInstructions",
-          fieldset: {
-            legend: {
-              text: "Are you sure you want to accept all selected billing instructions?",
-              
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l govuk"
-            }
-          },
+    {% if data['update_action'] == 'accept' or data['update_action'] == 'reject' %}
 
-          items: [
-            {
-              value: "yes",
-              text: "Yes"
-            },
-            {
-              value: "no",
-              text: "No"
-            }
-          ]
-        }) }}
-
-        {{ govukButton({
-          text: "Continue"
-        }) }}
-
-    {# REJECT selection - if user has clicked 'reject selection' button  #}
-
-    {% elif data['update_action'] == 'reject' %}
-        {{ govukRadios({
-          name: "confirmBillingInstructions",
-          fieldset: {
-            legend: {
-              text: "Are you sure you want to reject all selected billing instructions?",
-              
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l govuk"
-            }
-          },
-
-          items: [
-            {
-              value: "yes",
-              text: "Yes"
-            },
-            {
-              value: "no",
-              text: "No"
-            }
-          ]
-        }) }}
-
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+        {# If there are errors, render an error summary at the top #}
+        {% if errors and errors.confirmBillingInstructions %}
+          {{ govukErrorSummary({
+            titleText: 'There is a problem',
+            errorList: [ { text: errors.confirmBillingInstructions, href: '#confirmBillingInstructions' } ]
+          }) }}
         {% endif %}
+        <span class="govuk-caption-l">Initial classified run R16</span>
+        {# Compute legend text and errorMessage safely to avoid inline ternary in macro call #}
+        {% if data['update_action'] == 'accept' %}
+          {% set legendText = 'Are you sure you want to accept all selected billing instructions?' %}
+        {% else %}
+          {% set legendText = 'Are you sure you want to reject all selected billing instructions?' %}
+        {% endif %}
+
+        {% if errors and errors.confirmBillingInstructions %}
+          {% set radioError = { 'text': errors.confirmBillingInstructions } %}
+        {% else %}
+          {% set radioError = null %}
+        {% endif %}
+
+        {{ govukRadios({
+          name: "confirmBillingInstructions",
+          idPrefix: "confirmBillingInstructions",
+          fieldset: {
+            legend: {
+              text: legendText,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l govuk"
+            }
+          },
+          items: [
+            { value: "yes", text: "Yes" },
+            { value: "no", text: "No" }
+          ],
+          errorMessage: radioError
+        }) }}
+
+        {{ govukButton({ text: "Continue" }) }}
+
+    {% endif %}
 
     {# REJECT selection - if user has clicked 'reject selection' button - version with text box (from ATOS prototype)  #}
     {#{% elif data['update_action'] == 'reject' %}

@@ -5,16 +5,27 @@
        We define the internal HTML content separately so we can 
        inject the dynamic variables (accepted, rejected, pending). 
     #}
-    {% set bannerContent %}
+        {% if (params.pending | default(0)) | int == 0 %}
+            {% set bannerContent %}
                 <p class="govuk-notification-banner__heading">
-                        You've accepted {{ params.accepted }} instructions and rejected {{ params.rejected }}.
-                        <br>
-                        {{ params.pending }} instructions are still pending.
-                        {% if params.total is defined %}
-                            <br>
-                        {% endif %}
+                    You've reviewed and confirmed all billing instructions.
+                    <br>
+                    You can now generate a draft billing file, or make changes before continuing.
                 </p>
-    {% endset %}
+            {% endset %}
+        {% else %}
+            {% set bannerContent %}
+                <p class="govuk-notification-banner__heading">
+                    You've accepted {{ params.accepted }} instructions and rejected {{ params.rejected }}.
+                    <br>
+                    {{ params.pending }} instructions are still pending.
+                    {% if params.total is defined %}
+                        <br>
+                        <small class="govuk-!-font-size-14">({{ params.total }} total records)</small>
+                    {% endif %}
+                </p>
+            {% endset %}
+        {% endif %}
 
     {{ govukNotificationBanner({
         titleText: "Billing instructions progress",

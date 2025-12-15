@@ -26,7 +26,7 @@
           {% if row.billingInstruction == 'No action' %}disabled{% endif %}
         >
         <label class="govuk-label govuk-checkboxes__label" for="select-{{ row.organisationId }}">
-          <span class="govuk-visually-hidden">Select {{ row.organisationName }}</span>
+          <span class="govuk-visually-hidden">Select {{ row.organisation }}</span>
         </label>
       </div>
     </td>
@@ -52,12 +52,6 @@
       {# If instruction is "No action", show nothing. Else, check if status exists. #}
       
       {% if row.billingInstruction != 'No action' and row.status %}
-        
-        {# Optional: Ensure colour is set for the status tag #}
-        {% set statusColour = "grey" %}
-        {% if row.status == "Accepted" %}{% set statusColour = "green" %}
-        {% elif row.status == "Rejected" %}{% set statusColour = "red" %}{% endif %}
-
         <strong class="govuk-tag govuk-tag--{{ statusColour }}">{{ row.status }}</strong>
       {% endif %}
     </td>

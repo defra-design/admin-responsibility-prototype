@@ -93,8 +93,13 @@ router.get('/billing/confirm-billing-instructions', (req, res) => {
   const instructionCounts = { "Initial": 0, "Delta": 0, "Rebill": 0, "Cancel bill": 0, "No action": 0 };
 
   allData.forEach(row => {
-    if (row.status && statusCounts[row.status] !== undefined) statusCounts[row.status]++;
+    // Always count instruction types
     if (row.billingInstruction && instructionCounts[row.billingInstruction] !== undefined) instructionCounts[row.billingInstruction]++;
+
+    // Only count status values for selectable instructions (exclude 'No action')
+    if (row.billingInstruction !== 'No action') {
+      if (row.status && statusCounts[row.status] !== undefined) statusCounts[row.status]++;
+    }
   });
 
   // -------------------------------------------------------------------------
@@ -135,11 +140,16 @@ router.get('/billing/confirm-billing-instructions', (req, res) => {
   // -------------------------------------------------------------------------
   // Persist lightweight summary counts into session so other pages can read them
   if (!req.session.data) req.session.data = {};
+  // pending/accepted/rejected should exclude 'No action' records because those cannot be actioned
+  const pendingSelectable = allData.filter(r => r.billingInstruction !== 'No action' && r.status === 'Pending').length;
+  const acceptedSelectable = allData.filter(r => r.billingInstruction !== 'No action' && r.status === 'Accepted').length;
+  const rejectedSelectable = allData.filter(r => r.billingInstruction !== 'No action' && r.status === 'Rejected').length;
+
   req.session.data.billingTotals = {
     totalRecords: totalRecords,
-    acceptedRecords: statusCounts.Accepted || 0,
-    rejectedRecords: statusCounts.Rejected || 0,
-    pendingRecords: statusCounts.Pending || 0
+    acceptedRecords: acceptedSelectable,
+    rejectedRecords: rejectedSelectable,
+    pendingRecords: pendingSelectable
   };
   res.render(version + '/billing/confirm-billing-instructions', {
     // Data vars
@@ -178,7 +188,7 @@ router.post('/billing/confirm-billing-instructions', (req, res) => {
   }
 
   // 2. Save the action to the session so we remember it for the next step
-  req.session.data['current_action'] = action;
+  req.session.data['update_action'] = action;
 
   // Normalization: Ensure selected is an array
   if (typeof selected === 'string') {
@@ -186,7 +196,7 @@ router.post('/billing/confirm-billing-instructions', (req, res) => {
   }
 
   // Render confirm page
-  res.render(version + '/billing/confirm-update');
+  res.render(version + '/billing/confirm-update', { data: req.session.data, version: version });
 });
 
 
@@ -196,16 +206,23 @@ router.post('/billing/confirm-billing-instructions', (req, res) => {
 
 // UPDATED: Path matches the form action '/confirm-update'
 router.post('/confirm-update', (req, res) => {
-  
-  const answer = req.session.data['confirmBillingInstructions'];
-  const action = req.session.data['update_action']; // Ensure this matches the variable set in previous page
-  
+  // Read the posted answer from the form
+  const answer = req.body.confirmBillingInstructions;
+  const action = req.session.data['update_action']; // should have been set earlier
+
+  // Server-side validation: ensure an option was selected
+  if (!answer) {
+    // Build a simple errors object and re-render the confirm page
+    const errors = { confirmBillingInstructions: 'Please select an option before continuing.' };
+    return res.render(version + '/billing/confirm-update', { errors, data: req.session.data, version: version });
+  }
+
   // LOGIC: If 'No', cancel everything and go back
   if (answer === 'no') {
     req.session.data['selected'] = null;
     req.session.data['confirmBillingInstructions'] = null;
     req.session.data['update_action'] = null;
-    
+
     // Redirect back to the main list
     return res.redirect('/' + version + '/billing/confirm-billing-instructions');
   }
@@ -218,7 +235,6 @@ router.post('/confirm-update', (req, res) => {
     req.session.data['baseline_billing'] = bills.map(bill => {
       // Ensure we compare strings to avoid string/int mismatches
       if (selectedIds.map(String).includes(String(bill.organisationId))) {
-        
         if (action === 'accept') {
           return { ...bill, status: 'Accepted' };
         } else if (action === 'reject') {

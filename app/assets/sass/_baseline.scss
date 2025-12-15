@@ -4635,7 +4635,7 @@ p + .govuk-heading-s,
 }
 .govuk-notification-banner__content > * {
   box-sizing: border-box;
-  max-width: 605px;
+  max-width: fit-content;
 }
 .govuk-notification-banner__content > :last-child {
   margin-bottom: 0;

@@ -42,6 +42,7 @@
     {# --- ROW 1: Selection Checkboxes --- #}
 <div class="govuk-form-group govuk-!-margin-top-6">
   <fieldset class="govuk-fieldset">
+    <legend class="govuk-fieldset__legend govuk-visually-hidden">Select billing instructions to update</legend>
     <div class="govuk-grid-row">
       
       {# Column 1: Select Page #}
@@ -156,6 +157,20 @@
         </div>
       </div>
     </form>
+
+    {# Generate billing file: only show when there are no pending selectable records #}
+    {% if (pendingRecords | default(statusCounts.Pending | default(0))) == 0 %}
+      <div class="govuk-!-margin-top-8">
+        <h2 class="govuk-heading-m">Next step</h2>
+        <p class="govuk-body">If you're happy with all billing instructions, you'll be able to generate a draft billing file. 
+          You can return to this screen to make changes before the billing file is sent to the FSS.</p>
+        <div class="govuk-button-group">
+          <a class="govuk-button govuk-!-margin-right-4" href="/{{ version }}/billing/generate">Generate draft billing file</a>
+          <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
+        </div>
+      </div>
+    {% endif %}
+
   </div>
 </div>
 {% endblock %}
