@@ -1,0 +1,26 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% macro billingProgress(params) %}
+    {# 
+       We define the internal HTML content separately so we can 
+       inject the dynamic variables (accepted, rejected, pending). 
+    #}
+    {% set bannerContent %}
+                <p class="govuk-notification-banner__heading">
+                        You've accepted {{ params.accepted }} instructions and rejected {{ params.rejected }}.
+                        <br>
+                        {{ params.pending }} instructions are still pending.
+                        {% if params.total is defined %}
+                            <br>
+                        {% endif %}
+                </p>
+    {% endset %}
+
+    {{ govukNotificationBanner({
+        titleText: "Billing instructions progress",
+        type: "success",
+        html: bannerContent,
+        classes: "govuk-!-margin-bottom-6",
+        role: "status" 
+    }) }}
+{% endmacro %}

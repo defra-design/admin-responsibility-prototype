@@ -1,4 +1,5 @@
-{% from "baseline/_components/_billing-row.njk" import billingRow %}
+{% from "../_components/_billing-row.njk" import billingRow %}
+{% from "../_components/_billing-progress-banner.njk" import billingProgress %}
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
@@ -14,6 +15,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    {# Call the macro with dynamic data from route/session #}
+    {{ billingProgress({
+      accepted: acceptedRecords | default(statusCounts.Accepted | default(0)),
+      rejected: rejectedRecords | default(statusCounts.Rejected | default(0)),
+      pending: pendingRecords | default(statusCounts.Pending | default(0)),
+      total: totalRecords | default(0)
+    }) }}
     <span class="govuk-caption-l">Initial classified run R16</span>
     <h1 class="govuk-heading-l">Confirm billing instructions</h1>
     <p class="govuk-body-m">

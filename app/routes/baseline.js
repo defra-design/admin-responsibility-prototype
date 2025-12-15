@@ -133,6 +133,14 @@ router.get('/billing/confirm-billing-instructions', (req, res) => {
   // -------------------------------------------------------------------------
   // D. Render
   // -------------------------------------------------------------------------
+  // Persist lightweight summary counts into session so other pages can read them
+  if (!req.session.data) req.session.data = {};
+  req.session.data.billingTotals = {
+    totalRecords: totalRecords,
+    acceptedRecords: statusCounts.Accepted || 0,
+    rejectedRecords: statusCounts.Rejected || 0,
+    pendingRecords: statusCounts.Pending || 0
+  };
   res.render(version + '/billing/confirm-billing-instructions', {
     // Data vars
     currentData: currentData, // Only the rows for this page
@@ -140,6 +148,9 @@ router.get('/billing/confirm-billing-instructions', (req, res) => {
     
     // Filter vars
     statusCounts: statusCounts,
+    acceptedRecords: req.session.data.billingTotals.acceptedRecords,
+    rejectedRecords: req.session.data.billingTotals.rejectedRecords,
+    pendingRecords: req.session.data.billingTotals.pendingRecords,
     instructionCounts: instructionCounts,
 
     // Pagination vars
