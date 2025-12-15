@@ -19,8 +19,7 @@
     {{ billingProgress({
       accepted: acceptedRecords | default(statusCounts.Accepted | default(0)),
       rejected: rejectedRecords | default(statusCounts.Rejected | default(0)),
-      pending: pendingRecords | default(statusCounts.Pending | default(0)),
-      total: totalRecords | default(0)
+      pending: pendingRecords | default(statusCounts.Pending | default(0))
     }) }}
     <span class="govuk-caption-l">Initial classified run R16</span>
     <h1 class="govuk-heading-l">Confirm billing instructions</h1>

@@ -20,18 +20,65 @@
                     <br>
                     {{ params.pending }} instructions are still pending.
                     {% if params.total is defined %}
-                        <br>
-                        <small class="govuk-!-font-size-14">({{ params.total }} total records)</small>
                     {% endif %}
                 </p>
             {% endset %}
         {% endif %}
 
-    {{ govukNotificationBanner({
-        titleText: "Billing instructions progress",
-        type: "success",
-        html: bannerContent,
-        classes: "govuk-!-margin-bottom-6",
-        role: "status" 
-    }) }}
+        {{ progressBanner({ variant: 'success', titleText: 'Billing instructions progress', html: bannerContent, classes: 'govuk-!-margin-bottom-6' }) }}
 {% endmacro %}
+
+{#
+    Generic progress banner macro.
+    Params:
+        - variant: 'success' (green) or 'important' (blue). Defaults to 'success'.
+        - titleText: optional title for the banner header (defaults to 'Important' for blue, or provided value for others)
+        - html: raw HTML content to render inside the banner (preferred)
+        - classes: additional classes to apply
+        - id: optional id for the banner element
+        - visible: optional, if false will add inline style to hide element
+#}
+{% macro progressBanner(params) %}
+        {% set variant = params.variant | default('success') %}
+        {% set htmlContent = params.html | default('') %}
+        {% set bannerId = params.id | default('') %}
+        {% set classes = params.classes | default('') %}
+        {% if params.visible is defined and not params.visible %}
+            {% set visible = false %}
+        {% else %}
+            {% set visible = true %}
+        {% endif %}
+
+        {% if variant == 'important' or variant == 'blue' %}
+            {# Render GOV.UK blue-style notification banner (matching 'Important') #}
+            <div {% if bannerId %}id="{{ bannerId }}"{% endif %} class="govuk-notification-banner {{ classes }}" role="region" aria-labelledby="{{ bannerId or 'govuk-notification-banner-title' }}" data-module="govuk-notification-banner" {% if not visible %}style="display:none"{% endif %}>
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="{{ bannerId or 'govuk-notification-banner-title' }}">{{ params.titleText | default('Important') }}</h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    {{ htmlContent | safe }}
+                </div>
+            </div>
+        {% else %}
+            {# Use govukNotificationBanner macro for other variants (e.g., 'success') #}
+            {{ govukNotificationBanner({
+                    titleText: params.titleText | default(''),
+                    type: variant,
+                    html: htmlContent,
+                    classes: classes,
+                    role: "status",
+                    id: bannerId
+            }) }}
+        {% endif %}
+{% endmacro %}
+
+    {#
+        New macro: billingGeneratingBanner
+        Renders the blue "Important" style notification banner used when a draft billing file is generating.
+        Accepts: params.id (optional) and params.html (optional) - fallback copy provided.
+    #}
+    {% macro billingGeneratingBanner(params) %}
+        {% set id = params.id | default('billing-generating-banner') %}
+        {% set htmlContent = params.html | default('<p class="govuk-body">Your draft billing file is still generating. You’ll be able to continue once it\'s ready. Please refresh the page.</p>') %}
+        {{ progressBanner({ variant: 'important', titleText: 'Important', id: id, html: htmlContent, visible: params.visible | default(true) }) }}
+    {% endmacro %}

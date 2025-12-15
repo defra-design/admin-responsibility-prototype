@@ -172,6 +172,59 @@ router.get('/billing/confirm-billing-instructions', (req, res) => {
   });
 });
 
+
+// GET: Generate draft billing file (sets session flag and redirects to run details)
+router.get('/billing/generate', (req, res) => {
+  if (!req.session.data) req.session.data = {};
+  req.session.data.billingFile = req.session.data.billingFile || {};
+  // Start generation: mark as generating, clear generated flag
+  req.session.data.billingFile.generating = true;
+  req.session.data.billingFile.generated = false;
+  req.session.data.billingFile.startedAt = new Date().toISOString();
+
+  // Keep the current calcRun if present, otherwise default to initialRun
+  const calcRun = req.session.data.calcRun || 'initialRun';
+  return res.redirect(`/baseline/runs/run-details?calcRun=${calcRun}`);
+});
+
+// Testing helper: mark generation complete (for manual testing)
+router.get('/billing/generate/complete', (req, res) => {
+  if (!req.session.data) req.session.data = {};
+  req.session.data.billingFile = req.session.data.billingFile || {};
+  req.session.data.billingFile.generating = false;
+  req.session.data.billingFile.generated = true;
+  req.session.data.billingFile.completedAt = new Date().toISOString();
+  const calcRun = req.session.data.calcRun || 'initialRun';
+  return res.redirect(`/baseline/runs/run-details?calcRun=${calcRun}`);
+});
+
+// Serve a simple draft billing file for download
+router.get('/downloads/draft-billing', (req, res) => {
+  const csv = 'organisationId,organisation,amount,status\n10001,Green Holdings,21000,Accepted\n';
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', 'attachment; filename="draft-billing.csv"');
+  res.send(csv);
+});
+
+// JSON endpoint to report current billing generation status (used by client JS polling)
+router.get('/billing/status', (req, res) => {
+  const billingFile = req.session.data && req.session.data.billingFile ? req.session.data.billingFile : { generating: false, generated: false };
+  res.json({ generating: !!billingFile.generating, generated: !!billingFile.generated });
+});
+
+// GET: Run details (render the run-details page and pass session data)
+router.get('/runs/run-details', (req, res) => {
+  // allow override from query
+  const calcRun = req.query.calcRun || req.session.data?.calcRun || 'initialRun';
+  if (!req.session.data) req.session.data = {};
+  req.session.data.calcRun = calcRun;
+
+  res.render(version + '/runs/run-details', {
+    data: req.session.data,
+    version: version
+  });
+});
+
 // ---------------------------------------------------------------
 // POST: Step 1 - Handle "Accept/Reject/Clear" Selection -> Go to Confirm Page
 // ---------------------------------------------------------------
@@ -244,6 +297,11 @@ router.post('/confirm-update', (req, res) => {
       return bill;
     });
   }
+
+  // Mark that billing confirmation has been undertaken for this session
+  // This flag is used by the run details page to control visibility of billing-file UI
+  if (!req.session.data) req.session.data = {};
+  req.session.data.billingConfirmed = true;
 
   // Cleanup session variables
   req.session.data['selected'] = null;
