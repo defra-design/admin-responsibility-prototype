@@ -195,15 +195,61 @@ router.get('/billing/generate/complete', (req, res) => {
   req.session.data.billingFile.generated = true;
   req.session.data.billingFile.completedAt = new Date().toISOString();
   const calcRun = req.session.data.calcRun || 'initialRun';
+  // If called via ajax (from the run-details page auto-complete), return JSON
+  if (req.query && req.query.ajax === '1') {
+    return res.json({ generating: false, generated: true, completedAt: req.session.data.billingFile.completedAt });
+  }
+
   return res.redirect(`/baseline/runs/run-details?calcRun=${calcRun}`);
 });
 
 // Serve a simple draft billing file for download
 router.get('/downloads/draft-billing', (req, res) => {
-  const csv = 'organisationId,organisation,amount,status\n10001,Green Holdings,21000,Accepted\n';
-  res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', 'attachment; filename="draft-billing.csv"');
-  res.send(csv);
+  // Build a filename that includes the calc run and a timestamp for easy identification
+  const calcRun = (req.session.data && req.session.data.calcRun) || req.query.calcRun || 'run';
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const filename = `billing-file-${calcRun}-${timestamp}.csv`;
+
+  // Build CSV contents. Prefer session billing fixture when available.
+  const bills = (req.session.data && req.session.data['baseline_billing']) || [];
+  let csv = 'organisationId,organisation,amount,status\n';
+  if (bills && bills.length) {
+    bills.slice(0, 200).forEach(b => {
+      const orgId = b.organisationId || '';
+      const org = (b.organisation || '').replace(/\r?\n|\,/g, ' ');
+      const amount = b.amount || '';
+      const status = b.status || '';
+      csv += `${orgId},${org},${amount},${status}\n`;
+    });
+  } else {
+    csv += '10001,Green Holdings,21000,Accepted\n';
+  }
+
+  // Ensure downloads directory exists under public
+  const outDir = path.join(__dirname, '..', 'public', 'downloads');
+  try {
+    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  } catch (err) {
+    console.error('Could not create downloads dir', err);
+  }
+
+  const outPath = path.join(outDir, filename);
+  try {
+    fs.writeFileSync(outPath, csv, 'utf8');
+    // Record filename and mark generated
+    if (!req.session.data) req.session.data = {};
+    req.session.data.billingFile = req.session.data.billingFile || {};
+    req.session.data.billingFile.filename = filename;
+    req.session.data.billingFile.generated = true;
+    req.session.data.billingFile.generating = false;
+    req.session.data.billingFile.completedAt = new Date().toISOString();
+
+    // Serve the file for download
+    return res.download(outPath, filename);
+  } catch (err) {
+    console.error('Error writing/serving billing CSV', err);
+    res.status(500).send('Unable to generate billing file');
+  }
 });
 
 // JSON endpoint to report current billing generation status (used by client JS polling)
@@ -223,6 +269,22 @@ router.get('/runs/run-details', (req, res) => {
     data: req.session.data,
     version: version
   });
+});
+
+// GET: Send billing file confirmation page
+router.get('/billing/send-billing-file', (req, res) => {
+  if (!req.session.data) req.session.data = {};
+  res.render(version + '/billing/send-billing-file', { data: req.session.data, version: version });
+});
+// POST: Send billing file (simulate sending and mark session)
+router.post('/billing/send-billing-file', (req, res) => {
+  if (!req.session.data) req.session.data = {};
+  req.session.data.billingFile = req.session.data.billingFile || {};
+  req.session.data.billingFile.generating = false;
+  req.session.data.billingFile.generated = true;
+  req.session.data.billingFile.sent = new Date().toISOString();
+  // After sending, redirect back to run-details
+  return res.redirect('/' + version + '/runs/run-details');
 });
 
 // ---------------------------------------------------------------

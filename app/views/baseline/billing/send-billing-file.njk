@@ -1,0 +1,68 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+  <form method="POST" action="classification">
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="approval-code-hint">
+          <div class="govuk-form-group">
+            <span class="govuk-caption-l">Initial run classified R16</span>
+            <h1 class="govuk-heading-l">Send the billing file</h1>
+            <hr class="govuk-section-break govuk-section-break--s govuk-section-break--invisible">
+            <h3 class="govuk-body-m">You've confirmed all billing instructions. To review the billing file before sending it to the FSS, go back to the previous step. You won’t be able to make changes after sending.</h3>
+
+            <h2 class="govuk-heading-m">Confirm you're ready to send</h2>
+
+            <div class="govuk-form-group">
+              <fieldset class="govuk-fieldset" aria-describedby="waste-hint">
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="waste" name="waste" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="waste">
+                      I've checked the billing file and I'm ready to send it to the FSS. 
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+              <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-visually-hidden">Warning </span>
+              You must confirm that you've checked the billing file before sending it.
+            </strong>
+          </div>
+
+
+          </div>
+
+          {% from "govuk/components/details/macro.njk" import govukDetails %}
+
+
+          <div class="govuk-button-group">
+            <!--
+          {{ govukButton({
+            text: "Save and come back later",
+            classes: "govuk-button--secondary"
+          }) }}
+          -->
+          </div>
+
+          <div class="govuk-button-group"><a href="send-billing-file-success"
+              class="govuk-button show-continue" style="display: inline;">
+              Send billing file
+            </a>
+            <a class="govuk-link" href="../runs/run-details">Return to dashboard</a>
+          </div>
+
+
+  </form>
+{% endblock %}

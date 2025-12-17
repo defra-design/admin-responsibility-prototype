@@ -20,6 +20,7 @@
     {% if data.billingFile and data.billingFile.generating %}
       {% set bannerVisible = true %}
     {% endif %}
+    {% set disableButtons = (data.billingFile and data.billingFile.generating) %}
     {% if bannerVisible %}
       {{ govukNotificationBanner({ titleText: 'Important', type: 'important', html: bannerHtml, id: 'billing-generating-banner' }) }}
     {% endif %}
@@ -56,7 +57,7 @@
             <tr class="govuk-table__row">
               <th scope="row" class="govuk-table__header">Classification</th>
               <td class="govuk-table__cell">
-                {% if data.calcRun == "initialRun" %}Initial run{% endif %}
+                {% if data.calcRun == "initialRun" %}Initial run classified{% endif %}
                 {% if data.calcRun == "testRun" %}Test run{% endif %}
                 {% if data.calcRun == "interimRun" %}Interim run{% endif %}
                 {% if data.calcRun == "finalRecalcRun" %}Final recalculation run{% endif %}
@@ -87,9 +88,6 @@
           <h2 class="govuk-heading-m">Downloads</h2>
           <p class="govuk-body">
               Download files related to this calculation run.
-            {% if data.billingConfirmed == true %}
-              The billing file sent to the FSS must reflect the latest confirmed billing instructions.
-            {% endif %}
           </p>
             <div class="govuk-button-group">
               <a id="download-results" href="#" class="govuk-button govuk-button--secondary" role="button">
@@ -99,11 +97,15 @@
                 <strong>Downloading...</strong> Please wait while we prepare your file.
               </p>
               {% if data.billingConfirmed == true %}
-                <a id="download-draft" href="#" class="govuk-button govuk-button--secondary" role="button" disabled="" aria-disabled="true">
-                  Draft billing file
+                <a id="download-draft" {% if disableButtons %}href="#" aria-disabled="true" tabindex="-1" class="govuk-button govuk-button--secondary govuk-button--disabled"{% else %}href="/baseline/downloads/draft-billing?calcRun={{ data.calcRun }}" class="govuk-button govuk-button--secondary" role="button"{% endif %}>
+                  {% if disableButtons %}
+                    Billing file generating
+                  {% else %}
+                    Draft billing file
+                  {% endif %}
                 </a>
                 <div class="govuk-button-group ">
-                  <a id="download-draft" href="#" class="govuk-button govuk-button--secondary" role="button" disabled="" aria-disabled="true">
+                  <a id="download-draft" {% if disableButtons %}href="#" aria-disabled="true" tabindex="-1" class="govuk-button govuk-button--secondary govuk-button--disabled"{% else %}href="/baseline/downloads/draft-billing?calcRun={{ data.calcRun }}" class="govuk-button govuk-button--secondary" role="button"{% endif %}>
                     Generate new draft billing file
                   </a>
                   <p class="govuk-body">This file will reflect the latest confirmed billing instructions.</p>
@@ -127,7 +129,7 @@
               <p class="govuk-body">Mark this run as a test or delete it to remove its classification.</p>
                <!-- if billing has been confirmed and billing file is being generated - then disable this button otherwise activaate-->
               <div class="govuk-button-group">
-                <a href="classify-run-remove" class="govuk-button govuk-button--secondary" style="display: inline" role="button" disabled="" aria-disabled="true">Remove classification</a>
+                <a href="classify-run-remove" {% if disableButtons %}aria-disabled="true" tabindex="-1" class="govuk-button govuk-button--secondary govuk-button--disabled"{% else %}class="govuk-button govuk-button--secondary" role="button" style="display: inline"{% endif %}>Remove classification</a>
               </div>
               <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
@@ -135,9 +137,9 @@
           <!-- Amend billing instructions if billing confirmed  - disable if billing file is being generated-->
           {% if data.billingConfirmed == true %}
               <h2 class="govuk-heading-m">Amend billing instructions</h2>
-              <p class="govuk-body">Review or change the billing instructions. If the instructions have changed, you'll need to generate a new draft billing file before you can continue.</p>
+              <p class="govuk-body">Review or amend the billing instructions before sending the billing file</p>
               <div class="govuk-button-group">
-                <a href="classify-run-remove" class="govuk-button govuk-button--secondary" style="display: inline;">Amend billing instructions</a>
+                <a href="/baseline/billing/confirm-billing-instructions" {% if disableButtons %}aria-disabled="true" tabindex="-1" class="govuk-button govuk-button--secondary govuk-button--disabled"{% else %}class="govuk-button govuk-button--secondary" style="display: inline;"{% endif %}>Amend billing instructions</a>
               </div>
               <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
           {% endif %}
@@ -158,7 +160,14 @@
               <p class="govuk-body">Review and confirm the billing instructions from the results file.</p>
             {% endif %}
           {% endif %}
-            <div class="govuk-button-group"><a href="../billing/confirm-billing-instructions" class="govuk-button show-continue" style="display: inline;">
+            <div class="govuk-button-group">
+              {# Determine where Continue should go: to send-billing-file if the draft has already been generated #}
+              {% set continueHref = '../billing/confirm-billing-instructions' %}
+              {% if data.billingFile and data.billingFile.generated %}
+                {% set continueHref = '/baseline/billing/send-billing-file' %}
+              {% endif %}
+
+              <a {% if disableButtons %}href="#" aria-disabled="true" tabindex="-1" class="govuk-button show-continue govuk-button--disabled"{% else %}href="{{ continueHref }}" class="govuk-button show-continue" style="display: inline;"{% endif %}>
                 Continue
               </a>
               <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
@@ -204,7 +213,7 @@
             <!-- if billing instructions if billing confirmed  - disable if billing file is being generated
             otherwise continue to action-->
             <div class="govuk-button-group">
-              <button type="submit" class="govuk-button" data-module="govuk-button">
+              <button type="submit" class="govuk-button" data-module="govuk-button" {% if disableButtons %}disabled aria-disabled="true" tabindex="-1"{% endif %}>
                 Continue
               </button>
               <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
@@ -244,10 +253,33 @@
       statusText.innerHTML = '<strong>✔ Download complete.</strong> Your file has been saved.';
 
       // If you'd like to trigger an actual download, uncomment below:
-      // window.location.href = '/downloads/results-file.csv'; 
-    }, 2000);
+       //window.location.href = '/downloads/results-file.csv'; 
+    }, 3000);
   });
 </script>
+
+{% if disableButtons %}
+<script>
+  // When the billing file is generating and we rendered disabled buttons,
+  // automatically mark generation complete after 5 seconds and refresh.
+  (function () {
+    function completeGeneration() {
+      fetch('/baseline/billing/generate/complete?ajax=1', { credentials: 'same-origin' })
+        .then(function (res) { return res.json(); })
+        .then(function (json) {
+          window.location.reload();
+        })
+        .catch(function (err) {
+          console.error('Error completing billing generation', err);
+          setTimeout(function () { window.location.reload(); }, 2000);
+        });
+    }
+
+    // 5 second delay before auto-complete
+    setTimeout(completeGeneration, 5000);
+  })();
+</script>
+{% endif %}
 
 {% endblock %}
 
