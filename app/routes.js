@@ -20,6 +20,8 @@ function getPageList(versionPath) {
     
     // Get all items in the version directory
     const items = fs.readdirSync(fullPath);
+
+
     
     items.forEach(item => {
       const itemPath = path.join(fullPath, item);

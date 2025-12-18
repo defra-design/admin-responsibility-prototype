@@ -9,12 +9,10 @@
   text: 'This is used to test new ideas and get feedback from users.'
   }) }}
 {% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
+    <h1 class="govuk-heading-xl">pEPR Scheme administrator service prototype</h1>
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">pEPR Scheme administrator service prototype</h1>
- 
       <div class="index__container">
         <h2 class="govuk-heading-m">
           <a href="{{ currentVersion.startPage }}" class="govuk-link">
@@ -25,6 +23,12 @@
         {% if currentVersion.description %}
           <p class="govuk-body-s">{{ currentVersion.description }}</p>
         {% endif %}
+
+        {{ govukButton({
+          text: "View prototype",
+          href: currentVersion.startPage,
+          isStartButton: false
+        }) }}
         
         <h3 class="govuk-heading-s govuk-!-margin-top-4">Pages in this version:</h3>
         <ul class="govuk-list govuk-list--bullet">
@@ -71,6 +75,20 @@
         </div>
       {% endif %}
  
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <h2 class="govuk-heading-m">Related prototypes</h2>
+      
+        <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="https://producer-responsibility-app-012da4a3b6d9.herokuapp.com/">Producers</li>
+        <li><a class="govuk-link" href="https://regulator-responsibility-app-359d82a07820.herokuapp.com/">Regulators</a></li>
+        <li><a class="govuk-link" href="https://admin-responsibility-prototype-2dad26118a14.herokuapp.com/">PackUK</a></li>
+        <li><a class="govuk-link" href="#">FSS</a></li>
+        <li><a class="govuk-link" href="#">LAPS</a></li>
+        <li><a class="govuk-link" href="#">ReEx</a></li>
+        
+      
+      </ul>
     </div>
   </div>
 {% endblock %}
