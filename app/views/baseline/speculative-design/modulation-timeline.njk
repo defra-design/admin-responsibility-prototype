@@ -1,0 +1,430 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = false %}
+  {% set showAccountLink = true %}
+  
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+{% set pageName="Timeline: Scheme Administrator Implementation of Eco-Modulation" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+<div class="govuk-grid-column-full">
+  <span class="govuk-caption-l">ModuCal - Eco-modulation calculator</span>
+  <h1 class="govuk-heading-l">{{ pageName }}</h1>
+  <p class="govuk-body">
+    This timeline outlines the key operational milestones for PackUK (the Scheme Administrator) regarding the implementation of the Recyclability Assessment Methodology (RAM) and the invoicing of modulated fees.
+  </p>
+<div class="govuk-grid-column-two-thirds">
+
+{# MOJ Timeline Component with primary descriptions visible and extra details hidden #}
+<div class="moj-timeline">
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Start of Assessment Year</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2025-01">January 2025</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK requires liable producers to begin assessing household packaging supplied from this date against the Recyclability Assessment Methodology (RAM).</p>
+      {{ govukDetails({
+        summaryText: "View assessment guidance",
+        html: '<p class="govuk-body">Producers must follow the <a href="https://www.gov.uk/guidance/recycling-assessment-methodology-how-to-assess-your-packaging-waste" class="govuk-link" target="_blank">official RAM guidance (opens in new tab)</a> to determine the recyclability of their packaging units.</p>'
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Publication of RAM Version 1.1</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2025-04">April 2025</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK publishes Version 1.1 of the RAM on GOV.UK, providing the confirmed technical specifications for the 2025 reporting period.</p>
+      {{ govukDetails({
+        summaryText: "View version history",
+        html: '<p class="govuk-body">Version 1.1 incorporates feedback from the February 2025 simplification sprint. See the <a href="https://www.gov.uk/government/news/recyclability-assessment-methodology-ram-v11" class="govuk-link" target="_blank">RAM v1.1 publication announcement</a> for more detail.</p>'
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Issuance of Regulatory Position Statement (RPS)</h2>
+    </div>
+    <p class="moj-timeline__byline">by Environment Agency</p>
+    <p class="moj-timeline__date">
+      <time datetime="2025-06">June 2025</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">The regulators issue an RPS regarding recyclability assessment obligations for the period 1 January to 30 June 2025.</p>
+      {{ govukDetails({
+        summaryText: "View RPS 350 details",
+        html: '<p class="govuk-body">This statement allows producers to defer H1 RAM data. Read <a href="https://www.gov.uk/government/publications/extended-producer-responsibility-for-packaging-pepr-recyclability-assessment-obligations-rps-350" class="govuk-link" target="_blank">RPS 350 on GOV.UK</a> for compliance conditions.</p>'
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Data Submission & Roadmap Publication</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2025-10-01">1 October 2025</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK expects to receive standard packaging data for the H1 2025 period and publishes the long-term methodology roadmap.</p>
+      {{ govukDetails({
+        summaryText: "View submission requirements",
+        html: '
+          <p class="govuk-body">Large producers must submit data through the <a href="https://www.gov.uk/guidance/how-to-report-packaging-data" class="govuk-link">Report Packaging Data (RPD) portal</a>.</p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li><strong>First Data Submission Deadline (H1 2025):</strong> Tonnage data due for Jan–Jun 2025.</li>
+            <li><strong>RAM Roadmap:</strong> Future direction for 2025–2030 to provide business certainty.</li>
+          </ul>
+        '
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Publication of Illustrative Modulated Fees</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2025-12">December 2025</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK publishes "illustrative fees" for Year 2 to help producers prepare for financial liability for the 2026/27 period.</p>
+      {{ govukDetails({
+        summaryText: "View Year 2 illustrative fees",
+        html: '<p class="govuk-body">These estimated figures include the +20% premium for Red ratings. Access the <a href="https://www.gov.uk/government/publications/year-2-illustrative-waste-disposal-fees-extended-producer-responsibility-for-packaging" class="govuk-link">Year 2 Illustrative Fees guidance</a>.</p>'
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">RAM Review and Simplification</h2>
+    </div>
+    <p class="moj-timeline__byline">by Technical Advisory Committee (TAC)</p>
+    <p class="moj-timeline__date">
+      <time datetime="2026-Q1">Quarter 1 2026</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK and the Technical Advisory Committee (TAC) review the methodology based on feedback from the first year of operation.</p>
+      {{ govukDetails({
+        summaryText: "View TAC areas of focus",
+        html: '<p class="govuk-body">The Technical Advisory Committees focus on language clarity and alignment with <a href="https://www.gov.uk/guidance/recyclability-assessment-methodology-supplementary-guidance" class="govuk-link">RAM supplementary guidance</a>.</p>'
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Second Data Submission Deadline (H2 2025)</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2026-04-01">1 April 2026</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">Deadline for packaging data from July to December 2025, and any deferred data from the first half of the year.</p>
+      {{ govukDetails({
+        summaryText: "View deferred data rules",
+        html: '<p class="govuk-body">Producers utilizing the RPS must submit full RAM ratings for the whole of 2025. Failure to provide data results in an <a href="https://www.gov.uk/government/publications/packuk-common-2025-recyclability-assessment-requirements" class="govuk-link">automatic Red status</a>.</p>'
+      }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Publication of RAM 2027</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2026-07">July 2026</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK publishes the updated RAM for the 2027 compliance year, marking a shift to a July update cycle.</p>
+      {{ govukDetails({
+    summaryText: "Why the cycle has changed",
+    html: '<p class="govuk-body">The July publication date is intended to give the industry a minimum of 6 months lead time before the next reporting year.</p>'
+  }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Calculation of Modulated Fees</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2026-09">Autumn 2026</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK calculates disposal fees for the 2026/27 assessment year using the submitted RAM data.</p>
+      {{ govukDetails({
+    summaryText: "View fee modulation impact",
+    html: '
+      <p class="govuk-body">Modulation is calculated as per the <a href="https://www.gov.uk/government/publications/extended-producer-responsibility-for-packaging-modulated-disposal-fees" class="govuk-link">Modulated Disposal Fees policy statement</a>.</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><strong>Red-rated packaging:</strong> Fees are increased (e.g., +20%).</li>
+        <li><strong>Green-rated packaging:</strong> Fees are reduced.</li>
+        <li><strong>Amber-rated packaging:</strong> Base rate applies.</li>
+      </ul>
+    '
+  }) }}
+    </div>
+  </div>
+
+  <div class="moj-timeline__item">
+    <div class="moj-timeline__header">
+      <h2 class="moj-timeline__title">Issuance of Notices of Liability</h2>
+    </div>
+    <p class="moj-timeline__byline">by PackUK</p>
+    <p class="moj-timeline__date">
+      <time datetime="2026-10">October 2026</time>
+    </p>
+    <div class="moj-timeline__description">
+      <p class="govuk-body">PackUK issues Notices of Liability (invoices) to liable producers for the 2026/27 assessment year.</p>
+      {{ govukDetails({
+    summaryText: "View statutory requirements",
+    html: '<p class="govuk-body">Invoices are issued under the <a href="https://www.legislation.gov.uk/uksi/2024/1166/contents/made" class="govuk-link">Producer Responsibility Obligations (Packaging and Packaging Waste) Regulations 2024</a>.</p>'
+  }) }}
+    </div>
+  </div>
+
+</div>
+
+
+</div>
+
+<div class="govuk-grid-column-one-third">
+<aside class="app-related-items" role="complementary">
+
+  <div class="live-status-badge">
+    <span class="status-dot"></span> LIVE: RE Ex Monthly Input
+  </div>
+
+  <h2 class="govuk-heading-m govuk-!-margin-top-4">RAM Performance</h2>
+  <p class="govuk-body-s">Executive Summary: 2025 Assessment Year (Projected)</p>
+
+  <div class="ram-data-viz">
+    {# Enhanced Bar Charts #}
+    <div class="govuk-!-margin-bottom-4">
+      <div class="ram-label-row">
+        <span class="govuk-body-s"><strong>Green</strong> (High)</span>
+        <span class="govuk-body-s">65%</span>
+      </div>
+      <div class="ram-bar-container">
+        <div class="ram-bar ram-bar--green" style="width: 65%;"></div>
+      </div>
+      <p class="govuk-hint govuk-!-font-size-14">Target: 75% by 2030</p>
+    </div>
+
+    <div class="govuk-!-margin-bottom-4">
+      <div class="ram-label-row">
+        <span class="govuk-body-s"><strong>Amber</strong> (Base)</span>
+        <span class="govuk-body-s">20%</span>
+      </div>
+      <div class="ram-bar-container">
+        <div class="ram-bar ram-bar--amber" style="width: 20%;"></div>
+      </div>
+    </div>
+
+    <div class="govuk-!-margin-bottom-6">
+      <div class="ram-label-row">
+        <span class="govuk-body-s"><strong>Red</strong> (Low)</span>
+        <span class="govuk-body-s">15%</span>
+      </div>
+      <div class="ram-bar-container">
+        <div class="ram-bar ram-bar--red" style="width: 15%;"></div>
+      </div>
+      <p class="govuk-hint govuk-!-font-size-14">Subject to 20% premium</p>
+    </div>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+  <h2 class="govuk-heading-m">Historical Context</h2>
+  <p class="govuk-body-s"><strong>2024 POM Analysis:</strong> Total Fund Recovery</p>
+
+  <div class="fund-summary-widget">
+    <div class="fund-total">
+      <span class="govuk-body-s">Total Disbursed</span>
+      <span class="govuk-heading-l govuk-!-margin-bottom-0">£1.4bn</span>
+    </div>
+
+    <div class="fund-split govuk-!-margin-top-4">
+      <p class="govuk-body-s govuk-!-margin-bottom-1">Speculative RAM Allocation:</p>
+      <ul class="govuk-list govuk-list--bullet govuk-!-font-size-14">
+        <li><strong>Green Tier:</strong> £910m (65%)</li>
+        <li><strong>Amber Tier:</strong> £280m (20%)</li>
+        <li><strong>Red Tier:</strong> £210m (15%)</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+  <h2 class="govuk-heading-m">Modulated Fees (Y2)</h2>
+  <p class="govuk-body-s">Year 2 best estimate (£ per tonne). Comparing Green vs Red impact.</p>
+
+  <div class="govuk-scrollable-pane">
+    <table class="govuk-table govuk-!-font-size-14 fee-table-exec">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">Material</th>
+          <th class="govuk-table__header" scope="col">Green</th>
+          <th class="govuk-table__header" scope="col">Red</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Plastic</td>
+          <td class="govuk-table__cell">£415</td>
+          <td class="govuk-table__cell">£545</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Fibre-comp</td>
+          <td class="govuk-table__cell">£475</td>
+          <td class="govuk-table__cell">£630</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Aluminium</td>
+          <td class="govuk-table__cell">£245</td>
+          <td class="govuk-table__cell">£325</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Paper/Card</td>
+          <td class="govuk-table__cell">£190</td>
+          <td class="govuk-table__cell">£250</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Glass</td>
+          <td class="govuk-table__cell">£185</td>
+          <td class="govuk-table__cell">£245</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">Wood</td>
+          <td class="govuk-table__cell">£410</td>
+          <td class="govuk-table__cell">£540</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exec-summary-box">
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Strategic Note</h3>
+    <p class="govuk-body-s">Highest modulation variance observed in <strong>Fibre-based composites</strong> (£155 delta). Monitoring required for wood fee escalations.</p>
+  </div>
+</aside>
+
+
+</div>
+</div>
+
+<style>
+/* Executive Dashboard Styles */
+.app-related-items {
+border-top: 4px solid #1d70b8;
+margin-top: 20px;
+padding-top: 15px;
+background-color: #f3f2f1;
+padding: 15px;
+}
+
+/* Live Data Badge */
+.live-status-badge {
+background-color: #ffffff;
+border: 1px solid #b1b4b6;
+padding: 5px 10px;
+font-family: "GDS Transport", arial, sans-serif;
+font-size: 14px;
+font-weight: bold;
+color: #1d70b8;
+display: inline-flex;
+align-items: center;
+border-radius: 4px;
+}
+
+.status-dot {
+height: 10px;
+width: 10px;
+background-color: #00703c;
+border-radius: 50%;
+display: inline-block;
+margin-right: 8px;
+animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 112, 60, 0.7); }
+70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 112, 60, 0); }
+100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 112, 60, 0); }
+}
+
+/* Fund Summary Widget */
+.fund-summary-widget {
+background-color: #ffffff;
+padding: 15px;
+border: 1px solid #b1b4b6;
+}
+
+.fund-total {
+border-bottom: 1px solid #f3f2f1;
+padding-bottom: 10px;
+}
+
+.ram-label-row {
+display: flex;
+justify-content: space-between;
+margin-bottom: 5px;
+}
+
+.ram-bar-container {
+background-color: #ffffff;
+width: 100%;
+height: 24px;
+margin-bottom: 5px;
+}
+
+.ram-bar {
+height: 100%;
+border-radius: 0;
+}
+
+.ram-bar--green { background-color: #00703c; }
+.ram-bar--amber { background-color: #f47738; }
+.ram-bar--red { background-color: #d4351c; }
+
+.fee-table-exec .govuk-table__header,
+.fee-table-exec .govuk-table__cell {
+padding: 10px 4px !important;
+}
+
+.exec-summary-box {
+background-color: #ffffff;
+border-left: 5px solid #1d70b8;
+padding: 10px;
+margin-top: 20px;
+}
+
+.govuk-scrollable-pane {
+max-height: 400px;
+overflow-y: auto;
+}
+</style>
+
+{% endblock %}

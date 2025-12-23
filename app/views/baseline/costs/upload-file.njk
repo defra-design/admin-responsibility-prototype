@@ -19,6 +19,11 @@
       {% endif %}
     </h1>
 
+    {% if data.intent == "manageDefaultParameters" %}
+    <h2 class="govuk-heading-m">Before you upload your file</h2>
+    <p>Make sure you're using the latest version of the<a href="#" class="govuk-link--no-visited-state"> default parameters spreadsheet template.</a></p>
+    {% endif %}
+
       <form method="POST" action="upload-success" enctype="multipart/form-data">
     
         <!-- FILE UPLOAD -->

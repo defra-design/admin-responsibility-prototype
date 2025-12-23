@@ -9,478 +9,85 @@
 <!-- Default parameters (User has successfully uploaded parameters-->
 
 {% block content %}
+
  {% if data.laCosts == "true" %}
- <div class="govuk-grid-row">
+ <span class="govuk-caption-l govuk-!-margin-bottom-3">Last updated by Jamie Roberts at <strong>10:01</strong> on 28 June 2025</span>
+  <h1 class="govuk-heading-xl">Local Authority disposal costs</h1>
+  
+  <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <span class="govuk-caption-l govuk-!-margin-bottom-3">Last updated by Jamie Roberts at <strong>10:01</strong> on 28 June 2025</span>
-      <h1 class="govuk-heading-xl">Local authority disposal costs</h1>
+ {% set costData = [
+  {
+    country: "England",
+    costs: [
+      { material: "Aluminium", amount: "£5000.00" },
+      { material: "Fibre composite", amount: "£7500.00" },
+      { material: "Glass", amount: "£45000.00" },
+      { material: "Paper or card", amount: "£12500.00" },
+      { material: "Plastic", amount: "£23000.00" },
+      { material: "Steel", amount: "£13400.00" },
+      { material: "Wood", amount: "£0" },
+      { material: "Other materials", amount: "£3400.00" }
+    ]
+  },
+  {
+    country: "Northern Ireland",
+    costs: [
+      { material: "Aluminium", amount: "£1250.00" },
+      { material: "Fibre composite", amount: "£1750.00" },
+      { material: "Glass", amount: "£4500.00" },
+      { material: "Paper or card", amount: "£3400.00" },
+      { material: "Plastic", amount: "£2100.00" },
+      { material: "Steel", amount: "£0" },
+      { material: "Wood", amount: "£5600.00" },
+      { material: "Other materials", amount: "£700.00" }
+    ]
+  },
+  {
+    country: "Scotland",
+    costs: [
+      { material: "Aluminium", amount: "£2000.00" },
+      { material: "Fibre composite", amount: "£3400.00" },
+      { material: "Glass", amount: "£20700.00" },
+      { material: "Paper or card", amount: "£4500.00" },
+      { material: "Plastic", amount: "£6700.00" },
+      { material: "Steel", amount: "£7800.00" },
+      { material: "Wood", amount: "£0" },
+      { material: "Other materials", amount: "£4200.00" }
+    ]
+  },
+  {
+    country: "Wales",
+    costs: [
+      { material: "Aluminium", amount: "£1750.00" },
+      { material: "Fibre composite", amount: "£2100.00" },
+      { material: "Glass", amount: "£0" },
+      { material: "Paper or card", amount: "£2300.00" },
+      { material: "Plastic", amount: "£4500.00" },
+      { material: "Steel", amount: "£0" },
+      { material: "Wood", amount: "£12000.00" },
+      { material: "Other materials", amount: "£2100.00" }
+    ]
+  }
+] %}
 
-      <!-- England -->
-      <h2 class="govuk-heading-l">England</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Aluminium
-          </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-communication-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Fibre composite
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Glass
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Paper or card
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Plastic
-            </dt>
-          <dd class="govuk-summary-list__value">
-          £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Steel
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wood
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Other
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £0
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-
-      <!-- Northern Ireland -->
-      <h2 class="govuk-heading-l">Northern Ireland</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Aluminium
-          </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-communication-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Fibre composite
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Glass
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Paper or card
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Plastic
-            </dt>
-          <dd class="govuk-summary-list__value">
-          £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Steel
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wood
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Other
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £0
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-      <!-- Scotland -->
-      <h2 class="govuk-heading-l">Scotland</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Aluminium
-          </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-communication-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Fibre composite
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Glass
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Paper or card
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Plastic
-            </dt>
-          <dd class="govuk-summary-list__value">
-          £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Steel
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wood
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Other
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £0
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-      <!-- Wales -->
-      <h2 class="govuk-heading-l">Wales</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Aluminium
-          </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-communication-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Fibre composite
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Glass
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Paper or card
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Plastic
-            </dt>
-          <dd class="govuk-summary-list__value">
-          £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Steel
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wood
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £2210.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Other
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £0
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-    </div>
-  </div>
+{% for region in costData %}
+  <h2 class="govuk-heading-l">{{ region.country }}</h2>
+  
+  <table class="govuk-table govuk-!-margin-bottom-9">
+    <tbody class="govuk-table__body">
+      {% for item in region.costs %}
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header">{{ item.material }}</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            {{ item.amount }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endfor %}
+    
 {% else %}
 
 <!-- When a user hasn't uploaded Local authority disposal costs yet -->
@@ -497,7 +104,6 @@
 <!-- Upload new local authority disposal costs -->
 
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
         <div class="govuk-button-group govuk-!-margin-top-6">
           <a href="upload-file?intent=manageLaDisposalCosts" class="govuk-button">
             {% if data.laCosts == "true" %}
@@ -510,7 +116,6 @@
             Return to the dashboard
           </a>
         </div>
-      </div>
     </div>
 
 {% endblock %}

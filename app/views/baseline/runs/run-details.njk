@@ -160,6 +160,7 @@
               <p class="govuk-body">Review and confirm the billing instructions from the results file.</p>
             {% endif %}
           {% endif %}
+          {% if data.calcRun == "initialRun" %}
             <div class="govuk-button-group">
               {# Determine where Continue should go: to send-billing-file if the draft has already been generated #}
               {% set continueHref = '../billing/confirm-billing-instructions' %}
@@ -172,6 +173,7 @@
               </a>
               <a class="govuk-link" href="../paycal-dashboard">Return to dashboard</a>
             </div>
+          {% endif %}
           
 
           <!-- if test run show delete run section -->

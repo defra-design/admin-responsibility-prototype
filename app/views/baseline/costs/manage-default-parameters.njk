@@ -9,643 +9,123 @@
 <!-- Default parameters (User has successfully uploaded parameters-->
 
 {% block content %}
- {% if data.defaultParams == "true" %}
- <span class="govuk-caption-l govuk-!-margin-bottom-3">Last updated by Jamie Roberts at <strong>10:01</strong> on 28 June 2025</span>
-  <h1 class="govuk-heading-xl">Default parameters</h1>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
 
-      <!-- Communication costs by material -->
-      <h2 class="govuk-heading-l">Communication costs by material</h2>
+{% set sections = [
+  {
+    title: "Communication costs by material",
+    items: [
+      { key: "Aluminium", val: "£2870.00" },
+      { key: "Fibre composite", val: "£7600.00" },
+      { key: "Glass", val: "£4800.00" },
+      { key: "Paper or card", val: "£10290.00" },
+      { key: "Plastic", val: "£9000.00" },
+      { key: "Steel", val: "£9500.00" },
+      { key: "Wood", val: "£1200.00" },
+      { key: "Other materials", val: "£8300.00" }
+    ]
+  },
+  {
+    title: "Communication costs by country",
+    items: [
+      { key: "United Kingdom", val: "£50123.00" },
+      { key: "England", val: "£10100.00" },
+      { key: "Wales", val: "£5000.00" },
+      { key: "Scotland", val: "£6000.00" },
+      { key: "Northern Ireland", val: "£2500.00" }
+    ]
+  },
+  {
+    title: "Scheme administrator operating costs",
+    items: [
+      { key: "England", val: "£25000.00" },
+      { key: "Wales", val: "£14000.00" },
+      { key: "Scotland", val: "£17000.00" },
+      { key: "Northern Ireland", val: "£9000.00" }
+    ]
+  },
+  {
+    title: "Local authority data preparation costs",
+    items: [
+      { key: "England", val: "£16000.00" },
+      { key: "Wales", val: "£7000.00" },
+      { key: "Scotland", val: "£9000.00" },
+      { key: "Northern Ireland", val: "£4500.00" }
+    ]
+  },
+  {
+    title: "Scheme setup costs",
+    items: [
+      { key: "England", val: "£17500.00" },
+      { key: "Wales", val: "£23400.00" },
+      { key: "Scotland", val: "£12400.00" },
+      { key: "Northern Ireland", val: "£9450.00" }
+    ]
+  },
+  {
+    title: "Late reporting tonnage",
+    items: [
+      { key: "Aluminium", val: "8000.000" },
+      { key: "Fibre composite", val: "7000.000" },
+      { key: "Glass", val: "6000.000" },
+      { key: "Paper or card", val: "5000.000" },
+      { key: "Plastic", val: "4000.000" },
+      { key: "Steel", val: "3000.000" },
+      { key: "Wood", val: "2000.000" },
+      { key: "Other materials", val: "1000.000" }
+    ]
+  },
+  {
+    title: "Bad debt provision",
+    items: [
+      { key: "Percentage", val: "6.00%" }
+    ]
+  },
+  {
+    title: "Materiality threshold",
+    items: [
+      { key: "Amount Increase", val: "£5000.00" },
+      { key: "Amount Decrease", val: "-£1000.00" },
+      { key: "Percent Increase", val: "2.00%" },
+      { key: "Percent Decrease", val: "-1.00%" }
+    ]
+  },
+  {
+    title: "Tonnage change threshold",
+    items: [
+      { key: "Amount Increase", val: "£50.00" },
+      { key: "Amount Decrease", val: "-£10.00" },
+      { key: "Percent Increase", val: "2.00%" },
+      { key: "Percent Decrease", val: "-0.50%" }
+    ]
+  }
+] %}
+{% if data.defaultParams == "true" %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l govuk-!-margin-bottom-2">Last updated by Jamie Roberts at <strong>10:01</strong> on 28 June 2025</span>
+    <h1 class="govuk-heading-xl">Default calculator parameters</h1>
+
+    {# 2. THE LOOP: Rendering every section and row automatically #}
+    {% for section in sections %}
+      <h2 class="govuk-heading-l">{{ section.title }}</h2>
       <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+        {% for row in section.items %}
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">
-              Aluminium
+              {{ row.key }}
             </dt>
             <dd class="govuk-summary-list__value">
-              £2210.00
+              {{ row.val }}
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="up-communication-costs">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
+              {# Empty actions column to match the design visual spacing #}
             </dd>
           </div>
-
-          <div class="govuk-summary-list__row">
-            
-            <dt class="govuk-summary-list__key">
-              Fibre composite
-              </dt>
-            <dd class="govuk-summary-list__value">
-              £2210.00
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Glass
-              </dt>
-            <dd class="govuk-summary-list__value">
-              £2210.00
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Paper or card
-              </dt>
-            <dd class="govuk-summary-list__value">
-              £2210.00
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Plastic
-              </dt>
-            <dd class="govuk-summary-list__value">
-            £2210.00
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Steel
-              </dt>
-            <dd class="govuk-summary-list__value">
-              £2210.00
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">
-              Wood
-              </dt>
-            <dd class="govuk-summary-list__value">
-                £2210.00
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-          <div class="govuk-summary-list__row">
-            
-            <dt class="govuk-summary-list__key">
-              Other materials
-              </dt>
-            <dd class="govuk-summary-list__value">
-              0
-            </dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="#">
-                <span class="govuk-visually-hidden"> address</span>
-              </a>
-            </dd>
-          </div>
-      </dl>
-
-    <!-- Communication costs by country -->
-      <h2 class="govuk-heading-l">Communication costs by country</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            United Kingdom
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £250.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-operating-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            England
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £250.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-operating-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wales
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £140.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row"> 
-          <dt class="govuk-summary-list__key">
-            Scotland
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £170.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Northern Ireland
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £90.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-
-    <!-- Scheme administrator operating costs -->
-      <h2 class="govuk-heading-l">Scheme administrator operating costs</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            England
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £250.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-operating-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wales
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £140.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-      
-        <div class="govuk-summary-list__row"> 
-          <dt class="govuk-summary-list__key">
-            Scotland
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £170.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Northern Ireland
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £90.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-    <!-- Local authority data preparation costs -->
-      <h2 class="govuk-heading-l">Local authority data preparation costs</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            England
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £115.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-la-data">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wales
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £114.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Scotland
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £117.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Northern Ireland
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £19.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-            <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-    <!-- Scheme setup costs -->
-      <h2 class="govuk-heading-l">Scheme setup costs</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
         
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            England
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £325.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-scheme-costs">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wales
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £314.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Scotland
-            </dt>
-          <dd class="govuk-summary-list__value">
-            £317.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Northern Ireland
-            </dt>
-          <dd class="govuk-summary-list__value">
-              £391.00
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
+      {% endfor %}
       </dl>
-
-    <!-- Late reporting tonnage -->
-      <h2 class="govuk-heading-l">Late reporting tonnage</h2>
-      <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Aluminium
-          </dt>
-          <dd class="govuk-summary-list__value">
-            70
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="up-ghost">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Fibre composite
-            </dt>
-          <dd class="govuk-summary-list__value">
-            80
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Glass
-            </dt>
-          <dd class="govuk-summary-list__value">
-            60
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          
-          <dt class="govuk-summary-list__key">
-            Paper or card
-            </dt>
-          <dd class="govuk-summary-list__value">
-            50
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row"> 
-          <dt class="govuk-summary-list__key">
-          Plastic
-          </dt>
-          <dd class="govuk-summary-list__value">40
-          </dd>
-          <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="#">
-            <span class="govuk-visually-hidden"> address</span>
-          </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Steel
-            </dt>
-          <dd class="govuk-summary-list__value">
-            30
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Wood
-            </dt>
-          <dd class="govuk-summary-list__value">
-              20
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Other materials
-            </dt>
-          <dd class="govuk-summary-list__value">
-            0
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="#">
-              <span class="govuk-visually-hidden"> address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-    <!--Bad debt provision -->
-    <h2 class="govuk-heading-l">Bad debt provision</h2>
-    <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Percentage
-          </dt>
-        <dd class="govuk-summary-list__value">
-            5.25%
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="up-bad-debt">
-            <span class="govuk-visually-hidden"> address</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
-    <!--Materiality threshold -->
-    <h2 class="govuk-heading-l">Materiality threshold</h2>
-    <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Amount increase
-          </dt>
-        <dd class="govuk-summary-list__value">
-          £5000.00
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Amount decrease
-          </dt>
-        <dd class="govuk-summary-list__value">
-          -£1000.00
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Percent increase
-          </dt>
-        <dd class="govuk-summary-list__value">
-          2.00%
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Percent decrease
-          </dt>
-        <dd class="govuk-summary-list__value">
-          -1.00%
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-    </dl>
-
-    <!--Tonnage change threshold -->
-    <h2 class="govuk-heading-l">Tonnage change threshold</h2>
-    <dl class="govuk-summary-list govuk-!-margin-bottom-9">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Amount increase
-          </dt>
-        <dd class="govuk-summary-list__value">
-          £50.00
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Amount decrease
-          </dt>
-        <dd class="govuk-summary-list__value">
-          -£10.00
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Percent increase
-          </dt>
-        <dd class="govuk-summary-list__value">
-          2.00%
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          Percent decrease
-          </dt>
-        <dd class="govuk-summary-list__value">
-          -0.50%
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          
-          
-          <span class="govuk-visually-hidden"> address</span>
-          
-        </dd>
-      </div>
-    </dl>
-
-  </div>
-</div>
+    {% endfor %}
+  
 {% else %}
 
 <!-- When a user hasn't uploaded default parameters yet -->

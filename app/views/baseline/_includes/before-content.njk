@@ -8,10 +8,10 @@ text: 'This is used to test new ideas and get feedback from users.'
 }) }}
 
 {# GRID #}
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-padding-top-4">
     {# BACK LINK #}
     {% if showBackLink %}
-        <div class="govuk-grid-column-one-half govuk-!-padding-top-3">
+        <div class="govuk-grid-column-one-half govuk-!-padding-top-2">
             {{ govukBackLink({
                 text: "Back",
                 href: "javascript:history.back()",
@@ -24,9 +24,9 @@ text: 'This is used to test new ideas and get feedback from users.'
             </div>
         {% endif %}
      {% if showAccountLink %}
-        <div class="govuk-grid-column-one-half govuk-!-padding-top-3">
-            <div class="govuk-body account-info">
-                <span class="your-name" id="bannerUserName">Jamie Roberts</span><a class="account-link" href="details" id="signout-link">Sign out</a>
+        <div class="govuk-grid-column-one-half govuk-!-padding-top-4">
+            <div class="govuk-body-s account-info ">
+                <span class="your-name govuk-!-padding-right-2" id="bannerUserName">Jamie Roberts</span><a class="account-link" href="details" id="signout-link">Sign out</a>
             </div>
         </div>
     {% endif %}

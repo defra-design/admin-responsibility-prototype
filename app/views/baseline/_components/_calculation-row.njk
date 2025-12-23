@@ -1,64 +1,6 @@
-{#
-  ==============================================================================
-  calculationRow Macro
-  ==============================================================================
-  Purpose:
-    Renders a single row in a GOV.UK table showing calculation run details.
-    Includes an optional status tag that is right-aligned in the last column.
-
-  Usage:
-    {% from "components/_calculation-row.njk" import calculationRow %}
-
-    <table class="govuk-table govuk-table--m">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Run details</th>
-          <th scope="col" class="govuk-table__header"></th>
-          <th scope="col" class="govuk-table__header">Status</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        {{ calculationRow({
-          title: "Test data check 2",
-          href: "",
-          calculationId: "240010",
-          runDate: "28 June 2024 at 10:01",
-          runBy: "Jamie Roberts",
-          tagColour: "green",
-          tagText: "Running"
-        }) }}
-
-        {{ calculationRow({
-          title: "Normal run R16",
-          href: "./classify/scenario1-run-details.html",
-          calculationId: "251120",
-          runDate: "20 Nov 2025 at 16:17",
-          runBy: "Bertie Basset"
-        }) }}
-      </tbody>
-    </table>
-
-  Parameters:
-    - title (string) : The run title or name
-    - href (string, optional) : Link for the title. If empty, title is plain text
-    - calculationId (string) : Unique calculation ID
-    - runDate (string) : Date and time of the run
-    - runBy (string) : Name of the person who ran it
-    - tagColour (string, optional) : GOV.UK tag color (green, blue, yellow, red, grey, etc.)
-    - tagText (string, optional) : Text displayed in the status tag. If empty, no tag is shown
-
-  Notes:
-    - The status tag will always align to the right of the column.
-    - The empty middle column preserves table structure.
-    - This macro is GOV.UK v13-compliant and accessible.
-#}
-
-
 {% macro calculationRow(params) %}
-<tr class="govuk-table__row">
-
-  <!-- Run details -->
-  <th scope="row" class="govuk-table__header govuk-body-s">
+<div class="govuk-summary-list__row">
+  <dt class="govuk-summary-list__key">
     <h3 class="govuk-heading-m govuk-!-margin-bottom-3">
       {% if params.href %}
         <a href="{{ params.href }}" class="govuk-link govuk-link--no-visited-state">
@@ -69,26 +11,20 @@
       {% endif %}
     </h3>
 
-    <p class="govuk-body-s govuk-!-margin-bottom-2">
+    <p class="govuk-body govuk-!-margin-bottom-4">
       Calculation ID: {{ params.calculationId }}<br>
       Run date and time: {{ params.runDate }}<br>
       Run by: {{ params.runBy }}
     </p>
-  </th>
+  </dt>
 
-  <!-- Empty middle column -->
-  <td class="govuk-table__cell"></td>
-
-  <!-- Status column (optional tag) -->
-  <td class="govuk-table__cell" style="vertical-align: middle;">
+  <dd class="govuk-summary-list__actions">
     {% if params.tagText %}
-      <div class="govuk-!-display-flex govuk-!-justify-content-end govuk-!-text-align-right">
-        <strong class="govuk-tag govuk-tag--{{ params.tagColour }}">
-          {{ params.tagText }}
-        </strong>
-      </div>
+      <strong class="govuk-tag govuk-tag--{{ params.tagColour | default('blue') }}">
+        {{ params.tagText }}
+      </strong>
     {% endif %}
-  </td>
-
-</tr>
+  </dd>
+</div>
 {% endmacro %}
+
