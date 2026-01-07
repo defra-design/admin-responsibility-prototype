@@ -1,0 +1,182 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = false %}
+  {% set showAccountLink = true %}
+  
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+{% set pageName="Scheme Administrator Dashboard" %}
+
+{% block content %}
+<div class="app-admin-dashboard">
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <span class="govuk-caption-xl">Internal: PackUK Scheme Administrator</span>
+      <h1 class="govuk-heading-xl">Service Oversight & Operations</h1>
+    </div>
+  </div>
+
+  {# 1. SERVICE PERFORMANCE KPI SHELF (Cross-Cutting & Must Haves) #}
+  <div class="app-kpi-shelf">
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel app-kpi-panel--performance">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">User Satisfaction</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">84%</span>
+        {{ govukTag({ text: "GDS Target Met", classes: "govuk-tag--green" }) }}
+      </div>
+    </div>
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel app-kpi-panel--performance">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Digital Take-up</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">92%</span>
+        {{ govukTag({ text: "Excellent", classes: "govuk-tag--green" }) }}
+      </div>
+    </div>
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel app-kpi-panel--error">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Service Exceptions</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">20</span>
+        {{ govukTag({ text: "Action Required", classes: "govuk-tag--red" }) }}
+      </div>
+    </div>
+  </div>
+
+  {# 2. ACCESS & BANKING (Access & Bank Management sections) #}
+  <div class="app-action-panel govuk-!-margin-top-9">
+    <div class="app-action-panel__header">
+      <h2 class="govuk-heading-m">Access & Financial Identity</h2>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        {{ govukTable({
+          firstCellIsHeader: true,
+          rows: [
+            [ { text: "Pending access requests" }, { text: "12" }, { html: govukTag({ text: "Urgent", classes: "govuk-tag--red" }) } ],
+            [ { text: "Avg. approval time (Bank details)" }, { text: "1.2 days" }, { html: govukTag({ text: "On track", classes: "govuk-tag--green" }) } ],
+            [ { text: "Named users with access" }, { text: "452" }, { html: govukTag({ text: "Stable", classes: "govuk-tag--blue" }) } ]
+          ]
+        }) }}
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <div class="govuk-inset-text govuk-!-margin-top-0">
+          <h3 class="govuk-heading-s">Pain Point Identified</h3>
+          <p class="govuk-body-s">Drop-off reported at <strong>Bank Detail Verification</strong>. Scheme Admin intervention required for 15% of submissions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# 3. CALCULATOR HEALTH (Calculator Usage section) #}
+  <div class="app-action-panel govuk-!-margin-top-9">
+    <div class="app-action-panel__header">
+      <h2 class="govuk-heading-m">Calculator Performance</h2>
+      {{ govukButton({
+        text: "Generate Usage Report",
+        classes: "govuk-button--secondary govuk-!-margin-0 govuk-!-font-size-14"
+      }) }}
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        <span class="govuk-body-s govuk-!-font-weight-bold">Success Rate vs Volume</span>
+        
+        <p class="govuk-body govuk-!-margin-top-2"><strong>98.2%</strong> successful (12,450 total runs)</p>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <h3 class="govuk-heading-s">Technical Diagnostics</h3>
+        <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16">
+          <li><strong>Upload errors:</strong> 18 (LAPCAP parameter files)</li>
+          <li><strong>Calculation errors:</strong> 225 total</li>
+          <li><strong>Top theme:</strong> "Missing mandatory material weight"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {# 4. DOCUMENTATION & BILLING (Document Access, Usage and Sharing section) #}
+  <div class="app-action-panel govuk-!-margin-top-9">
+    <div class="app-action-panel__header">
+      <h2 class="govuk-heading-m">Billing Lifecycle & Sharing</h2>
+    </div>
+    {{ govukTable({
+      head: [ { text: "Document Stage" }, { text: "Count" }, { text: "FSS Retrieval" }, { text: "Status" } ],
+      rows: [
+        [ { text: "Draft bills generated" }, { text: "450" }, { text: "N/A" }, { html: govukTag({ text: "Complete", classes: "govuk-tag--green" }) } ],
+        [ { text: "Actual bills generated" }, { text: "420" }, { text: "418 Success" }, { html: govukTag({ text: "99.5%", classes: "govuk-tag--green" }) } ],
+        [ { text: "Unsuccessful retrievals" }, { text: "2" }, { text: "FSS Connection Error" }, { html: govukTag({ text: "Action Needed", classes: "govuk-tag--red" }) } ]
+      ]
+    }) }}
+  </div>
+
+  {# 5. SUPPORT & QUERIES (Query & Issue Resolution section) #}
+  <div class="app-action-panel govuk-!-margin-top-9">
+    <div class="app-action-panel__header">
+      <h2 class="govuk-heading-m">Query & Issue Resolution</h2>
+    </div>
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <span class="govuk-body-s govuk-!-font-weight-bold">Query Volume Trends (Assessment Year)</span>
+        
+      </div>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-top-6">
+      <div class="govuk-grid-column-one-third">
+        <span class="govuk-body-s">Total queries</span>
+        <span class="govuk-heading-m govuk-!-margin-top-0">1,402</span>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <span class="govuk-body-s">Avg. Response time</span>
+        <span class="govuk-heading-m govuk-!-margin-top-0">1.4 Days</span>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <span class="govuk-body-s">Self-service usage</span>
+        <span class="govuk-heading-m govuk-!-margin-top-0">4,520 Views</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* SCOPED STYLES FOR SCHEME ADMIN DASHBOARD */
+  
+  .app-admin-dashboard .app-kpi-shelf {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .app-admin-dashboard .app-kpi-shelf__item {
+    flex: 1;
+    display: flex;
+  }
+
+  .app-admin-dashboard .app-kpi-panel {
+    background-color: #f3f2f1;
+    border-top: 5px solid #1d70b8;
+    padding: 25px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .app-admin-dashboard .app-kpi-panel--performance { border-top-color: #00703c; }
+  .app-admin-dashboard .app-kpi-panel--error { border-top-color: #d4351c; }
+
+  .app-admin-dashboard .app-action-panel {
+    border: 1px solid #b1b4b6;
+    background-color: #ffffff;
+    padding: 30px;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+  }
+
+  .app-admin-dashboard .app-action-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f3f2f1;
+    padding-bottom: 15px;
+  }
+</style>
+{% endblock %}

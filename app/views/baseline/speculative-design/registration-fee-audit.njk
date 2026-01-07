@@ -1,0 +1,113 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = false %}
+  {% set showAccountLink = true %}
+  
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+{% set pageName="Scheme Administrator Dashboard" %}
+
+I have refactored the dashboard to ensure all elements are properly contained within the GDS grid system. By using a continuous vertical layout instead of tabs, we prevent content from "falling out of the box" and maintain a clear, scannable hierarchy of the audit requirements.
+
+Scheme Administrator (PackUK) Financial Oversight Dashboard
+Code snippet
+
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+<div class="app-admin-dashboard">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <span class="govuk-caption-xl">Internal: PackUK Scheme Administrator</span>
+      <h1 class="govuk-heading-xl">Financial Audit & 2026 Registration Fees</h1>
+      
+      <div class="app-page-actions govuk-!-margin-bottom-6">
+        {{ govukButton({
+          text: "Download 2025/26 Reconciliation Report (CSV)",
+          classes: "govuk-button--secondary govuk-!-margin-right-3"
+        }) }}
+        <a href="javascript:window.print()" class="govuk-link govuk-!-font-size-19">Print Jan Audit View</a>
+      </div>
+    </div>
+  </div>
+
+  {# UPDATED KPI SHELF - Timely for Jan 2026 #}
+  <div class="app-kpi-shelf">
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">2026 Reg Fee Obligation</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">£72,895</span>
+        <p class="govuk-body-s govuk-hint">Expected revenue from currently submitted RPD data</p>
+      </div>
+    </div>
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel app-kpi-panel--risk">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Outstanding Late Fees (Carryover)</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">£1,808</span>
+        {{ govukTag({ text: "Action Required", classes: "govuk-tag--red" }) }}
+        <p class="govuk-body-s govuk-hint govuk-!-margin-top-2">Unpaid penalties from 2025 cycle</p>
+      </div>
+    </div>
+  </div>
+
+  {# REGISTRATION AUDIT TABLE - January Focus #}
+  <div class="app-action-panel govuk-!-margin-top-9">
+    <div class="app-action-panel__header">
+      <h2 class="govuk-heading-m">Fee Reconciliation Audit: 2026 Cycle</h2>
+      <p class="govuk-body-s">Reconciling Paycal estimates with RPD Portal payments.</p>
+    </div>
+
+    {{ govukTable({
+      head: [
+        { text: "Producer / Entity" },
+        { text: "Type" },
+        { text: "2026 Obligation", format: "numeric" },
+        { text: "Late Fee (Prev Year)", format: "numeric" },
+        { text: "Payment Status" },
+        { text: "Action" }
+      ],
+      rows: [
+        [
+          { html: "<strong>Compliance Scheme A</strong><br><span class='govuk-hint'>ID: PR-123456</span>" },
+          { text: "Scheme" },
+          { text: "£13,804", format: "numeric" },
+          { text: "£0", format: "numeric" },
+          { html: govukTag({ text: "Paid", classes: "govuk-tag--green" }) },
+          { html: '<a href="#" class="govuk-link">Audit</a>' }
+        ],
+        [
+          { html: "<strong>Subsidiary Entity B</strong><br><span class='govuk-hint'>Parent: Group OMP</span>" },
+          { text: "Subsidiary" },
+          { text: "£3,137", format: "numeric" },
+          { text: "£558", format: "numeric" },
+          { html: govukTag({ text: "Late Fee Due", classes: "govuk-tag--orange" }) },
+          { html: '<a href="#" class="govuk-link">Issue Notice</a>' }
+        ],
+        [
+          { html: "<strong>Small Producer C</strong><br><span class='govuk-hint'>ID: PR-998877</span>" },
+          { text: "Producer" },
+          { text: "£3,155", format: "numeric" },
+          { text: "£1,250", format: "numeric" },
+          { html: govukTag({ text: "Unpaid", classes: "govuk-tag--red" }) },
+          { html: '<a href="#" class="govuk-link">Enforce</a>' }
+        ]
+      ]
+    }) }}
+  </div>
+</div>
+
+<style>
+  .app-kpi-shelf { display: flex; gap: 30px; }
+  .app-kpi-shelf__item { flex: 1; display: flex; }
+  .app-kpi-panel { background-color: #f3f2f1; border-left: 10px solid #00703c; padding: 30px; width: 100%; box-sizing: border-box; }
+  .app-kpi-panel--risk { border-left-color: #d4351c; }
+  .app-action-panel { border: 1px solid #b1b4b6; background-color: #ffffff; padding: 30px; }
+  .app-action-panel__header { margin-bottom: 25px; border-bottom: 2px solid #f3f2f1; padding-bottom: 15px; }
+</style>
+{% endblock %}

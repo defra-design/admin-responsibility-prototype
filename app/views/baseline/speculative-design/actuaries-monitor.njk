@@ -1,0 +1,235 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = false %}
+  {% set showAccountLink = true %}
+  
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+{% set pageName="Timeline: Scheme Administrator Implementation of Eco-Modulation" %}
+
+{% extends "layouts/main.html" %}
+
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+<div class="app-actuary-dashboard">
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <span class="govuk-caption-xl">Internal: Scheme Administrator (PackUK)</span>
+      <h1 class="govuk-heading-xl">Financial Oversight & Reconciliation</h1>
+    </div>
+  </div>
+
+  {# 1. KPI SHELF WITH CONTEXTUAL DETAILS #}
+  <div class="app-kpi-shelf">
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel app-kpi-panel--solvency">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Net Scheme Solvency</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">£1.14bn</span>
+        {{ govukTag({ text: "Solvent", classes: "govuk-tag--green" }) }}
+        
+        <div class="govuk-!-margin-top-4">
+          {{ govukDetails({
+            summaryText: "View solvency breakdown",
+            html: "<ul class='govuk-list govuk-list--bullet govuk-!-font-size-14'>
+                    <li>Producer Fees: £1.42bn</li>
+                    <li>LA Liabilities: £280m</li>
+                    <li>Operational Reserve: £50m</li>
+                  </ul>"
+          }) }}
+        </div>
+      </div>
+    </div>
+    <div class="app-kpi-shelf__item">
+      <div class="app-kpi-panel app-kpi-panel--risk">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Unreconciled Revenue Risk</h2>
+        <span class="govuk-heading-l govuk-!-margin-bottom-2">£24.8m</span>
+        {{ govukTag({ text: "High Priority", classes: "govuk-tag--red" }) }}
+
+        <div class="govuk-!-margin-top-4">
+          {{ govukDetails({
+            summaryText: "View risk factors",
+            html: "<p class='govuk-body-s'>Calculated based on 42 high-variance producers and 12,400 tonnes of unverified regulator data currently pending audit.</p>"
+          }) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# 2. NEW SECTION: PAYCAL ESTIMATES VS ACTUALS #}
+  <div class="govuk-grid-row govuk-!-margin-top-9">
+    <div class="govuk-grid-column-full">
+      <div class="app-action-panel">
+        <div class="app-action-panel__header">
+          <h2 class="govuk-heading-m">Paycal Estimate Reconciliation</h2>
+          {{ govukButton({
+            text: "Download Variance Analytics",
+            classes: "govuk-button--secondary govuk-!-margin-0 govuk-!-font-size-14"
+          }) }}
+        </div>
+        
+        <p class="govuk-body">Comparison of estimates generated in the 'Paycal' calculator prototype versus actual H1 submissions in the RPD portal.</p>
+
+        {{ govukTable({
+          head: [
+            { text: "Material Category" },
+            { text: "Paycal Forecast", format: "numeric" },
+            { text: "Actual Submission", format: "numeric" },
+            { text: "Variance", format: "numeric" },
+            { text: "Status" }
+          ],
+          rows: [
+            [
+              { text: "Plastic (Rigid)" },
+              { text: "£420m", format: "numeric" },
+              { text: "£385m", format: "numeric" },
+              { text: "-8.3%", format: "numeric" },
+              { html: govukTag({ text: "Under-forecast", classes: "govuk-tag--orange" }) }
+            ],
+            [
+              { text: "Aluminium" },
+              { text: "£110m", format: "numeric" },
+              { text: "£114m", format: "numeric" },
+              { text: "+3.6%", format: "numeric" },
+              { html: govukTag({ text: "Stable", classes: "govuk-tag--green" }) }
+            ],
+            [
+              { text: "Fibre-based Composite" },
+              { text: "£85m", format: "numeric" },
+              { text: "£62m", format: "numeric" },
+              { text: "-27.1%", format: "numeric" },
+              { html: govukTag({ text: "Alert", classes: "govuk-tag--red" }) }
+            ]
+          ]
+        }) }}
+
+        {{ govukDetails({
+          summaryText: "Why is Fibre-based Composite showing high variance?",
+          html: "<p class='govuk-body-s'>Producers are reporting significantly lower weights in RPD than their initial Paycal estimates. This suggests widespread material switching or errors in the Paycal 'Composite' calculation logic that need refactoring.</p>"
+        }) }}
+      </div>
+    </div>
+  </div>
+
+  {# 3. PRIORITY ACTION 1: PRODUCER INTEGRITY #}
+  <div class="govuk-grid-row govuk-!-margin-top-9">
+    <div class="govuk-grid-column-full">
+      <div class="app-action-panel">
+        <div class="app-action-panel__header">
+          <h2 class="govuk-heading-m">Priority 1: Producer Revenue Integrity</h2>
+          {{ govukButton({
+            text: "Download H1 Variance Report",
+            classes: "govuk-button--secondary govuk-!-margin-0 govuk-!-font-size-14"
+          }) }}
+        </div>
+        <table class="govuk-table app-table--extra-spacing">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header app-table__col-producer">Producer / Circumstance</th>
+              <th scope="col" class="govuk-table__header">Issue Description</th>
+              <th scope="col" class="govuk-table__header govuk-table__header--numeric">Fee Delta</th>
+              <th scope="col" class="govuk-table__header">Action</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <span class="govuk-body-s govuk-!-font-weight-bold">PR-8821</span><br>
+                <span class="govuk-body-m">Tesco Stores Limited</span><br>
+                <span class="govuk-hint govuk-!-font-size-14">Sudden Weight Drop</span>
+              </td>
+              <td class="govuk-table__cell">Plastic reported weight dropped 22% vs 2024. Possible material misclassification.</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">£1.2m</td>
+              <td class="govuk-table__cell"><a href="#" class="govuk-link">Refer to Regulator</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {# 4. PRIORITY ACTION 3: REGULATOR DISCREPANCIES #}
+      <div class="app-action-panel govuk-!-margin-top-9">
+        <div class="app-action-panel__header">
+          <h2 class="govuk-heading-m">Priority 3: Regulator Feed Discrepancies</h2>
+          {{ govukButton({
+            text: "Download Reconciliation Report",
+            classes: "govuk-button--secondary govuk-!-margin-0 govuk-!-font-size-14"
+          }) }}
+        </div>
+
+        {{ govukWarningText({
+          text: "12,400 tonnes of Wood packaging currently lack verified RAM ratings from the EA feed.",
+          iconFallbackText: "Warning"
+        }) }}
+
+        {{ govukTable({
+          head: [
+            { text: "Regulator / Source" },
+            { text: "Discrepancy Details" },
+            { text: "Revenue Exposure", format: "numeric" },
+            { text: "System Action" }
+          ],
+          rows: [
+            [
+              { html: "<strong>Environment Agency</strong><br><span class='govuk-hint govuk-!-font-size-14'>Aluminium Feed</span>" },
+              { text: "EA Export data shows 4,200t more aluminium than total producer RPD submissions." },
+              { text: "£4.1m", format: "numeric" },
+              { html: '<a href="#" class="govuk-link">Run Cross-Check</a>' }
+            ]
+          ]
+        }) }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* SCOPED CSS */
+  .app-actuary-dashboard .app-kpi-shelf { display: flex; gap: 30px; margin-bottom: 20px; }
+  .app-actuary-dashboard .app-kpi-shelf__item { flex: 1; display: flex; }
+  
+  .app-actuary-dashboard .app-action-panel {
+    border: 1px solid #b1b4b6;
+    background-color: #ffffff;
+    padding: 30px;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+  }
+
+  .app-actuary-dashboard .app-action-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f3f2f1;
+    padding-bottom: 15px;
+  }
+
+  .app-actuary-dashboard .app-kpi-panel {
+    background-color: #f3f2f1;
+    border-left: 10px solid #1d70b8;
+    padding: 30px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .app-actuary-dashboard .app-kpi-panel--solvency { border-left-color: #00703c; }
+  .app-actuary-dashboard .app-kpi-panel--risk { border-left-color: #d4351c; }
+
+  .app-actuary-dashboard .app-table__col-producer { width: 30%; min-width: 240px; }
+
+  .app-actuary-dashboard .app-table--extra-spacing .govuk-table__cell {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    vertical-align: top;
+  }
+
+  /* Stat Bar visualization remains consistent */
+  .app-actuary-dashboard .app-stat-bar {
+    display: flex; width: 100%; height: 80px;
+    background-color: #f3f2f1; border: 1px solid #b1b4b6;
+  }
+</style>
+{% endblock %}

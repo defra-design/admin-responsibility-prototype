@@ -1,0 +1,186 @@
+{% extends "layouts/" + version + ".html" %}
+
+{% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
+  {% set serviceName = "Dashboard" %}
+  {% include version ~ "/_includes/before-content.njk" %}
+{% endblock %}
+
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <span class="govuk-caption-xl">Tesco Stores Ltd (PR-MAIN-001)</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">Consolidated Registration Audit</h1>
+    <p class="govuk-body-l govuk-!-margin-bottom-7">Reconciling registration obligations for the <strong>2026</strong> cycle.</p>
+  </div>
+</div>
+
+{# 1. FINANCIAL SUMMARY SHELF - Flex-aligned for equal heights #}
+<div class="govuk-grid-row app-kpi-row">
+  <div class="govuk-grid-column-one-third app-kpi-column">
+    <div class="app-kpi-panel app-kpi-panel--blue">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Total Group Obligation</h2>
+      <span class="govuk-heading-l govuk-!-margin-bottom-1">£43,892</span>
+      <p class="govuk-body-s govuk-hint">Based on 14 registered entities</p>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third app-kpi-column">
+    <div class="app-kpi-panel app-kpi-panel--green">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Total Received</h2>
+      <span class="govuk-heading-l govuk-!-margin-bottom-1">£36,340</span>
+      {{ govukTag({ text: "Sync: RPD Portal", classes: "govuk-tag--green" }) }}
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third app-kpi-column">
+    <div class="app-kpi-panel app-kpi-panel--risk">
+      <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Unreconciled Gap</h2>
+      <span class="govuk-heading-l govuk-!-margin-bottom-1">£7,552</span>
+      {{ govukTag({ text: "High Risk: Action Required", classes: "govuk-tag--red" }) }}
+    </div>
+  </div>
+</div>
+
+{# 2. OPERATIONAL TABS #}
+<div class="govuk-!-margin-top-9">
+  {% set auditTab %}
+    <h2 class="govuk-heading-m">Subsidiary Registration Breakdown</h2>
+    <p class="govuk-body">Decoupled view to identify specific non-payment issues across group entities.</p>
+
+    {{ govukTable({
+      head: [
+        { text: "Subsidiary Name / ID" },
+        { text: "Base Fee (2026)", format: "numeric" },
+        { text: "Late Fee (2025)", format: "numeric" },
+        { text: "Status" },
+        { text: "Action" }
+      ],
+      rows: [
+        [
+          { html: "<strong>Tesco Bank (OMP)</strong><br><span class='govuk-hint'>PR-OMP-101</span>" },
+          { text: "£5,580", format: "numeric" },
+          { text: "£1,250", format: "numeric" },
+          { html: govukTag({ text: "Unpaid", classes: "govuk-tag--red" }) },
+          { html: '<a href="#" class="govuk-link">Enforce</a>' }
+        ],
+        [
+          { html: "<strong>One Stop Stores</strong><br><span class='govuk-hint'>PR-SUB-001</span>" },
+          { text: "£3,137", format: "numeric" },
+          { text: "£558", format: "numeric" },
+          { html: govukTag({ text: "Late Fee Due", classes: "govuk-tag--orange" }) },
+          { html: '<a href="#" class="govuk-link">Audit</a>' }
+        ],
+        [
+          { html: "<strong>Booker Ltd</strong><br><span class='govuk-hint'>PR-SUB-005</span>" },
+          { text: "£3,137", format: "numeric" },
+          { text: "£0", format: "numeric" },
+          { html: govukTag({ text: "Pending", classes: "govuk-tag--yellow" }) },
+          { html: '<a href="#" class="govuk-link">Reconcile</a>' }
+        ],
+        [
+          { html: "<strong>Tesco Mobile</strong><br><span class='govuk-hint'>PR-SUB-002</span>" },
+          { text: "£3,137", format: "numeric" },
+          { text: "£0", format: "numeric" },
+          { html: govukTag({ text: "Paid", classes: "govuk-tag--green" }) },
+          { html: '<a href="#" class="govuk-link">Audit</a>' }
+        ],
+        [
+          { html: "<strong>Jack's Retail</strong><br><span class='govuk-hint'>PR-SUB-003</span>" },
+          { text: "£3,137", format: "numeric" },
+          { text: "£0", format: "numeric" },
+          { html: govukTag({ text: "Paid", classes: "govuk-tag--green" }) },
+          { html: '<a href="#" class="govuk-link">Audit</a>' }
+        ],
+        [
+          { html: "<strong>Makro Cash & Carry</strong><br><span class='govuk-hint'>PR-SUB-006</span>" },
+          { text: "£3,137", format: "numeric" },
+          { text: "£0", format: "numeric" },
+          { html: govukTag({ text: "Paid", classes: "govuk-tag--green" }) },
+          { html: '<a href="#" class="govuk-link">Audit</a>' }
+        ],
+        [
+          { html: "<strong>Dunnhumby</strong><br><span class='govuk-hint'>PR-SUB-008</span>" },
+          { text: "£1,250", format: "numeric" },
+          { text: "£0", format: "numeric" },
+          { html: govukTag({ text: "Paid", classes: "govuk-tag--green" }) },
+          { html: '<a href="#" class="govuk-link">Audit</a>' }
+        ]
+      ]
+    }) }}
+  {% endset %}
+
+  {% set casesTab %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Case Management & Activity</h2>
+        
+        {{ govukTextarea({
+          name: "case-note",
+          id: "case-note",
+          label: { text: "Add a new note or query response", classes: "govuk-label--s" },
+          hint: { text: "Log phone calls, emails, or registration disputes." }
+        }) }}
+        {{ govukButton({ text: "Save Case Note" }) }}
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-4">Activity Log</h3>
+        
+        <div class="app-activity-log">
+          <div class="app-activity-log__item">
+            <p class="govuk-body-s govuk-!-margin-bottom-1"><strong>Jamie Roberts (Admin)</strong> — 06 Jan 2026</p>
+            {{ govukDetails({
+              summaryText: "Note: Phone call regarding PR-OMP-101",
+              html: "<p class='govuk-body'>Producer disputed the £1,250 penalty for Tesco Bank. Sent penalty calculation breakdown for H2 2025. Payment promised by Friday.</p>"
+            }) }}
+          </div>
+          
+          <div class="app-activity-log__item">
+            <p class="govuk-body-s govuk-!-margin-bottom-1"><strong>System Auto-Sync</strong> — 05 Jan 2026</p>
+            {{ govukDetails({
+              summaryText: "Update: Status change for PR-SUB-001",
+              html: "<p class='govuk-body'>Portal sync completed. Status updated to 'Late Fee Due' following EA data verification feed.</p>"
+            }) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="govuk-grid-column-one-third">
+        <div class="app-case-summary">
+          <h3 class="govuk-heading-s">Audit Context</h3>
+          <p class="govuk-body-s">Total Queries Raised: <strong>14</strong></p>
+          <p class="govuk-body-s">Avg. Response Time: <strong>1.4 Days</strong></p>
+          <hr class="govuk-section-break govuk-section-break--m">
+          <p class="govuk-body-s"><a href="#" class="govuk-link">View all query trends</a></p>
+        </div>
+      </div>
+    </div>
+  {% endset %}
+
+  {{ govukTabs({
+    items: [
+      { label: "Registration Audit", id: "audit", panel: { html: auditTab } },
+      { label: "Case Notes & Activity", id: "cases", panel: { html: casesTab } }
+    ]
+  }) }}
+</div>
+
+<style>
+  /* Flexbox to ensure equal heights for KPI boxes */
+  .app-kpi-row { display: flex; flex-wrap: wrap; }
+  .app-kpi-column { display: flex; flex-direction: column; }
+  .app-kpi-panel { background: #f3f2f1; padding: 25px; border-left: 10px solid #1d70b8; flex: 1; }
+  .app-kpi-panel--green { border-left-color: #00703c; }
+  .app-kpi-panel--risk { border-left-color: #d4351c; }
+  
+  .app-activity-log__item { border-bottom: 1px solid #b1b4b6; padding: 10px 0; }
+  .app-case-summary { background: #f3f2f1; padding: 15px; border: 1px solid #b1b4b6; }
+</style>
+{% endblock %}
