@@ -1,99 +1,107 @@
 {% extends "layouts/" + version + ".html" %}
 
 {% block beforeContent %}
+  {% set showBackLink = true %}
+  {% set showAccountLink = true %}
   {% include version ~ "/_includes/before-content.njk" %}
 {% endblock %}
 
 {% block content %}
 
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        
-        <div class="govuk-error-summary" data-module="govuk-error-summary">
-          <div role="alert">
-            <h2 class="govuk-error-summary__title">
-              There is a problem
-            </h2>
-            <div class="govuk-error-summary__body">
-              <ul class="govuk-list govuk-error-summary__list">
-              {% if data.runName is not defined or data.runName == "" %}
-                <li>
-                  <a href="run-start">Enter a valid run name.</a>
-                </li>
-              {% endif %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
 
-              {% if data.defaultParams is not defined or data.defaultParams === "false" %}
-                <li>
-                  <a href="../costs/manage-default-parameters">Upload a valid default parameters file.</a>
-                </li>
-              {% endif %}
+    {# Define error states and validation #}
+    {% set nameMissing = data.runName is not defined or data.runName == "" %}
+    {% set nameExists = data.runName == "test" %}
+    {# Regex: test for any character that is NOT a letter or number #}
+    {% set nameInvalid = data.runName and not data.runName | regexMatch('^[a-zA-Z0-9 ]+$') %}
+    {% set nameTooLong = data.runName.length > 100 %}
+    {% set paramsMissing = data.defaultParams is not defined or data.defaultParams == "false" %}
+    {% set costsMissing = data.laCosts is not defined or data.laCosts == "false" %}
+    
+    {% set hasNameError = nameMissing or nameInvalid or nameExists %}
+    {% set hasAnyError = hasNameError or paramsMissing or costsMissing %}
 
-              {% if data.laCosts is not defined or data.laCosts === "false" %}
-                <li>
-                  <a href="../costs/manage-la-disposal-costs">Upload a local authorities disposal costs file.</a>
-                </li>
+    {# 1. Error Summary #}
+    {% if hasAnyError %}
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">There is a problem</h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              {% if nameMissing %}
+                <li><a href="#run-name">Enter a name for this calculation</a></li>
+              {% elif nameInvalid %}
+                <li><a href="#run-name">Calculation name must only contain numbers and letters</a></li>
+              {% elif nameExists %}
+                <li><a href="#run-name">There is already a calculation with this name</a></li>
+              {% elif nameTooLong %}
+              <li><a href="#run-name">Calculation name must contain no more than 100 characters</a></li>
+              {% elif paramsMissing %}
+                <li><a href="../costs/manage-default-parameters">Upload a valid default parameters file</a></li>
+              {% elif costsMissing %}
+                <li><a href="../costs/manage-la-disposal-costs">Upload a local authorities disposal costs file</a></li>
               {% endif %}
             </ul>
-            </div>
-            
           </div>
-          
         </div>
-        
-          {% if data.runName is not defined or data.runName == "" %}
-          <div class="govuk-form-group">
-          <h2 class="govuk-heading-xl">Run the calculator</h2>
-          <p>Parameter data and local authority disposal cost data must be uploaded before you can run the calculator.</p>            
-          <p>Give the calculation a name, so you can easily find it.</p>  
-        </div>
-                <div class="govuk-form-group govuk-form-group--error">
-                  <p id="event-name-error" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> Enter a valid run name
-                  </p>
-                  <form method="post" action="run-start">
-                      <div class="govuk-form-group">
-                          <input 
-                              class="govuk-input govuk-input--width-20 govuk-!-margin-bottom-5 govuk-input govuk-input--error" 
-                              id="run-name" 
-                              name="runName" 
-                              type="text" 
-                              aria-describedby="event-name-hint event-name-error" 
-                              autocomplete="off"
-                          >
-                      </div>
-
-                      <button type="submit" class="govuk-button show-continue" data-module="govuk-button">
-                          Run the calculator
-                      </button>
-                  </form>
-              </div>
-          {% else %}
-            <form method="post" action="run-start">
-              <div class="govuk-form-group">
-                <input 
-                  class="govuk-input govuk-input--width-20 govuk-!-margin-bottom-5" 
-                  id="run-name" 
-                  name="runName"
-                  type="text" 
-                  value="{{ data.runName | default('') }}"
-                  aria-describedby="run-name-hint" 
-                  autocomplete="off"
-                >
-              </div>
-
-              <button type="submit" class="govuk-button show-continue" data-module="govuk-button">
-                Run the calculator
-              </button>
-            </form>
-          {% endif %}
-        
-          
-        
-        <p class="govuk-body">
-          <a class="govuk-link" href="../paycal-dashboard">Return to the dashboard</a>
-        </p>
+      </div>
+    {% endif %}
     </div>
   </div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
 
+    <h1 class="govuk-heading-xl">Calculation name</h1>
+    
+
+    {# 2. The Form Field #}
+    <form method="post" action="run-start">
+      
+      <div class="govuk-form-group {% if hasNameError %}govuk-form-group--error{% endif %}">
+        
+        <div id="run-name-hint" class="govuk-hint">
+          Give the calculation a name so you can easily find it.
+        </div>
+
+        {# Inline Error Messages #}
+        {% if nameMissing %}
+          <p id="run-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Enter a name for this calculation
+          </p>
+        {% elif nameInvalid %}
+          <p id="run-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Calculation name must only contain numbers and letters
+          </p>
+        {% elif nameExists %}
+          <p id="run-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> There is already a calculation with this name
+          </p>
+        {% elif nameTooLong %}
+          <p id="run-name-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> Calculation name must contain no more than 100 characters
+          </p>
+        {% endif %}
+
+        <input 
+          class="govuk-input govuk-input--width-full {% if hasNameError %}govuk-input--error{% endif %}" 
+          id="run-name" 
+          name="runName" 
+          type="text" 
+          value="{{ data.runName if not nameMissing }}"
+          aria-describedby="run-name-hint {% if hasNameError %}run-name-error{% endif %}" 
+          autocomplete="off"
+        >
+      </div>
+
+      <button type="submit" class="govuk-button" data-module="govuk-button">
+        Run the calculator
+      </button>
+
+    </form>
+
+  </div>
+</div>
 
 {% endblock %}
