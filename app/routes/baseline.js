@@ -35,20 +35,20 @@ router.get("/paycal-dashboard", (req, res) => {
   res.render(version + "/paycal-dashboard");
 });
 
-router.get("/costs/manageDefaultParameters", (req, res) => {
+router.get("/setup/manageDefaultParameters", (req, res) => {
   req.session.data.intent = "manageDefaultParameters";
-  res.render(version + "/costs/manageDefaultParameters");
+  res.render(version + "/setup/manageDefaultParameters");
 });
 
-router.get("/costs/manageLaDisposalCosts", (req, res) => {
+router.get("/setup/manageLaDisposalCosts", (req, res) => {
   req.session.data.intent = "manageLaDisposalCosts";
-  res.render(version + "/costs/manageLaDisposalCosts");
+  res.render(version + "/setup/manageLaDisposalCosts");
 });
 
-router.get("/costs/upload-file", (req, res) => {
+router.get("/setup/upload-file", (req, res) => {
   const intent = req.query.intent || req.session.data.intent || "manageDefaultParameters";
   req.session.data.intent = intent;
-  res.render(version + "/costs/upload-file");
+  res.render(version + "/setup/upload-file");
 });
 
 router.post('/run-calculator/run-start', (req, res) => {
